@@ -10,20 +10,26 @@
 </head>
 <body>
     <!-- タブ表示 -->
-    <tab>
-        <!-- ロゴ表示 -->
-        <div class="logo">
-            <!-- <a href="Home"><img src="logo.png" alt=""></a> -->
-        </div>
-        <!-- メニュー//タブ -->
-         <nav class="menu">
-            <ul>
-                <a href="">ホーム</a>
-                <a href="">新規登録</a>
-                <a href="">ログアウト</a>
-            </ul>
-         </nav>
-    </tab>
+    <!-- ロゴ表示 -->
+    <div class="logo">
+        <a href="Home"><img src="logo.png" alt=""></a>
+    </div>
+    <!-- メニュー//タブ -->
+    <div id="nav-wrapper" class="nav-wrapper">
+    	<div class="hamburger" id="js-hamburger">
+    		<span class="hamburger__line hamburger__line--1"></span>
+        	<span class="hamburger__line hamburger__line--2"></span>
+        	<span class="hamburger__line hamburger__line--3"></span>
+    	</div>
+    	<nav class="sp-nav">
+        <ul>
+        	<li><button type="button">バンド情報</button></li>
+        	<li><button type="button">ライブ情報</button></li>
+        	<li><button type="button">ログアウト</button></li>
+        </ul>
+     	</nav>
+     	<div class="black-bg" id="js-black-bg"></div>
+    </div>
 
     <!-- メイン -->
     <main>
@@ -32,13 +38,13 @@
         <p id="blank_alert" class="error"></p>
         <form action="" id="band_member">
             <div class="band_name">
-                バンド名<br>
+                バンド名<span class="required"></span><br>
                 <input type="text" placeholder="バンド名" name="band_name">
             </div>
             <!-- 出演者(バンド名) & 各バンドの持ち時間 -->
             <div class="band_info">
                 <table id="members_info_row">
-                    <tr><th><input type="hidden" name="member_num" value="0">メンバー名</th><th>担当</th><td></td></tr>
+                    <tr><th><input type="hidden" name="member_num" value="0">メンバー名<span class="required"></span></th><th>担当<span class="required"></span></th><td></td></tr>
                     <tr class="band_info_row">
                         <td><input type="text" name="member_name[0]" placeholder="氏名"></td>
                         <td><select name="parts[0]" id="parts">
@@ -61,7 +67,7 @@
         </form>
     </main>
 
-    <!-- <script src="js/common.js"></script> -->
-    <script src="js/mod_band.js"></script>
+    <script src="javascript/common.js"></script>
+    <script src="javascript/mod_band.js"></script>
 </body>
 </html>
