@@ -103,7 +103,14 @@ input[type="text"] {
 /* バンド名 */
 .band_name {
     margin: 25px 0px auto auto;
+}
+
+.live_name, .set_date {
     font-weight: bold;
+}
+
+.required, .error {
+    font-weight: normal;
 }
 
 /* バンド情報 */

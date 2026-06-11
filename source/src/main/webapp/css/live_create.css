@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
 /* 全体 */
-html {
+/* html {
     background-color: #dcdcdc;
     font-family: sans-serif;
     font-size: 16px;
-}
+} */
 
 /* 中央揃え */
 body {
@@ -19,6 +19,8 @@ main {
     background-color: #ffffff;
     border-left: 10px solid #393939;
     /* border-right: 5px solid #393939; */
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px gray;
 }
 
 /* ボタン設計 */
@@ -92,11 +94,24 @@ input[type="submit"], .cancel_btn {
     text-align: center;
 }
 
+/* input:text設定 */
+input[type="text"] {
+    width: 200px;
+    height: 20px;
+}
 
 /* ライブ名 */
 .live_name {
     margin: 25px 0px auto auto;
     text-align: center;
+}
+
+.live_name, .set_date {
+    font-weight: bold;
+}
+
+.required, .error {
+    font-weight: normal;
 }
 
 /* バンド情報 */
@@ -105,3 +120,8 @@ input[type="submit"], .cancel_btn {
     text-align: left;
 }
 
+/* 空欄エラー */
+.error {
+    text-align: center;
+    font-size: 12px;
+}
