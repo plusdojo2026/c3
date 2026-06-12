@@ -49,16 +49,17 @@ public class LiveCreateServlet extends HttpServlet {
 		String beginDate = request.getParameter("begin_date");
 		String endDate = request.getParameter("end_date");
 		
-		// ライブ情報テーブルへ情報を登録する。
-		LiveInfoDao liDao = new LiveInfoDao();
-//		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, (LoginUser)session.getAttribute("id"));
-//		boolean resultLive = liDao.addLibeInfo(li);
-		
-		// 準備情報テーブルにバンドID、ライブ情報ID、持ち時間のみが表示されたデータを作成する
 		PreparInfoDao piDao = new PreparInfoDao();
 		BandInfoDao biDao = new BandInfoDao();
 		LoginUser user = (LoginUser)session.getAttribute("id");
 		boolean resultPrepar;
+		
+		// ライブ情報テーブルへ情報を登録する。
+		LiveInfoDao liDao = new LiveInfoDao();
+//		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, user);
+//		boolean resultLive = liDao.addLibeInfo(li);
+		
+		// 準備情報テーブルにバンドID、ライブ情報ID、持ち時間のみが表示されたデータを作成する
 		
 		int performerNum = Integer.parseInt(request.getParameter("band_num"));
 		for (int i = 0; i <= performerNum; i++) {

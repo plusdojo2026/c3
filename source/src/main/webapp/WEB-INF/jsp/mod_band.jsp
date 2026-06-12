@@ -45,6 +45,7 @@
                 <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info.name }" />>
                 </c:if>
                 <c:if test="${empty band_info }">
+                <input type="hidden" name="band_id" value="0" >
                 <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info.name }" />>
                 </c:if>
 
@@ -53,10 +54,14 @@
             <div class="band_info">
                 <table id="members_info_row">
                     <tr><th><input type="hidden" name="member_num" value="0">メンバー名<span class="required"></span></th><th>担当<span class="required"></span></th><td></td></tr>
-                    <tr class="band_info_row">
+                    
+                    <!-- 既に登録されたデータがある場合 -->
                     <c:if test="${not empty band_members }">
+                    <tr class="band_info_row">
                     <c:forEach var="band_member" items="${band_members }">
-                        <td><input type="text" name="member_name[0]" placeholder="氏名" value="${band_member.name }"></td>
+                        <td>
+                        <input type="hidden" name="member_id[0]" value=<c:out value="${band_member.id }" />>
+                        <input type="text" name="member_name[0]" placeholder="氏名" value="${band_member.name }"></td>
                         <td>
                         <c:if test= "${not empty parts }">
                         <select name="parts[0]" id="parts">
@@ -68,9 +73,14 @@
                         <td>
                             <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
                             <!-- <button type="button" onclick="removeRow(this)"></button> -->
-                        </td></c:forEach></c:if>
+                        </td></c:forEach></tr></c:if>
+                        
+                    <!-- 既に入力されているデータが無い場合 -->
 					<c:if test="${empty band_members }">
-                        <td><input type="text" name="member_name[0]" placeholder="氏名"></td>
+					<tr class="band_info_row">
+                        <td>
+                        <input type="hidden" name="member_id[0]" value="0">
+                        <input type="text" name="member_name[0]" placeholder="氏名"></td>
                         <td>
                         <c:if test= "${not empty parts }">
                         <select name="parts[0]" id="parts">
@@ -83,8 +93,63 @@
                             <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
                             <!-- <button type="button" onclick="removeRow(this)"></button> -->
                         </td>
-					</c:if>
                     </tr>
+                    <tr class="band_info_row">
+                        <td>
+                        <input type="hidden" name="member_id[1]" value="0">
+                        <input type="text" name="member_name[1]" placeholder="氏名"></td>
+                        <td>
+                        <c:if test= "${not empty parts }">
+                        <select name="parts[1]" id="parts">
+                            <option value="">--選択してください--</option>
+                            <c:forEach var="part" items=<c:out value="${parts }" />>
+                            	<option value=<c:out value="${part.id }" /> <c:if test="${{part.id } == ${band_member.partId }}">selected</c:if>><c:out value="${part.name }" /></option>
+                            </c:forEach>
+                        </select></c:if></td>
+                        <td>
+                            <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
+                            <button type="button" onclick="removeRow(this)"></button>
+                        </td>
+                    </tr>
+                    <tr class="band_info_row">
+                        <td>
+                        <input type="hidden" name="member_id[2]" value="0">
+                        <input type="text" name="member_name[2]" placeholder="氏名"></td>
+                        <td>
+                        <c:if test= "${not empty parts }">
+                        <select name="parts[2]" id="parts">
+                            <option value="">--選択してください--</option>
+                            <c:forEach var="part" items=<c:out value="${parts }" />>
+                            	<option value=<c:out value="${part.id }" /> <c:if test="${{part.id } == ${band_member.partId }}">selected</c:if>><c:out value="${part.name }" /></option>
+                            </c:forEach>
+                        </select></c:if></td>
+                        <td>
+                            <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
+                            <button type="button" onclick="removeRow(this)"></button>
+                        </td>
+                    </tr>
+					</c:if>
+					
+					<!-- JavaScriptで繰り返す用のひな形 -->
+					<template id="band_row_template">
+					<tr class="band_info_row">
+						<td>
+                        <input type="hidden" name="member_id[0]" value="0">
+                        <input type="text" name="membername_temp" placeholder="氏名"></td>
+                        <td>
+                        <c:if test= "${not empty parts }">
+                        <select name="parts_temp" id="parts">
+                            <option value="">--選択してください--</option>
+                            <c:forEach var="part" items=<c:out value="${parts }" />>
+                            	<option value=<c:out value="${part.id }" />><c:out value="${part.name }" /></option>
+                            </c:forEach>
+                        </select></c:if></td>
+                        <td>
+                            <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
+                            <button type="button" onclick="removeRow(this)"></button>
+                        </td>
+                    </tr>                        
+					</template>
                 </table>
             </div>
             <div class="cancel_create_btn">

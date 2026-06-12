@@ -62,6 +62,14 @@
                             <!-- <button type="button" onclick="removeRow(this)"></button> -->
                         </td>
                     </tr>
+                    <tr class="band_info_row">
+                        <td><input type="text" name="bandname[1]" placeholder="バンド名"></td>
+                        <td><input type="text" name="time[1]" placeholder="持ち時間"></td>
+                        <td>
+                            <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
+                            <!-- <button type="button" onclick="removeRow(this)"></button> -->
+                        </td>
+                    </tr>
                 </table>
             </div>
             <p id="blank_alert"></p>

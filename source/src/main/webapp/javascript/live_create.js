@@ -1,7 +1,7 @@
 'use strict';
 
 let live_create = document.getElementById('live_create');
-let rowIndex = 1;
+let rowIndex = 3;
 
 // 入力欄を増やす
 function addRow() {
