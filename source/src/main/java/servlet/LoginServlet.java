@@ -1,12 +1,18 @@
 package servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import dao.UserDao;
+import dto.Result;
+import dto.User;
 /**
  * Servlet implementation class LoginServlet
  */
@@ -27,7 +33,8 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**
@@ -35,7 +42,63 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		// リクエストパラメータを取得する
+				request.setCharacterEncoding("UTF-8");
+				String mode = request.getParameter("mode");
+				String user_id = request.getParameter("id");
+				String password = request.getParameter("pw");
+				//System.out.println("mode = " + mode);
+				//System.out.println("user_id = " + user_id);
+
+				// ログイン処理を行う
+				UserDao dao = new UserDao();
+				if ("register".equals(mode)) {
+
+			        boolean result = dao.register(new User(user_id, password));
+
+			        if (result) {
+			            response.sendRedirect("/c3/LoginServlet");
+			        } else {
+			            request.setAttribute("result",
+			                    new Result("登録失敗", "このIDは使用できません", "/c3/LoginServlet"));
+
+			            RequestDispatcher dispatcher =
+			                    request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+			            dispatcher.forward(request, response);
+			        }
+			        return;
+			    }
+				User user = dao.login(new User(user_id, password));
+
+				 if (user != null) { // ログイン成功
+					// セッションスコープにIDを格納する
+					HttpSession session = request.getSession();
+					session.setAttribute("user", user);
+
+					// メニューサーブレットにリダイレクトする
+					int type = user.getType();
+
+					if (type == -1) {
+					    // 管理者
+					    response.sendRedirect("/c3/HomeAdminServlet");
+
+					} else if (type == -2) {
+					    // 出演者
+					    response.sendRedirect("/c3/HomeBandServlet");
+
+					} else if (type >= 1) {
+					    // スタッフ（管理者ID紐づき）
+					    response.sendRedirect("/c3/HomeStaffServlet");
+					}
+				} else { // ログイン失敗
+					// リクエストスコープに、タイトル、メッセージ、戻り先を格納する
+					request.setAttribute("result", new Result("ログイン失敗！", "IDまたはPWに間違いがあります。", "/c3/LoginServlet"));
+
+					// 結果ページにフォワードする
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+					dispatcher.forward(request, response);
+				}
+			}
 	}
 
-}
+
