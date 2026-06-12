@@ -1,33 +1,32 @@
 'use strict';
 
 let band_member = document.getElementById('band_member');
-let rowIndex = 1;
+let rowIndex = document.querySelectorAll("#bands_info_row.band_info_row").length;
+
+if (rowIndex === 0) {
+	rowIndex = 1;
+}
 
 // 入力欄を増やす
 function addRow() {
     // 対象テーブルを取得
     const table = document.getElementById("members_info_row");
-    const newRow = table.insertRow(-1);
-    const cell_name = newRow.insertCell(0);
-    const cell_part = newRow.insertCell(1);
-    const cell_btn = newRow.insertCell(2);
-    cell_name.innerHTML = `
-        <input type="text" name="member_name[${rowIndex}]" placeholder="氏名">
-    `;
-    cell_part.innerHTML = `
-        <select name="parts[${rowIndex}]" id="parts">
-        <option value="">--選択してください--</option>
-        </select>
-    `;
-    cell_btn.innerHTML = `
-        <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
-        <button type="button" onclick="removeRow(this)"><img src="img/delete.svg" alt=""></button>
-    `;
+    const template = document.getElementById("band_row_template");
+    
+    // テンプレートをコピー
+    const clone = template.content.cloneNode(true);
+    
+    // コピーした要素のname属性を現在のrowIndexで上書き
+    clone.querySelector('input[name="membername_temp"]').name = `member_name[${rowIndex}]`;
+    clone.querySelector('input[name="parts_temp"]').name = `parts[${rowIndex}]`;
+    
+    table.appendChild(clone);
+    
     const memberNum = table.querySelector('input[name="member_num"]');
     if (memberNum) {
         memberNum.value = rowIndex;
-        rowIndex++;
     }
+    rowIndex++;
 }
 
 // 入力欄を消す
