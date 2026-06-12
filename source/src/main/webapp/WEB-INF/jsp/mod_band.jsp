@@ -40,13 +40,13 @@
         <form action="" id="band_member">
             <div class="band_name">
                 バンド名<span class="required"></span><br>
-                <c:if test="${not empty band_info }">
-                <input type="hidden" name="band_id" value=<c:out value="${band_info.id }" />>
-                <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info.name }" />>
+                <c:if test="${not empty band_info_id }">
+                <input type="hidden" name="band_id" value=<c:out value="${band_info_id }" />>
+                <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info_name }" />>
                 </c:if>
-                <c:if test="${empty band_info }">
+                <c:if test="${empty band_info_id }">
                 <input type="hidden" name="band_id" value="0" >
-                <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info.name }" />>
+                <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info_name }" />>
                 </c:if>
 
             </div>
@@ -66,8 +66,8 @@
                         <c:if test= "${not empty parts }">
                         <select name="parts[0]" id="parts">
                             <option value="">--選択してください--</option>
-                            <c:forEach var="part" items=<c:out value="${parts }" />>
-                            	<option value=<c:out value="${part.id }" /> <c:if test="${{part.id } == ${band_member.partId }}">selected</c:if>><c:out value="${part.name }" /></option>
+                            <c:forEach var="part" items="${parts }">
+                            	<option value=<c:out value="${part.id }" /><c:if test="${part.id  == band_member.partId }">selected</c:if>><c:out value="${part.name }" /></option>
                             </c:forEach>
                         </select></c:if></td>
                         <td>
@@ -85,8 +85,8 @@
                         <c:if test= "${not empty parts }">
                         <select name="parts[0]" id="parts">
                             <option value="">--選択してください--</option>
-                            <c:forEach var="part" items=<c:out value="${parts }" />>
-                            	<option value=<c:out value="${part.id }" /> <c:if test="${{part.id } == ${band_member.partId }}">selected</c:if>><c:out value="${part.name }" /></option>
+                            <c:forEach var="part" items="${parts }">
+                            	<option value=<c:out value="${part.id }" />><c:out value="${part.name }" /></option>
                             </c:forEach>
                         </select></c:if></td>
                         <td>
@@ -102,8 +102,8 @@
                         <c:if test= "${not empty parts }">
                         <select name="parts[1]" id="parts">
                             <option value="">--選択してください--</option>
-                            <c:forEach var="part" items=<c:out value="${parts }" />>
-                            	<option value=<c:out value="${part.id }" /> <c:if test="${{part.id } == ${band_member.partId }}">selected</c:if>><c:out value="${part.name }" /></option>
+                            <c:forEach var="part" items="${parts }">
+                            	<option value=<c:out value="${part.id }" />><c:out value="${part.name }" /></option>
                             </c:forEach>
                         </select></c:if></td>
                         <td>
@@ -119,8 +119,8 @@
                         <c:if test= "${not empty parts }">
                         <select name="parts[2]" id="parts">
                             <option value="">--選択してください--</option>
-                            <c:forEach var="part" items=<c:out value="${parts }" />>
-                            	<option value=<c:out value="${part.id }" /> <c:if test="${{part.id } == ${band_member.partId }}">selected</c:if>><c:out value="${part.name }" /></option>
+                            <c:forEach var="part" items="${parts }">
+                            	<option value=<c:out value="${part.id }" />><c:out value="${part.name }" /></option>
                             </c:forEach>
                         </select></c:if></td>
                         <td>
@@ -140,7 +140,7 @@
                         <c:if test= "${not empty parts }">
                         <select name="parts_temp" id="parts">
                             <option value="">--選択してください--</option>
-                            <c:forEach var="part" items=<c:out value="${parts }" />>
+                            <c:forEach var="part" items="${parts }">
                             	<option value=<c:out value="${part.id }" />><c:out value="${part.name }" /></option>
                             </c:forEach>
                         </select></c:if></td>

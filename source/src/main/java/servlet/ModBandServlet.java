@@ -10,14 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.BandInfoDao;
 import dao.BandMemberDao;
 import dao.PartsDao;
 import dto.BandInfo;
 import dto.BandMember;
-import dto.LoginUser;
 import dto.Parts;
 
 @WebServlet("/ModBandServlet")
@@ -27,15 +25,15 @@ public class ModBandServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		// ログインしていなかったらログインサーブレットへ
-		HttpSession session = request.getSession();
-		if (session.getAttribute("id") == null) {
-			response.sendRedirect("/c3/LoginServlet");
-			return;
-		}
+//		// ログインしていなかったらログインサーブレットへ
+//		HttpSession session = request.getSession();
+//		if (session.getAttribute("id") == null) {
+//			response.sendRedirect("/c3/LoginServlet");
+//			return;
+//		}
 		
 		// 登録されているデータがあるか検索し、登録されたデータがあった場合その内容をリクエストスコープに登録する
-		BandInfoDao biDao = new BandInfoDao();
+//		BandInfoDao biDao = new BandInfoDao();
 		BandMemberDao bmDao = new BandMemberDao();
 		PartsDao ptDao = new PartsDao();
 		BandInfo bi = new BandInfo();
@@ -45,12 +43,19 @@ public class ModBandServlet extends HttpServlet {
 //		bi = biDao.showBandInfo((LoginUser)session.getAttribute("id"));
 		partsList = ptDao.showAllParts();
 		
-		if (bi != null) {
-			bmList = bmDao.showMember(bi);
-			request.setAttribute("band_info", bi);
-			request.setAttribute("band_members", bmList);
-			request.setAttribute("parts", partsList);
-		}
+		int biNum = 1;
+		bmList = bmDao.showMember(biNum);
+		request.setAttribute("band_info_id", biNum);
+		request.setAttribute("band_info_name", "バンドA");
+		request.setAttribute("band_members", bmList);
+		request.setAttribute("parts", partsList);
+		
+//		if (bi != null) {
+////			bmList = bmDao.showMember(bi);
+//			request.setAttribute("band_info", bi);
+//			request.setAttribute("band_members", bmList);
+//			request.setAttribute("parts", partsList);
+//		}
 		
 		// バンド情報画面へフォワードする
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mod_band.jsp");
@@ -60,14 +65,14 @@ public class ModBandServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		// ログインしていなかったらログインサーブレットへ
-		HttpSession session = request.getSession();
-		if (session.getAttribute("id") == null) {
-			response.sendRedirect("/c3/LoginServlet");
-			return;
-		}
+//		// ログインしていなかったらログインサーブレットへ
+//		HttpSession session = request.getSession();
+//		if (session.getAttribute("id") == null) {
+//			response.sendRedirect("/c3/LoginServlet");
+//			return;
+//		}
 		
-		LoginUser user = (LoginUser)session.getAttribute("id");
+//		LoginUser user = (LoginUser)session.getAttribute("id");
 		BandMemberDao bmDao = new BandMemberDao();
 		BandInfoDao biDao = new BandInfoDao();
 		boolean result;
