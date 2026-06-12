@@ -57,8 +57,8 @@
                     
                     <!-- 既に登録されたデータがある場合 -->
                     <c:if test="${not empty band_members }">
-                    <tr class="band_info_row">
                     <c:forEach var="band_member" items="${band_members }">
+                    <tr class="band_info_row">
                         <td>
                         <input type="hidden" name="member_id[0]" value=<c:out value="${band_member.id }" />>
                         <input type="text" name="member_name[0]" placeholder="氏名" value="${band_member.name }"></td>
@@ -73,7 +73,7 @@
                         <td>
                             <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
                             <!-- <button type="button" onclick="removeRow(this)"></button> -->
-                        </td></c:forEach></tr></c:if>
+                        </td></tr></c:forEach></c:if>
                         
                     <!-- 既に入力されているデータが無い場合 -->
 					<c:if test="${empty band_members }">
