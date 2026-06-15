@@ -12,7 +12,7 @@ public class EachMusic {
     private Integer setlist;
 
     // 照明要望
-    private String lightReq;
+    private String light_req;
 
     // 音響（SE）
     private String se;
@@ -21,18 +21,18 @@ public class EachMusic {
     private String memo;
 
     // 準備情報ID（外部キー）
-    private Integer preparInfoId;
+    private Integer prepar_info_id;
 
     public EachMusic() {}
 
-    public EachMusic(int id, String name, Integer setlist, String lightReq, String se, String memo, Integer preparInfoId) {
+    public EachMusic(int id, String name, Integer setlist, String light_req, String se, String memo, Integer prepar_info_id) {
         this.id = id;
         this.name = name;
         this.setlist = setlist;
-        this.lightReq = lightReq;
+        this.light_req = light_req;
         this.se = se;
         this.memo = memo;
-        this.preparInfoId = preparInfoId;
+        this.prepar_info_id = prepar_info_id;
     }
 
     public int getId() {
@@ -60,11 +60,11 @@ public class EachMusic {
     }
 
     public String getLightReq() {
-        return lightReq;
+        return light_req;
     }
 
-    public void setLightReq(String lightReq) {
-        this.lightReq = lightReq;
+    public void setLightReq(String light_req) {
+        this.light_req = light_req;
     }
 
     public String getSe() {
@@ -84,11 +84,10 @@ public class EachMusic {
     }
 
     public Integer getPreparInfoId() {
-        return preparInfoId;
+        return prepar_info_id;
     }
 
-    public void setPreparInfoId(Integer preparInfoId) {
-        this.preparInfoId = preparInfoId;
+    public void setPreparInfoId(Integer prepar_info_id) {
+        this.prepar_info_id = prepar_info_id;
     }
 }
-

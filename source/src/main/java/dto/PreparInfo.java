@@ -2,31 +2,43 @@ package dto;
 
 public class PreparInfo {
 
-    private int id;                     
-    // 準備情報ID（PK）
+    // 準備情報ID（主キー）
+    private int id;
 
-    private Integer time;               // 持ち時間
-    private Integer preparTime;         // 準備時間
-    private String preparItems;         // 準備項目
-    private Integer setlist;            // 順番
-    private String entranceMusic;       // 入場曲
+    // 持ち時間
+    private Integer time;
 
-    private Integer bandInfoId;         // バンド情報ID（FK）
-    private Integer liveInfoId;         // ライブ情報ID（FK）
+    // 準備時間
+    private Integer prepar_time;
+
+    // 準備項目
+    private String prepar_items;
+
+    // 順番
+    private Integer setlist;
+
+    // 入場曲
+    private String entrance_music;
+
+    // バンド情報ID（外部キー）
+    private Integer band_info_id;
+
+    // ライブ情報ID（外部キー）
+    private Integer live_info_id;
 
     public PreparInfo() {}
 
-    public PreparInfo(int id, Integer time, Integer preparTime, String preparItems,
-                         Integer setlist, String entranceMusic,
-                         Integer bandInfoId, Integer liveInfoId) {
+    public PreparInfo(int id, Integer time, Integer prepar_time, String prepar_items,
+                         Integer setlist, String entrance_music,
+                         Integer band_info_id, Integer live_info_id) {
         this.id = id;
         this.time = time;
-        this.preparTime = preparTime;
-        this.preparItems = preparItems;
+        this.prepar_time = prepar_time;
+        this.prepar_items = prepar_items;
         this.setlist = setlist;
-        this.entranceMusic = entranceMusic;
-        this.bandInfoId = bandInfoId;
-        this.liveInfoId = liveInfoId;
+        this.entrance_music = entrance_music;
+        this.band_info_id = band_info_id;
+        this.live_info_id = live_info_id;
     }
 
     public int getId() {
@@ -46,19 +58,19 @@ public class PreparInfo {
     }
 
     public Integer getPreparTime() {
-        return preparTime;
+        return prepar_time;
     }
 
-    public void setPreparTime(Integer preparTime) {
-        this.preparTime = preparTime;
+    public void setPreparTime(Integer prepar_time) {
+        this.prepar_time = prepar_time;
     }
 
     public String getPreparItems() {
-        return preparItems;
+        return prepar_items;
     }
 
-    public void setPreparItems(String preparItems) {
-        this.preparItems = preparItems;
+    public void setPreparItems(String prepar_items) {
+        this.prepar_items = prepar_items;
     }
 
     public Integer getSetlist() {
@@ -70,26 +82,26 @@ public class PreparInfo {
     }
 
     public String getEntranceMusic() {
-        return entranceMusic;
+        return entrance_music;
     }
 
-    public void setEntranceMusic(String entranceMusic) {
-        this.entranceMusic = entranceMusic;
+    public void setEntranceMusic(String entrance_music) {
+        this.entrance_music = entrance_music;
     }
 
     public Integer getBandInfoId() {
-        return bandInfoId;
+        return band_info_id;
     }
 
-    public void setBandInfoId(Integer bandInfoId) {
-        this.bandInfoId = bandInfoId;
+    public void setBandInfoId(Integer band_info_id) {
+        this.band_info_id = band_info_id;
     }
 
     public Integer getLiveInfoId() {
-        return liveInfoId;
+        return live_info_id;
     }
 
-    public void setLiveInfoId(Integer liveInfoId) {
-        this.liveInfoId = liveInfoId;
+    public void setLiveInfoId(Integer live_info_id) {
+        this.live_info_id = live_info_id;
     }
 }
