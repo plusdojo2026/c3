@@ -1,10 +1,11 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,28 +54,34 @@ public class HomeBandServlet extends HttpServlet {
 		
 		// PreparInfoに登録されたライブ情報IDからライブ情報テーブルを持ってくる。
 		for (PreparInfo pi : myPiList) {
-			myLiList.add(liDao.select(pi.getLiveId, "", "", "", ""));
+//			myLiList.add(liDao.select(pi.getLiveId, "", "", "", ""));
 		}
 		
-		Date date = new Date();
+		LocalDateTime date = LocalDateTime.now();
 		LiveInfo firstLi = new LiveInfo();	// 今日の日にちにを持つデータを作成する。
+		firstLi.setBegin_date(date);
 		
 		// firstLiにデータを入れる。
 		for (LiveInfo l : myLiList ) {
 			if (l.getBegin_date().isBefore(firstLi.getBegin_date())) {
 				// タイムテーブルが作成済みならfirstLiに入れ替える
-				if (l.getFlag())  {
-					firstLi = l;
-				}
+//				if (l.getFlag())  {
+//					firstLi = l;
+//				}
 			}
 		}
 		
 		// 情報があればfirstLiテーブルから得られるデータを探索する
-		// 情報が一つもなければ何もデータを送らずにフォワードする
-		if (firstLi.getBegin_date().equals(new Date())) {
-			
+		// 情報が一つもなければデータを設定しない
+		if (!firstLi.getBegin_date().equals(date)) {	// 情報がある場合
+//			myPiList = piDao.showAllPreparInfo(firstLi.getId());	// ライブ情報IDからリストを持ってくる
+			request.setAttribute("live_info", firstLi);
+			request.setAttribute("prepar_infos", myPiList);
 		}
-			
+		
+		// 出演者側ホーム画面へフォワードする
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_band.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
