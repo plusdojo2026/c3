@@ -12,6 +12,7 @@
 
     /* 内容が多くなったらスクロール */
     overflow-y: auto;
+    position: relative;
 }
 .schedule-title{
     text-align: center;
@@ -111,4 +112,14 @@
     margin-bottom:10px;
     border-radius:8px;
     background:#f8f8f8;
+}
+.delete-schedule-btn{
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+.delete-schedule-btn:hover{
+    color: red;
 }

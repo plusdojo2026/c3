@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>タイムテーブル表示</title>
-    <link rel="stylesheet" href="CSS/common.css">
-    <link rel="stylesheet" href="CSS/table_show.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/table_show.css">
 </head>
 
 <body>
@@ -33,6 +33,9 @@
         </div>
     </header>
     <div class="box">
+     <button class="delete-schedule-btn">
+            ✖
+        </button>
         <h2 class="schedule-title">タイムスケジュール</h2>
         <div id="schedule"></div>
     </div>
@@ -46,8 +49,8 @@
     </div>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
-    <script src="common.js"></script>
-    <script src="table_show.js"></script>
+    <script src="javascript/common.js"></script>
+    <script src="javascript/table_show.js"></script>
 
 </body>
 
