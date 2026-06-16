@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- 出演者が情報を登録していない時 
 「まだライブ情報が登録されていません」とアラートを表示する-->
 <!-- 出演者が情報を登録したが、管理者がタイムテーブルを作成していない時 
@@ -11,8 +12,8 @@ TableCreateServlrtにつなぐ-->
 <head>
 <meta charset="UTF-8">
 <title>ライブ運営助けるくん</title>
-<link rel = "stylesheet" href="/webapp/css/home_admin.css">
-<link rel = "stylesheet" href="/webapp/css/common.css">
+<link rel = "stylesheet" href="css/common.css">
+<link rel = "stylesheet" href="css/home_admin.css">
 </head>
 
 <body>
@@ -30,37 +31,33 @@ TableCreateServlrtにつなぐ-->
         </div>
         <nav class="sp-nav">
             <ul>
-             <li><a href="MenuServlet">ホーム</a></li>
-                <li><a href="AdminRegistServlet" >新規登録</a></li>
-                <li><a href="LogingServlet" >ログアウト</a></li>
-                <li><a href="LiveCreateServlet" >ライブ情報作成</a></li>
+             <li><button type="button" href="MenuServlet">ホーム</button></li>
+                <li><button type="button" href="AdminRegistServlet">新規登録</button></li>
+                <li><button type= "button" href="LogingServlet" >ログアウト</button></li>
+                <li><button type="button" href="LiveCreateServlet" >ライブ情報作成</button></li>
             </ul>
         </nav>
         <div class="black-bg" id="js-black-bg"></div>
         </div>
     </div>
     </header>
-    
-<c:if test="= "${not empty live}">
-	<div>${live.begin_date}</div>
+ 
+<c:if test = "${not empty lives}">
+<c:forEach var = "live" items="${lives}">
 
-<form action="/webapp/HomeAdminServlet"	>
-<input name = "button1" type = "submit" value = "開催日" class = "date blue" >
-<input name = "button2" type = "submit" value = "開催日" class = "date red">
-<input name = "button3" type = "submit" value = "開催日" class = "date purple">
-</form>"
-
-<form action = "/webapp/HomeAdminSrvlet">
-<input type = "submit" value = "開催日" class = "date">
+<form action="/c3/HomeAdminServlet"	method = "POST">
+<input type = "submit" value = "${live.begin_date}" class = "date">
+<input type= "hidden" value = "${live.id}" name = "test" >
 </form>
+</c:forEach>
 </c:if>
 
 <script>
-const noLiveInfo = ${noLiveInfo == true};
+const noLiveInfo = ${noLiveInfo ? "true" : "false"};
 </script>
 
-<script src = "/c3/js/home-admin.js"></script>
-
+<script src="javascript/common.js"></script>
+<script src="javascript/home_admin.js"></script>
 </body>
 
 </html>
