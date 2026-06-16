@@ -1,8 +1,8 @@
-    'use Strict'
+    'use strict'
 
      window.onload = function () {
 	
-	if (noLiveInfo) {
+	if (noLiveInfo === true || noLiveInfo === "true") {
 		alert("まだライブ情報が登録されていません");
 	}
 	

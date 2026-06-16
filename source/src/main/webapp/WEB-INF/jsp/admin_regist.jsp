@@ -44,26 +44,32 @@
                 <div id="loginForm">
                     <h2>管理者登録</h2>
                     <p id="loginError" class="error"></p>
+                    <form action="/c3/AdminRegistServlet" method="post">
+                    <input type="hidden" id="type" value="-1">
                     <label><span class="required">ID</span></label>
                     <input type="text" id="loginId">
 
                     <label><span class="required">パスワード</span></label>
                     <input type="password" id="loginPassword">
 
-                    <button class="submit-btn" onclick="login()">登録</button>
+                    <button type="submit"class="submit-btn" >登録</button>
+                    </form>
                 </div>
 
                 <!-- 新規登録 -->
                 <div id="registerForm" style="display:none;">
                     <h2>運営スタッフ登録</h2>
                     <p id="registError" class="error"></p>
+                    <form action="/c3/AdminRegistServlet" method="post">
+                    <input type="hidden" id="type" value="1">
                     <label><span class="required">ID</span></label>
                     <input type="text" id="registId">
 
                     <label><span class="required">パスワード</span></label>
                     <input type="password" id="registPassword">
 
-                    <button class="submit-btn" onclick="regist()">登録</button>
+                    <button type="submit"class="submit-btn">登録</button>
+                    </form>
                 </div>
             </div>
         </div>
