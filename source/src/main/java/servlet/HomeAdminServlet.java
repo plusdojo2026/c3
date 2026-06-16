@@ -24,6 +24,8 @@ public class HomeAdminServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
+	request.setCharacterEncoding("UTF-8");
+	
 		
 		// もしもログインしていなかったらログインサーブレットにリダイレクトする
 		HttpSession session = request.getSession();
@@ -34,42 +36,14 @@ public class HomeAdminServlet extends HttpServlet {
 	//	}
 
 		//ログインユーザーIDの取得
-	  int userId = Integer.parseInt((String)session.getAttribute("id"));
+		// int userId = Integer.parseInt((String)session.getAttribute("id"));
 		
 	LiveInfoDao liveDao = new LiveInfoDao();
 		
 	//live_info取得
 	 List <LiveInfo> livelist = liveDao.selectByUserId(1);
 	 
-		
-		// live_infoテーブルにデータがない場合
-		if (livelist.isEmpty()) {
-			request.setAttribute("noLiveInfo", true);
-			
-			RequestDispatcher rd =
-			request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
-			rd.forward(request,response);
-			return;
-		}
-			
-		request.setAttribute("livelist", livelist);
-		// live_infoテーブルにデータはあるが、管理者がタイムテーブルを作成していない場合
-		//タイムテーブル作成画面に遷移する
-		boolean created = false;
-		for (LiveInfo live : livelist) {
-			
-		if(!live.isCreate_flag()) {
-		created = true;
-		break;
-		}
-	}
-		
-		if (!created ) {
-			response.sendRedirect("/c3/TableCreateServlet");
-			return;
-		}
-		request.setAttribute("livelist", livelist);
-		
+	//home_admin.jspにフォワードする	
 	RequestDispatcher rd = 
 			request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
 	rd.forward(request,response);
