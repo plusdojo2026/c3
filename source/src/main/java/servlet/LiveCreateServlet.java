@@ -22,12 +22,12 @@ public class LiveCreateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		// ログインしていなかったらログインサーブレットへ
-		HttpSession session = request.getSession();
-		if (session.getAttribute("id") == null) {
-			response.sendRedirect("/c3/LoginServlet");
-			return;
-		}
+//		// ログインしていなかったらログインサーブレットへ
+//		HttpSession session = request.getSession();
+//		if (session.getAttribute("id") == null) {
+//			response.sendRedirect("/c3/LoginServlet");
+//			return;
+//		}
 		
 		// ライブ情報作成画面へフォワードする
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
@@ -60,7 +60,6 @@ public class LiveCreateServlet extends HttpServlet {
 //		boolean resultLive = liDao.addLibeInfo(li);
 		
 		// 準備情報テーブルにバンドID、ライブ情報ID、持ち時間のみが表示されたデータを作成する
-		
 		int performerNum = Integer.parseInt(request.getParameter("band_num"));
 		for (int i = 0; i <= performerNum; i++) {
 			if (request.getParameter("bandname[" + i + "]") != null && !request.getParameter("bandname[" + i + "]" ).equals("") &&
@@ -76,16 +75,16 @@ public class LiveCreateServlet extends HttpServlet {
 //					break;
 //				}
 			}
-		}
+		}	
 		
-		/*
-		 * if (resultLive && resultPrepar) {
-		 * response.sendRedirect("/c3/HomeAdminServlet"); } else {
-		 * request.setAttribute("result", "登録できませんでした。"); RequestDispatcher dispatcer =
-		 * request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
-		 * dispatcer.forward(request, response); }
-		 */
-
+//		// ホームサーブレットへ戻る。
+//		if (resultPrepar) {
+//			response.sendRedirect("/c3/HomeAdminServlet");
+//		} else {
+//			request.setAttribute("result", new Result("Create_failed", "登録できませんでした。", "/c3/LiveCreateServlet"));
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
+//			dispatcher.forward(request, response);
+//		}
 		
 	}
 
