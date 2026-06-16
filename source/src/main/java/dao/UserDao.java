@@ -76,13 +76,13 @@ public class UserDao {
 
 				// 登録
 				String insertSql =
-						"INSERT INTO users(user_id, password, type) VALUES(?, ?, -2)";
+					    "INSERT INTO users(user_id, password, type) VALUES(?, ?, ?)";
 
-				PreparedStatement insertStmt =
-						conn.prepareStatement(insertSql);
+					PreparedStatement insertStmt = conn.prepareStatement(insertSql);
 
-				insertStmt.setString(1, user.getUser_id());
-				insertStmt.setString(2, user.getPassword());
+					insertStmt.setString(1, user.getUser_id());
+					insertStmt.setString(2, user.getPassword());
+					insertStmt.setInt(3, user.getType());
 				
 
 				int count = insertStmt.executeUpdate();
@@ -101,5 +101,6 @@ public class UserDao {
 				}
 			}
 		}
+		
 	}
 
