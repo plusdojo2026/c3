@@ -77,7 +77,8 @@ public class HomeAdminServlet extends HttpServlet {
 			// 準備情報がそろっていない場合、アラートが表示される
 			//画面は遷移せず、アラートが表示される
 			// Prepar_infoのリストをつくる →リストの中のデータは、live_infoのidをもつprepar_infoのデータ
-			//　prepar_infoのデータがすべてそろっているか確認
+			//　prepar_infoのデータがすべてそろっているか確認 →for文でprepar_infoのデータを
+			// 
 			
 			// live_infoテーブルにデータはあるが、管理者がタイムテーブルを作成していない場合
 			//タイムテーブル作成画面に遷移する
