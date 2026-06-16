@@ -43,7 +43,7 @@ public class ModBandServlet extends HttpServlet {
 //		bi = biDao.showBandInfo((LoginUser)session.getAttribute("id"));
 		partsList = ptDao.showAllParts();
 		
-		int biNum = 0;
+		int biNum = 1;
 		bmList = bmDao.showMember(biNum);
 		request.setAttribute("band_info_id", biNum);
 		request.setAttribute("band_info_name", "バンドA");

@@ -17,8 +17,10 @@ function addRow() {
     const clone = template.content.cloneNode(true);
     
     // コピーした要素のname属性を現在のrowIndexで上書き
+    clone.querySelector('input[name="member_id_temp"]').name = `member_id[${rowIndex}]`;
     clone.querySelector('input[name="membername_temp"]').name = `member_name[${rowIndex}]`;
     clone.querySelector('select[name="parts_temp"]').name = `parts[${rowIndex}]`;
+    clone.querySelector('span[class="memo_temp"]').value = `${rowIndex}`;
     
     table.appendChild(clone);
     

@@ -60,11 +60,11 @@
                     
                     <!-- 既に登録されたデータがある場合 -->
                     <c:if test="${not empty band_members }">
-                    <c:forEach var="band_member" items="${band_members }">
+                    <c:forEach var="band_member" items="${band_members }" varStatus="status">
                     <tr class="band_info_row">
                         <td>
-                        <input type="hidden" name="member_id[0]" value=<c:out value="${band_member.id }" />>
-                        <input type="text" name="member_name[0]" placeholder="氏名" value="${band_member.name }"></td>
+                        <input type="hidden" name="member_id[${status.index }]" value=<c:out value="${band_member.id }" />>
+                        <input type="text" name="member_name[${status.index }]" placeholder="氏名" value="${band_member.name }"></td>
                         <td>
                         <c:if test= "${not empty parts }">
                         <select name="parts[0]" id="parts">
@@ -136,8 +136,8 @@
 					<!-- JavaScriptで繰り返す用のひな形 -->
 					<template id="band_row_template">
 					<tr class="band_info_row">
-						<td>
-                        <input type="hidden" name="member_id[0]" value="0">
+						<td><span class="memo_temp"></span>
+                        <input type="hidden" name="member_id_temp" value="0">
                         <input type="text" name="membername_temp" placeholder="氏名"></td>
                         <td>
                         <c:if test= "${not empty parts }">
