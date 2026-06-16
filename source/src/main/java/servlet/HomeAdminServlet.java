@@ -34,7 +34,7 @@ public class HomeAdminServlet extends HttpServlet {
 	//	}
 
 		//ログインユーザーIDの取得
-	 // int userId = Integer.parseInt((String)session.getAttribute("id"));
+	  int userId = Integer.parseInt((String)session.getAttribute("id"));
 		
 	LiveInfoDao liveDao = new LiveInfoDao();
 		
