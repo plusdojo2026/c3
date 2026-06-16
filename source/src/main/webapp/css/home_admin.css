@@ -11,6 +11,7 @@ form {
     margin-top:50px;
     margin-left:100px;
     
+    background-color: aqua;
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -20,18 +21,7 @@ form {
     font-weight: bold;
     text-align: center;
     cursor: pointer;
+   
 
     margin: 20px;
-}
-
-.blue {
-    background-color: aqua;
-}
-
-.red {
-    background-color: rgba(227, 34, 195, 0.625);
-}
-
-.purple {
-    background-color: blueviolet;
 }

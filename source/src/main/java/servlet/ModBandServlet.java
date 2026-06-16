@@ -17,6 +17,7 @@ import dao.PartsDao;
 import dto.BandInfo;
 import dto.BandMember;
 import dto.Parts;
+import dto.Result;
 
 @WebServlet("/ModBandServlet")
 public class ModBandServlet extends HttpServlet {
@@ -75,7 +76,7 @@ public class ModBandServlet extends HttpServlet {
 //		LoginUser user = (LoginUser)session.getAttribute("id");
 		BandMemberDao bmDao = new BandMemberDao();
 		BandInfoDao biDao = new BandInfoDao();
-		boolean result;
+		boolean result = false;
 		
 		// 既にあるバンド情報か確認し、無ければ登録を行う
 		// band_idが0なら無い、1以上なら登録されている。
@@ -126,13 +127,13 @@ public class ModBandServlet extends HttpServlet {
 			
 		}
 		
-//		// ホームサーブレットへ戻る。
-//		if (result) {
-//			response.sendRedirect("/c3/HomeBandServlet");
-//		} else {
-//			request.setAttribute("result", new Result("Mod_failed", "登録できませんでした。", "/c3/ModBandServlet"));
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mod_band.jsp");
-//			dispatcher.forward(request, response);
-//		}
+		// ホームサーブレットへ戻る。
+		if (result) {
+			response.sendRedirect("/c3/HomeBandServlet");
+		} else {
+			request.setAttribute("result", new Result("Mod_failed", "登録できませんでした。", "/c3/ModBandServlet"));
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mod_band.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 }

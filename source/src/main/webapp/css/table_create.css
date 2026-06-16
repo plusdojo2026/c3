@@ -1,1 +1,152 @@
 @charset "UTF-8";
+/* bodyタグ */
+body {
+    margin: 0 0 0 0;	/* マージンなし（後で個別に設定） */
+    padding: 0 0 0 0;	/* パディングなし（後で個別に設定） */
+    color: black;
+    font-size: 16px;
+    background-color: #dcdcdc;
+}
+
+/* ロゴ */
+h1 {
+    margin: 0;
+}
+
+
+
+/* 管理者のタイムテーブル作成ボックス */
+.box {
+    width: 600px;
+    height: 800px;
+    background-color: white;
+    border: 2px solid #333;
+    border-radius: 10px;
+    margin: 50px auto;
+    padding: 20px;
+    box-sizing: border-box;
+    
+    /* 内容が多くなったらスクロール */
+    overflow-y: auto;
+}
+
+/* 準備情報ボックス */
+.info-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;  
+    width: 420px;
+    height: 600px;
+    background: white;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;  
+    align-items: center; 
+    padding-top: 20px;
+    gap: 15px;
+}
+
+/* 準備情報ボックス内のボタン */
+.info-box .btn.btn-primary {
+
+    width: 350px;
+    height: 50px;
+
+}
+
+
+
+/* タイムテーブルのボタン */
+
+.button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    gap: 5px; /* ボタン間のスペース */
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+    transition: 0.30s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+
+/* 転換ボタン */
+.btn.btn-secondary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: 40px;
+    background-color: rgb(235, 88, 88); 
+    border: 1px solid #333; 
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+/* 準備情報ボタン */
+.btn.btn-primary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 60px;
+    background-color: #4da6ff; 
+    border: 1px solid #333; 
+    border-radius: 10px;
+}
+
+.btn.btn-primary:active {
+    opacity: 0.3;
+}
+
+
+/*　バンドにカーソルを合わせると情報が見れる */
+.tooltip {
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 9999;
+}
+
+/* 転換時間のテキストボックス */
+.convert-setting {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 1px solid #333;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 9999;
+}
+
+.convert-setting input {
+    width: 60px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.convert-setting button {
+    padding: 5px 10px;
+    background: rgb(142, 86, 227);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
