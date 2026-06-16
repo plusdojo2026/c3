@@ -19,7 +19,7 @@ public class LiveInfoDao {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000", "root", "password");
-			String sql = "SELECT id, name, begin_date, end_date, user_id , create_flag"
+			String sql = "SELECT id, name, begin_date, end_date, user_id , create_flag "
 					+ "FROM live_info "
 					+ "WHERE name LIKE ? "
 					+ "AND (? IS NULL OR begin_date = ?) "
@@ -185,7 +185,8 @@ public class LiveInfoDao {
 						}
 						pStmt.setInt(5, live.getId());
 						
-						if (pStmt.executeUpdate() == 1) {
+						int count = pStmt.executeUpdate();
+						if (count == 1) {
 							result = true;
 						}
 
@@ -252,10 +253,10 @@ public class LiveInfoDao {
 	}
 
 	//データの有無をチェックする
-public LiveInfo selectByUserId(int userId) {
+public List <LiveInfo> selectByUserId(int userId) {
 	
 	Connection conn = null;
-	LiveInfo liveInfo = null;
+	List <LiveInfo> list = new ArrayList<>();
 	
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -269,8 +270,8 @@ public LiveInfo selectByUserId(int userId) {
 		
 		ResultSet rs = pStmt.executeQuery();
 		
-		if(rs.next()) {
-			liveInfo = new LiveInfo(
+		while (rs.next()) {
+			LiveInfo live = new LiveInfo(
 					rs.getInt("id"),
 					rs.getString("name"),
 					rs.getTimestamp("begin_date").toLocalDateTime(),
@@ -278,11 +279,21 @@ public LiveInfo selectByUserId(int userId) {
 					rs.getInt("user_id"),
 					rs.getInt("create_flag") == 1
 					);
+
+			list.add(live);
 		}
 	} catch (Exception e) {
 		e.printStackTrace();
+		throw new RuntimeException(e);
+		
+	} finally {
+		try {
+			if (conn != null) conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	return liveInfo;
-}
+	return list;
+	}
 }

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,30 +39,40 @@ public class HomeAdminServlet extends HttpServlet {
 	LiveInfoDao liveDao = new LiveInfoDao();
 		
 	//live_info取得
-	 LiveInfo live = liveDao.selectByUserId(1);
-		
-		//home_admin.jsp側でのボタン表示のための処理
-	request.setAttribute("live", live);
+	 List <LiveInfo> livelist = liveDao.selectByUserId(1);
+	 
 		
 		// live_infoテーブルにデータがない場合
-		if (live == null) {
+		if (livelist.isEmpty()) {
 			request.setAttribute("noLiveInfo", true);
-			RequestDispatcher rd = 
-					request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
+			
+			RequestDispatcher rd =
+			request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
 			rd.forward(request,response);
 			return;
 		}
 			
+		request.setAttribute("livelist", livelist);
 		// live_infoテーブルにデータはあるが、管理者がタイムテーブルを作成していない場合
 		//タイムテーブル作成画面に遷移する
+		boolean created = false;
+		for (LiveInfo live : livelist) {
+			
 		if(!live.isCreate_flag()) {
+		created = true;
+		break;
+		}
+	}
+		
+		if (!created ) {
 			response.sendRedirect("/c3/TableCreateServlet");
 			return;
 		}
+		request.setAttribute("livelist", livelist);
 		
-		//live_infoテーブルにデータがあり、タイムテーブルも作成済みの場合
-		//タイムテーブル表示画面へ遷移する
-		response.sendRedirect("/c3/TableShowServlet");
-	 
+	RequestDispatcher rd = 
+			request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
+	rd.forward(request,response);
+
 	}
 }
