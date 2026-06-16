@@ -68,6 +68,16 @@ public class LiveInfoDaoTest {
 					System.out.println("削除失敗！");
 				}
 			}
+				// ライブ情報一覧のテスト
+				System.out.println("---------- ライブ情報一覧のテスト()のテスト ----------");
+				List<LiveInfo> livelistVeiw = dao.selectByUserId(1);
+				for(LiveInfo li:livelistVeiw) {
+					System.out.println("ライブ名：" + li.getName());
+				}
+				// idでとってくるテスト
+				System.out.println("---------- idでとってくる()のテスト ----------");
+				LiveInfo idTestLive = dao.select(3);
+				System.out.println("ライブ名：" + idTestLive.getName());
 	}
 	
 }
