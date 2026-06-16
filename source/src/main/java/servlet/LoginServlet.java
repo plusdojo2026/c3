@@ -55,11 +55,7 @@ public class LoginServlet extends HttpServlet {
 				if ("register".equals(mode)) {
 					 
 
-					    User user = new User();
-					    user.setUser_id(user_id);
-					    user.setPassword(password);
-					    user.setType(-2); // 
-			        boolean result = dao.register(user);
+			        boolean result = dao.register(new User(user_id, password));
 
 			        if (result) {
 			            response.sendRedirect("/c3/LoginServlet");

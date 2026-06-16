@@ -52,8 +52,7 @@
                     <label><span class="required">パスワード</span></label>
                     <input type="password" name="pw">
 
-                    <button type="submit"class="submit-btn" >登録</button>
-                    </form>
+                    <button class="submit-btn" onclick="login()">登録</button>
                 </div>
 
                 <!-- 新規登録 -->
@@ -68,8 +67,7 @@
                     <label><span class="required">パスワード</span></label>
                     <input type="password" name="pw">
 
-                    <button type="submit"class="submit-btn">登録</button>
-                    </form>
+                    <button class="submit-btn" onclick="regist()">登録</button>
                 </div>
             </div>
         </div>
