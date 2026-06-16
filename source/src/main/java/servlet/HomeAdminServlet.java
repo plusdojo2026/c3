@@ -77,7 +77,15 @@ public class HomeAdminServlet extends HttpServlet {
 			// 準備情報がそろっていない場合、アラートが表示される
 			//画面は遷移せず、アラートが表示される
 			// Prepar_infoのリストをつくる →リストの中のデータは、live_infoのidをもつprepar_infoのデータ
-			//　prepar_infoのデータがすべてそろっているか確認 →for文でprepar_infoのデータを
+			//　prepar_infoのデータがすべてそろっているか確認 →for文でprepar_infoのデータがあるか確かめる 
+			// List<PreparInfo> preparlistVeiw = dao.selectByUserId(1);　←これはprepar.Daoに合わせて変更
+			//for(PreparInfo pi:preparlistVeiw) {
+				// entrance_music == null, "" →データがそろってないからアラート
+			// RequestDispatcher rd =
+			// request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
+			// rd.forward(request,response);
+			// return;
+			// }
 			// 
 			
 			// live_infoテーブルにデータはあるが、管理者がタイムテーブルを作成していない場合
