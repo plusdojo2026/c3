@@ -1,25 +1,11 @@
-    'use Strict'
-
-     const blueButton = document.querySelector('.date.blue');
-    const redButton = document.querySelector('.date.red');
-    const purpleButton = document.querySelector('.date.purple');
-
-    blueButton.addEventListener('click', function(event){
-        event.preventDefault();
-        alert('まだライブ情報が登録されていません。')
-    });
-
-     redButton.addEventListener('click', function(event){
-        event.preventDefault();
-        ('まだライブ情報が登録されていません。')
-    });
-
-     purpleButton.addEventListener('click', function(event){
-        event.preventDefault();
-        ('まだライブ情報が登録されていません。')
-     });
+    'use strict'
 
      window.onload = function () {
+	
+	if (noLiveInfo === true || noLiveInfo === "true") {
+		alert("まだライブ情報が登録されていません");
+	}
+	
     const nav = document.getElementById('nav-wrapper');
     const hamburger = document.getElementById('js-hamburger');
     const blackBg = document.getElementById('js-black-bg');

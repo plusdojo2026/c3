@@ -43,7 +43,7 @@ public class ModBandServlet extends HttpServlet {
 //		bi = biDao.showBandInfo((LoginUser)session.getAttribute("id"));
 		partsList = ptDao.showAllParts();
 		
-		int biNum = 1;
+		int biNum = 0;
 		bmList = bmDao.showMember(biNum);
 		request.setAttribute("band_info_id", biNum);
 		request.setAttribute("band_info_name", "バンドA");
@@ -83,7 +83,8 @@ public class ModBandServlet extends HttpServlet {
 		// メンバーの最大値を取る
 		int memberNum = Integer.parseInt(request.getParameter("member_num"));
 		
-		if (bandId == 0) {
+		
+		if (bandId == 0) {	// 未登録のバンドである場合
 			// 登録する
 			// バンド情報テーブル
 			String name = request.getParameter("band_name");
@@ -99,7 +100,7 @@ public class ModBandServlet extends HttpServlet {
 					break;
 			}
 			
-		} else if (bandId > 0) {
+		} else if (bandId > 0) {	// 既に登録されているバンドである場合
 			// 編集する
 			// バンド情報テーブル
 			String name = request.getParameter("band_name");
@@ -124,5 +125,14 @@ public class ModBandServlet extends HttpServlet {
 			}
 			
 		}
+		
+//		// ホームサーブレットへ戻る。
+//		if (result) {
+//			response.sendRedirect("/c3/HomeBandServlet");
+//		} else {
+//			request.setAttribute("result", new Result("Mod_failed", "登録できませんでした。", "/c3/ModBandServlet"));
+//			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mod_band.jsp");
+//			dispatcher.forward(request, response);
+//		}
 	}
 }

@@ -40,12 +40,20 @@ TableCreateServlrtにつなぐ-->
         </div>
     </div>
     </header>
+    
+<c:if test = "${not empty live}">
+	<div>${live.begin_date}</div>
 
-<form action = "/webapp/HomeAdminSrvlet">
-<input name = "button1" type = "submit" value = "開催日" class = "date blue" >
-<input name = "button2" type = "submit" value = "開催日" class = "date red">
-<input name = "button3" type = "submit" value = "開催日" class = "date purple">
+<form action="/c3/HomeAdminServlet"	>
+<input type = "submit" value = "${live.begin_date}" class = "date">
 </form>
+</c:if>
+
+<script>
+const noLiveInfo = ${noLiveInfo ? "true" : "false"};
+</script>
+
+<script src = "/c3/js/home-admin.js"></script>
 
 </body>
 

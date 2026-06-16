@@ -11,25 +11,26 @@
 <body>
     <!-- タブ表示 -->
     <!-- ロゴ表示 -->
-    <div class="logo">
-        <a href="Home"><img src="logo.png" alt=""></a>
-    </div>
-    <!-- メニュー//タブ -->
-    <div id="nav-wrapper" class="nav-wrapper">
-    	<div class="hamburger" id="js-hamburger">
-    		<span class="hamburger__line hamburger__line--1"></span>
-        	<span class="hamburger__line hamburger__line--2"></span>
-        	<span class="hamburger__line hamburger__line--3"></span>
-    	</div>
-    	<nav class="sp-nav">
-        <ul>
-        	<li><button type="button">新規登録</button></li>
-        	<li><button type="button">ライブ情報作成</button></li>
-        	<li><button type="button">ログアウト</button></li>
-        </ul>
-     	</nav>
-     	<div class="black-bg" id="js-black-bg"></div>
-    </div>
+   <header class="header">
+        <div id="nav-wrapper" class="nav-wrapper">
+            <div class="hamburger" id="js-hamburger">
+                <span class="hamburger__line hamburger__line--1"></span>
+                <span class="hamburger__line hamburger__line--2"></span>
+                <span class="hamburger__line hamburger__line--3"></span>
+            </div>
+            <nav class="sp-nav">
+                <ul>
+                    <li><button type="button">新規登録</button></li>
+                    <li><button type="button">ログアウト</button></li>
+                    <li><button type="button">ライブ情報作成</button></li>
+                </ul>
+            </nav>
+            <div class="black-bg" id="js-black-bg"></div>
+        </div>
+        <div class="logo">
+            <img src="image/c3-logo.png" alt="ロゴ">
+        </div>
+    </header>
 
     <!-- メイン -->
     <main>
@@ -53,26 +54,27 @@
             <!-- 出演者(バンド名) & 各バンドの持ち時間 -->
             <div class="band_info">
                 <table id="bands_info_row">
-                    <tr><th><input type="hidden" name="band_num" value="0">バンド名<span class="required"></span></th><th>持ち時間<span class="required"></span></th><td></td></tr>
+                    <tr><th><input type="hidden" name="band_num" value="0">バンド名<span class="required"></span></th><th>持ち時間<span class="required"></span></th>
+                    <td><button type="button" onclick="addRow()"><img src="image/plus.svg" alt=""></button></td></tr>
                     <tr class="band_info_row">
                         <td><input type="text" name="bandname[0]" placeholder="バンド名"></td>
                         <td><input type="text" name="time[0]" placeholder="持ち時間"></td>
                         <td>
-                            <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
-                            <!-- <button type="button" onclick="removeRow(this)"></button> -->
+                            <button type="button" onclick="addRow()"><img src="image/plus.svg" alt=""></button>
+                            <button type="button" onclick="removeRow(this)"><img src="image/delete.svg" alt=""></button>
                         </td>
                     </tr>
                     <tr class="band_info_row">
                         <td><input type="text" name="bandname[1]" placeholder="バンド名"></td>
                         <td><input type="text" name="time[1]" placeholder="持ち時間"></td>
                         <td>
-                            <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
-                            <!-- <button type="button" onclick="removeRow(this)"></button> -->
+                            <button type="button" onclick="addRow()"><img src="image/plus.svg" alt=""></button>
+                            <button type="button" onclick="removeRow(this)"><img src="image/delete.svg" alt=""></button>
                         </td>
                     </tr>
                 </table>
             </div>
-            <p id="blank_alert"></p>
+            <p id="blank_alert" class="error"></p>
             <div class="cancel_create_btn">
                 <!-- キャンセルボタン -->
                 <a href="Home" class="cancel_btn">キャンセル</a>

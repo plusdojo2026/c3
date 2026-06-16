@@ -18,7 +18,7 @@ function addRow() {
     
     // コピーした要素のname属性を現在のrowIndexで上書き
     clone.querySelector('input[name="membername_temp"]').name = `member_name[${rowIndex}]`;
-    clone.querySelector('input[name="parts_temp"]').name = `parts[${rowIndex}]`;
+    clone.querySelector('select[name="parts_temp"]').name = `parts[${rowIndex}]`;
     
     table.appendChild(clone);
     
@@ -40,6 +40,7 @@ band_member.onsubmit = function(event) {
     let blank = false;
     let setMemberName;
     let setMemberParts;
+    
     for (let i = 0; i < rowIndex; i++) {
         setMemberName = `member_name[${i}]`;
         setMemberParts = `parts[${i}]`;
@@ -64,6 +65,9 @@ band_member.onsubmit = function(event) {
     if (band_member.band_name.value === '' || blank) {
         document.getElementById('blank_alert').textContent = '未入力の項目があります。';
         event.preventDefault();
+    } else if (document.querySelectorAll("#bands_info_row.band_info_row").length === 0){
+		document.getElementById('blank_alert').textContent = 'バンドメンバーを最低1人登録してください。';
+		event.preventDefault();
     } else {
         document.getElementById('blank_alert').textContent = '';
         window.alert('一件のバンド情報を登録しました');
