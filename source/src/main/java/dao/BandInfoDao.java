@@ -210,4 +210,58 @@ public boolean insert(BandInfo Band) {
 
 			return result;
 		}
+		
+//ユーザーIdを元にバンド情報を返す
+	public List<BandInfo> showBand(int UserId) {
+		List<BandInfo> biList = new ArrayList<BandInfo>();
+		Connection conn = null;
+
+		try {
+			// JDBCドライバを読み込む
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			// データベースに接続
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
+					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true",
+					"root", "password");
+
+			// バンド情報を取得するSQL文を作成する
+			String sql = "SELECT band_info.id, band_info.name, band_info.user_id FROM band_info\r\n";
+
+			// 値を設定する。
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, UserId);
+
+			// SELECT文を実行し結果を取得
+			ResultSet rs = pStmt.executeQuery();
+
+			// 結果をコレクションにコピー
+			while (rs.next()) {
+				BandInfo bi;
+				// リストへコピー
+				bi = new BandInfo(rs.getInt("band_info.id"), rs.getString("band_info.name"),
+						rs.getInt("band_info.band_info_id"));
+				biList.add(bi);
+			}
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			biList = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			biList = null;
+		} finally {
+			// データベースを切断
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					biList = null;
+				}
+			}
+		}
+
+		return biList;
+	}
 }

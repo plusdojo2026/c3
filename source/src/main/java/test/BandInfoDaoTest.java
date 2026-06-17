@@ -51,7 +51,8 @@ public class BandInfoDaoTest {
 				} else {
 					System.out.println("更新失敗！");
 				}
-				// delete()のテスト
+				
+			// delete()のテスト
 				System.out.println("---------- delete()のテスト ----------");
 				List<BandInfo> BandlistDel = dao.select(new BandInfo(0, "PEDRO", 0));
 				if (!BandlistDel.isEmpty()) {
@@ -63,6 +64,48 @@ public class BandInfoDaoTest {
 				} else {
 					System.out.println("削除失敗！");
 				}
+					
+			// ユーザーIdを元にバンド情報を返すテスト
+						
+							showMemberTest(1);
+							isMemberTest(11);
+							isMemberTest(1);
+							showMemberTest(3);
+//							addMemberTest(new BandMember(0, "田中", 3, 3));
+//							showMemberTest(3);
+							editMemberTest(new BandInfo(10, "中田仁", 4, 3));
+						}
+						
+						public static void showMemberTest(int biId){
+							BandInfoDao biDao = new BandInfoDao();
+							List<BandInfo> biList = new ArrayList<BandInfo>();
+							biList = biDao.showBandInfo(biId);
+							for (BandInfo bi : biList) {
+								System.out.println(bi.getId() + "：" + bi.getName() +"：" + bi.getPartName());
+							}
+						}
+						
+						public static void isMemberTest(int biId) {
+							BandInfoDao biDao = new BandInfoDao();
+							System.out.println(biDao.isMember(biId));
+						}
+
+						public static void addMemberTest(BandInfo bi) {
+							BandInfoDao biDao = new BandInfoDao();
+							boolean rs;
+							rs = biDao.addMember(bi);
+							System.out.println(rs);
+						}
+						
+						public static void editMemberTest(BandInfo bi) {
+							BandInfoDao biDao = new BandInfoDao();
+							boolean rs;
+							rs = biDao.editMember(bi);
+							System.out.println(rs);
+						}
+						
+					}
 			}		
 	}
+	
 }
