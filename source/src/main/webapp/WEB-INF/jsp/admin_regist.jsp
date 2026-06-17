@@ -44,11 +44,13 @@
                 <div id="loginForm">
                     <h2>管理者登録</h2>
                     <p id="loginError" class="error"></p>
+                    <form action="/c3/AdminRegistServlet" method="post">
+                    <input type="hidden" name="mode" value="login">
                     <label><span class="required">ID</span></label>
-                    <input type="text" id="loginId">
+                    <input type="text" name="id">
 
                     <label><span class="required">パスワード</span></label>
-                    <input type="password" id="loginPassword">
+                    <input type="password" name="pw">
 
                     <button class="submit-btn" onclick="login()">登録</button>
                 </div>
@@ -57,11 +59,13 @@
                 <div id="registerForm" style="display:none;">
                     <h2>運営スタッフ登録</h2>
                     <p id="registError" class="error"></p>
+                    <form action="/c3/AdminRegistServlet" method="post">
+                    <input type="hidden" name="mode" value="register">
                     <label><span class="required">ID</span></label>
-                    <input type="text" id="registId">
+                    <input type="text" name="id">
 
                     <label><span class="required">パスワード</span></label>
-                    <input type="password" id="registPassword">
+                    <input type="password" name="pw">
 
                     <button class="submit-btn" onclick="regist()">登録</button>
                 </div>
@@ -70,7 +74,7 @@
 
     </div>
 
-    <script src="common.js"></script>
+    <script src="javascript/common.js"></script>
     <script src="javascript/admin_regist.js"></script>
 
 </body>

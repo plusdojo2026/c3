@@ -24,8 +24,7 @@ public class HomeAdminServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
-	request.setCharacterEncoding("UTF-8");
-	
+		request.setCharacterEncoding("UTF-8");
 		
 		// もしもログインしていなかったらログインサーブレットにリダイレクトする
 		HttpSession session = request.getSession();
@@ -35,21 +34,24 @@ public class HomeAdminServlet extends HttpServlet {
 	//		return;
 	//	}
 
-		//ログインユーザーIDの取得
-		// int userId = Integer.parseInt((String)session.getAttribute("id"));
-		
-	LiveInfoDao liveDao = new LiveInfoDao();
+
+	//ログインユーザーIDの取得
+		//LoginUser login = (LoginUser)session.getAttribute("id"); 
+		// int userId = Integer.parseInt(login.getId());
 		
 	//live_info取得
-	 List <LiveInfo> livelist = liveDao.selectByUserId(1);
-	 
-	//home_admin.jspにフォワードする	
-	RequestDispatcher rd = 
+			LiveInfoDao liveDao = new LiveInfoDao();
+			 List <LiveInfo> livelist = liveDao.selectByUserId(1);
+			 
+	// live_infoの情報を登録
+			 request.setAttribute("lives", livelist);
+			 
+	// home_admin.jspにフォワードする
+			RequestDispatcher rd = 
 			request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
-	rd.forward(request,response);
+			rd.forward(request,response);
 
 	}
-
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -105,5 +107,4 @@ public class HomeAdminServlet extends HttpServlet {
 			}
 		
 	}
-
 }

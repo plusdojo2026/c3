@@ -76,7 +76,7 @@ public class LiveInfoDaoTest {
 				}
 				// idでとってくるテスト
 				System.out.println("---------- idでとってくる()のテスト ----------");
-				LiveInfo idTestLive = dao.select(3);
+				LiveInfo idTestLive = dao.select(11);
 				System.out.println("ライブ名：" + idTestLive.getName());
 	}
 	

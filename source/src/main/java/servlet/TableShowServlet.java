@@ -1,41 +1,64 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class TableShowServlet
- */
+import dao.BandInfoDao;
+import dao.LiveInfoDao;
+import dao.PreparInfoDao;
+import dto.BandInfo;
+import dto.LiveInfo;
+import dto.PreparInfo;
+
+
 @WebServlet("/TableShowServlet")
 public class TableShowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TableShowServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		//		// ログインしていなかったらログインサーブレットへ
+		//		HttpSession session = request.getSession();
+		//		if (session.getAttribute("id") == null) {
+		//			response.sendRedirect("/c3/LoginServlet");
+		//			return;
+		//		}
+		
+		LiveInfoDao liDao = new LiveInfoDao();
+		PreparInfoDao piDao = new PreparInfoDao();
+		BandInfoDao biDao = new BandInfoDao();
+		List<PreparInfo> piList = new ArrayList<PreparInfo>();
+		List<BandInfo> biList = new ArrayList<BandInfo>();
+		
+		
+		//	ライブを特定するような情報を得てライブ情報を取得する
+		LiveInfo li = new LiveInfo();
+		
+		// ライブ情報IDを参考にライブに参加する準備情報を持ってくる
+//		piList = piDao.select(li);
+		
+		// 準備情報をもとにバンド情報を持ってくる
+		for (PreparInfo pi : piList) {
+//			biList.add(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
+		}
+		
+		// それぞれをデータとして渡す
+		request.setAttribute("live_info", li);
+		request.setAttribute("band_infos", biList);
+		request.setAttribute("prepar_infos", piList);
+		
+		// タイムテーブル作成画面へフォワードする
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/table_show.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

@@ -63,5 +63,5 @@ function regist(){
         return;
     }
 
-    alert("登録しました！");
+
 }

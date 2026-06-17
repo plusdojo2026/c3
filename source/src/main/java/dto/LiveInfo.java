@@ -8,7 +8,7 @@ public class LiveInfo {
 	private LocalDateTime begin_date;    //開始日時
 	private LocalDateTime end_date;	     //終了日時
 	private int user_id;                //ユーザーID
-	private boolean create_flag= false;        //作成前後識別
+	private boolean create_flag;        //作成前後識別
 	
 	public LiveInfo() {
 		super();
@@ -20,7 +20,7 @@ public class LiveInfo {
 		this.create_flag = false;
 	}
 	
-	public LiveInfo(int id, String name, LocalDateTime begin_date, LocalDateTime end_date, int user_id, boolean create_flag) {
+	public LiveInfo(int id, String name, LocalDateTime begin_date, LocalDateTime end_date, int user_id, boolean timetable_flag) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -76,10 +76,6 @@ public class LiveInfo {
 
 	    public void setCreate_flag(boolean create_flag) {
 	        this.create_flag = create_flag;
-	    }
-	    
-	    public void setCreate_flag() {
-	        this.setCreate_flag(false);
 	    }
 	
 }

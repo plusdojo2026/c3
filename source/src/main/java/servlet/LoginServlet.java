@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 				// ログイン処理を行う
 				UserDao dao = new UserDao();
 				if ("register".equals(mode)) {
+					 
 
 			        boolean result = dao.register(new User(user_id, password));
 

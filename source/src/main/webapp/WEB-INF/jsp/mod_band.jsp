@@ -39,7 +39,7 @@
         <!-- フォーム群 -->
 
         <p id="blank_alert" class="error"></p>
-        <form action="" id="band_member">
+        <form action="/c3/ModBandServlet" method="post" id="band_member">
             <div class="band_name">
                 バンド名<span class="required"></span><br>
                 <c:if test="${not empty band_info_id }">
@@ -159,7 +159,7 @@
                 <!-- キャンセルボタン -->
                 <a href="c3/HomeAdminServlet" class="cancel_btn">キャンセル</a>
                 <!-- 登録 -->
-                <input action="/c3/ModBandServlet" method="post" type="submit" name="create" id="create" value="登録">
+                <input type="submit" name="create" id="create" value="登録">
             </div>
         </form>
     </main>

@@ -294,6 +294,7 @@ public class LiveInfoDao {
 		return list;
 	}
 
+	//idでデータをとる
 	public LiveInfo select(int id) {
 		Connection conn = null;
 		LiveInfo data = null;
@@ -304,7 +305,8 @@ public class LiveInfoDao {
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
 					"root", "password");
 			String sql = "SELECT id, name, begin_date, end_date, user_id , create_flag " + "FROM live_info "
-					+ "WHERE id = ? " + "ORDER BY id";
+					+ "WHERE id = ? " 
+					+ "ORDER BY id";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			pStmt.setInt(1, id);

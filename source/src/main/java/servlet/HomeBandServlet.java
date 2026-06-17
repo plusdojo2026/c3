@@ -65,7 +65,7 @@ public class HomeBandServlet extends HttpServlet {
 		for (LiveInfo l : myLiList ) {
 			if (l.getBegin_date().isBefore(firstLi.getBegin_date())) {
 				// タイムテーブルが作成済みならfirstLiに入れ替える
-//				if (l.getFlag())  {
+//				if (l.getCreate_flag())  {
 //					firstLi = l;
 //				}
 			}
