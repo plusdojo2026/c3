@@ -41,8 +41,6 @@ public class LiveShowServlet extends HttpServlet {
 			// live_infoの情報を登録
 			 request.setAttribute("lives", livelist);
 			 
-			 //prepar_info取得
-			 
 			
 			 
 	}
