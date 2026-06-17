@@ -1,147 +1,151 @@
 @charset "UTF-8";
+
 body {
-    background-color: #dcdcdc;
+	background-color: #dcdcdc;
 }
+
 .logo {
-    position: absolute;
-    top: 0px;
-    left: 80px;
-    z-index: 100;
+	position: absolute;
+	top: 0px;
+	left: 80px;
+	z-index: 100;
 }
 
 .logo img {
-    height: 80px; 
-    width: auto;
-    display: block;
-}
-.header{
-    width:100%;
-    height:80px;
-    background-color:silver;
-    display:flex;
-    align-items:center;
-    padding:0 20px;
+	height: 80px;
+	width: auto;
+	display: block;
 }
 
+.header {
+	width: 100%;
+	height: 80px;
+	background-color: silver;
+	display: flex;
+	align-items: center;
+	padding: 0 20px;
+}
 
 .hamburger {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    width: 50px;
-    height: 40px;
-    cursor: pointer;
-    z-index: 400;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	width: 50px;
+	height: 40px;
+	cursor: pointer;
+	z-index: 400;
 }
 
 .hamburger__line {
-    position: absolute;
-    width: 50px;
-    height: 3px;
-    left: 0;
-    background-color: #000;
-    transition: 0.4s;
-    transform-origin: center;
+	position: absolute;
+	width: 50px;
+	height: 3px;
+	left: 0;
+	background-color: #000;
+	transition: 0.4s;
+	transform-origin: center;
 }
 
 .hamburger__line--1 {
-    top: 10px;
+	top: 10px;
 }
 
 .hamburger__line--2 {
-    top: 18px;
+	top: 18px;
 }
 
 .hamburger__line--3 {
-    top: 26px;
+	top: 26px;
 }
 
 .open .hamburger__line--1 {
-    transform: rotate(-45deg);
-    top: 18px;
-    background-color: white;
+	transform: rotate(-45deg);
+	top: 18px;
+	background-color: white;
 }
 
 .open .hamburger__line--2 {
-    opacity: 0;
+	opacity: 0;
 }
 
 .open .hamburger__line--3 {
-    transform: rotate(45deg);
-    top: 18px;
-    background-color: white;
+	transform: rotate(45deg);
+	top: 18px;
+	background-color: white;
 }
 
 .sp-nav {
-    position: fixed;
-    left: -40%;
-    top: 0;
-    width: 25%;
-    height: 100vh;
-    background-color: black;
-    color: white;
-    transition: all 0.5s;
-    z-index: 300;
-    overflow-y: auto;
+	position: fixed;
+	left: -40%;
+	top: 0;
+	width: 25%;
+	height: 100vh;
+	background-color: black;
+	color: white;
+	transition: all 0.5s;
+	z-index: 300;
+	overflow-y: auto;
 }
 
 .open .sp-nav {
-    left: 0;
+	left: 0;
 }
 
 .sp-nav ul {
-    list-style: none;
-    padding: 80px 20px 20px;
-    margin: 0;
+	list-style: none;
+	padding: 80px 20px 20px;
+	margin: 0;
 }
 
 .sp-nav li {
-    padding: 15px 0;
-    list-style: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	padding: 15px 0;
+	list-style: none;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .black-bg {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 5;
-    background-color: #000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.5s;
-    cursor: pointer;
-    z-index: 200;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 5;
+	background-color: #000;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.5s;
+	cursor: pointer;
+	z-index: 200;
 }
 
 .open .black-bg {
-    opacity: 0.3;
-    visibility: visible;
+	opacity: 0.3;
+	visibility: visible;
 }
 
 .sp-nav button {
-    all: unset;
-    display: block;
-    width: 100%;
-    padding: 15px 20px;
-    cursor: pointer;
+	all: unset;
+	display: block;
+	width: 100%;
+	padding: 15px 20px;
+	cursor: pointer;
 }
 
 .sp-nav li:hover {
-    background: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.1);
 }
-.error{
-    color: red;
-    margin-bottom: 15px;
+
+.error {
+	color: red;
+	margin-bottom: 15px;
 }
+
 .required::after {
-    content: "必須";
-    color: #ffffff;
-    background: #cc0000;
-    font-size: 0.8em;
-    padding: 0.3em;
-    border-radius: 0.5em;
-    margin-left: 0.3em;
+	content: "必須";
+	color: #ffffff;
+	background: #cc0000;
+	font-size: 0.8em;
+	padding: 0.3em;
+	border-radius: 0.5em;
+	margin-left: 0.3em;
 }
