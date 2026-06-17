@@ -29,8 +29,9 @@ public class PreparInfo {
     public PreparInfo() {}
 
     public PreparInfo(int id, Integer time, Integer prepar_time, String prepar_items,
-                         Integer setlist, String entrance_music,
-                         Integer band_info_id, Integer live_info_id) {
+                      Integer setlist, String entrance_music,
+                      Integer band_info_id, Integer live_info_id) {
+
         this.id = id;
         this.time = time;
         this.prepar_time = prepar_time;

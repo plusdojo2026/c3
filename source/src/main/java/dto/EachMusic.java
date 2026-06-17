@@ -25,7 +25,8 @@ public class EachMusic {
 
     public EachMusic() {}
 
-    public EachMusic(int id, String name, Integer setlist, String light_req, String se, String memo, Integer prepar_info_id) {
+    public EachMusic(int id, String name, Integer setlist, String light_req,
+                     String se, String memo, Integer prepar_info_id) {
         this.id = id;
         this.name = name;
         this.setlist = setlist;
