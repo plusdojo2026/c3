@@ -32,7 +32,8 @@ public class AdminRegistServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin_regist.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**
@@ -41,41 +42,56 @@ public class AdminRegistServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 request.setCharacterEncoding("UTF-8");
-
+		 String mode = request.getParameter("mode");
 	        String user_id = request.getParameter("id");
 	        String password = request.getParameter("pw");
-	        int type = Integer.parseInt(request.getParameter("type"));
-
-	        User user = new User();
-	        user.setUser_id(user_id);
-	        user.setPassword(password);
-	        user.setType(type);
+	        //int type = Integer.parseInt(request.getParameter("type"));
 
 	        UserDao dao = new UserDao();
-	        boolean result = dao.register(user);
+			if ("login".equals(mode)) {
+				 
 
-	        if (result) {
-	            if (type == -1) {
-	                response.sendRedirect("/c3/HomeAdminServlet");
-	            } else if (type >= 1) {
-	                response.sendRedirect("/c3/HomeAdminServlet");
-	            }
-	        } else {
-	        	request.setAttribute(
-	        	        "result",
-	        	        new Result(
-	        	            "登録失敗！",
-	        	            "IDが重複している可能性があります。",
-	        	            "/c3/AdminRegisterServlet"
-	        	        )
-	        	    );
+				    User user = new User();
+				    user.setUser_id(user_id);
+				    user.setPassword(password);
+				    user.setType(-1); // 
+		        boolean result = dao.register(user);
 
-	        	    RequestDispatcher dispatcher =
-	        	        request.getRequestDispatcher("/WEB-INF/jsp/AdminRegister.jsp");
+		        if (result) {
+		            response.sendRedirect("/c3/HomeAdminServlet");
+		        } else {
+		            request.setAttribute("result",
+		                    new Result("登録失敗", "このIDは使用できません", "/c3/HomeAdminServlet"));
 
-	        	    dispatcher.forward(request, response);
-	        	}
-	    }
+		            RequestDispatcher dispatcher =
+		                    request.getRequestDispatcher("/WEB-INF/jsp/admin_regist.jsp");
+		            dispatcher.forward(request, response);
+		        }
+		        return;
+		    }
+			
+			if ("register".equals(mode)) {
+				 
+
+				    User user = new User();
+				    user.setUser_id(user_id);
+				    user.setPassword(password);
+				    user.setType(1); // 
+		        boolean result = dao.register(user);
+
+		        if (result) {
+		            response.sendRedirect("/c3/HomeAdminServlet");
+		        } else {
+		            request.setAttribute("result",
+		                    new Result("登録失敗", "このIDは使用できません", "/c3/HomeAdminServlet"));
+
+		            RequestDispatcher dispatcher =
+		                    request.getRequestDispatcher("/WEB-INF/jsp/admin_regist.jsp");
+		            dispatcher.forward(request, response);
+		        }
+		        return;
+		    }
 	}
+}
 
 
