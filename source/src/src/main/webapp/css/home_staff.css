@@ -1,0 +1,113 @@
+/* タイムテーブル全体の枠 */
+.box{
+    width: 600px;
+    height: 800px;
+    background-color: white;
+    border: 2px solid #333;
+    border-radius: 10px;
+    margin: 50px auto;
+    padding: 20px;
+    box-sizing: border-box;
+
+    /* 内容が多くなったらスクロール */
+    overflow-y: auto;
+}
+.schedule-title{
+    text-align: center;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    font-size: 28px;
+    font-weight: bold;
+}
+/* scheduleエリア */
+#schedule{
+    width: 100%;
+}
+
+/* バンド枠 */
+.band{
+    background: #4da6ff;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 8px;
+    cursor: move;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 転換時間枠 */
+.change{
+    background: #ff6666;
+    color: white;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 時間表示 */
+.time{
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+/* ドラッグ中の見た目 */
+.sortable-ghost{
+    opacity: 0.5;
+}
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,0.5);
+
+    z-index:1000;
+}
+
+.modal-content{
+    background:white;
+    width:500px;
+    max-width:90%;
+
+    margin:100px auto;
+    padding:20px;
+
+    border-radius:10px;
+
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.song{
+    border:1px solid #ddd;
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:8px;
+    background:#f8f8f8;
+}
