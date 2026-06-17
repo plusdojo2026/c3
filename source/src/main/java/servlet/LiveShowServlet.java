@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,22 +35,35 @@ public class LiveShowServlet extends HttpServlet {
 			//LoginUser login = (LoginUser)session.getAttribute("id"); 
 			// int userId = Integer.parseInt(login.getId());
 			
-			//live_info取得
+			//prepar_info取得
 			LiveInfoDao liveDao = new LiveInfoDao();
 			 List <LiveInfo> livelist = liveDao.selectByUserId(1);
 			 
-			// live_infoの情報を登録
+			// prepar_infoの情報を登録
 			 request.setAttribute("lives", livelist);
 			 
-			
-			 
+			// live_show.jspにフォワードする
+				RequestDispatcher rd = 
+				request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp");
+				rd.forward(request,response);
 	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		
+		//prepar_infoの取得
+		
+		//データを格納する箱を作る
+		
+		//prepar_infoテーブルにデータがない場合
+		//準備情報登録画面へ遷移
+		
+		//準備情報は登録されているが、タイムテーブルが作成されていない場合
+		// アラートの表示
+		
+		//準備情報を登録済みでタイムテーブルが作成されている
+		//タイムテーブル表示画面へ遷移
 	}
 
 }
