@@ -1,0 +1,199 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import dto.PreparInfo;
+
+public class PreparInfoDao {
+
+    // SELECT：引数infoの条件で prepar_info を検索し、リストで返す
+    public List<PreparInfo> select(PreparInfo info) {
+        Connection conn = null;
+        List<PreparInfo> list = new ArrayList<>();
+
+        try {
+            // 1. JDBCドライバ読み込み
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // 2. DB接続
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
+                    "root", "password");
+
+            // 3. 実行するSQL文（? は後で値を埋めるプレースホルダ）
+            String sql = "SELECT * FROM prepar_info "
+                       + "WHERE time LIKE ? AND prepar_time LIKE ? AND prepar_items LIKE ? "
+                       + "AND setlist LIKE ? AND entrance_music LIKE ? "
+                       + "AND band_info_id LIKE ? AND live_info_id LIKE ? "
+                       + "ORDER BY id";
+
+            // 4. PreparedStatement作成
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+
+            // 5. ? に値をセット（null の場合は % で「条件なし」にする）
+            pStmt.setString(1, info.getTime() != null ? "%" + info.getTime() + "%" : "%");
+            pStmt.setString(2, info.getPreparTime() != null ? "%" + info.getPreparTime() + "%" : "%");
+            pStmt.setString(3, info.getPreparItems() != null ? "%" + info.getPreparItems() + "%" : "%");
+            pStmt.setString(4, info.getSetlist() != null ? "%" + info.getSetlist() + "%" : "%");
+            pStmt.setString(5, info.getEntranceMusic() != null ? "%" + info.getEntranceMusic() + "%" : "%");
+            pStmt.setString(6, info.getBandInfoId() != null ? "%" + info.getBandInfoId() + "%" : "%");
+            pStmt.setString(7, info.getLiveInfoId() != null ? "%" + info.getLiveInfoId() + "%" : "%");
+
+            // 6. SQL実行 → 結果セット取得
+            ResultSet rs = pStmt.executeQuery();
+
+            // 7. 結果セットを1行ずつ DTO に詰めてリストに追加
+            while (rs.next()) {
+                PreparInfo pi = new PreparInfo(
+                        rs.getInt("id"),
+                        (Integer) rs.getObject("time"),
+                        (Integer) rs.getObject("prepar_time"),
+                        rs.getString("prepar_items"),
+                        (Integer) rs.getObject("setlist"),
+                        rs.getString("entrance_music"),
+                        (Integer) rs.getObject("band_info_id"),
+                        (Integer) rs.getObject("live_info_id")
+                );
+                list.add(pi);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            list = null; // エラー時は null を返す方針
+        } finally {
+            // 8. 接続クローズ（必ず実行）
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
+
+        // 9. 検索結果を呼び出し元へ返す
+        return list;
+    }
+
+    // INSERT：引数infoの内容を prepar_info に1件登録する
+    //         成功したら true を返す
+    public boolean insert(PreparInfo info) {
+        Connection conn = null;
+        boolean result = false;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
+                    "root", "password");
+
+            // id は AUTO_INCREMENT 想定なので指定しない
+            String sql = "INSERT INTO prepar_info "
+                       + "(time, prepar_time, prepar_items, setlist, entrance_music, band_info_id, live_info_id) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+
+            // DTO → SQL の ? に値を流し込む
+            pStmt.setObject(1, info.getTime());                         // INT（NULL可）
+            pStmt.setObject(2, info.getPreparTime());                   // INT（NULL可）
+            pStmt.setString(3, info.getPreparItems() != null
+                                   ? info.getPreparItems() : "");      // VARCHAR（NULLなら空文字）
+            pStmt.setObject(4, info.getSetlist());                      // INT（NULL可）
+            pStmt.setString(5, info.getEntranceMusic() != null
+                                   ? info.getEntranceMusic() : "");    // VARCHAR（NULLなら空文字）
+            pStmt.setObject(6, info.getBandInfoId());                   // INT（NULL可 or 外部キー）
+            pStmt.setObject(7, info.getLiveInfoId());                   // INT（NULL可 or 外部キー）
+
+            // 1件登録できたら戻り値 true
+            if (pStmt.executeUpdate() == 1) {
+                result = true;
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
+
+        return result;
+    }
+
+    // UPDATE：引数infoの id を持つレコードを更新する
+    //         成功したら true を返す
+    public boolean update(PreparInfo info) {
+        Connection conn = null;
+        boolean result = false;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
+                    "root", "password");
+
+            String sql = "UPDATE prepar_info SET "
+                       + "time=?, prepar_time=?, prepar_items=?, setlist=?, entrance_music=?, "
+                       + "band_info_id=?, live_info_id=? "
+                       + "WHERE id=?";
+
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+
+            // 更新後の値をセット
+            pStmt.setObject(1, info.getTime());
+            pStmt.setObject(2, info.getPreparTime());
+            pStmt.setString(3, info.getPreparItems() != null
+                                   ? info.getPreparItems() : "");
+            pStmt.setObject(4, info.getSetlist());
+            pStmt.setString(5, info.getEntranceMusic() != null
+                                   ? info.getEntranceMusic() : "");
+            pStmt.setObject(6, info.getBandInfoId());
+            pStmt.setObject(7, info.getLiveInfoId());
+            pStmt.setInt(8, info.getId()); // ← どのレコードを更新するか（主キー）
+
+            if (pStmt.executeUpdate() == 1) {
+                result = true;
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
+
+        return result;
+    }
+
+    // DELETE：指定された id のレコードを削除する
+    //         成功したら true を返す
+    public boolean delete(int id) {
+        Connection conn = null;
+        boolean result = false;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
+                    "root", "password");
+
+            String sql = "DELETE FROM prepar_info WHERE id=?";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+
+            // 削除対象の主キーを指定
+            pStmt.setInt(1, id);
+
+            if (pStmt.executeUpdate() == 1) {
+                result = true;
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
+
+        return result;
+    }
+}
