@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.LiveInfoDao;
+import dao.PreparInfoDao;
 import dto.LiveInfo;
+import dto.PreparInfo;
 
 
 /**
@@ -78,15 +80,22 @@ public class HomeAdminServlet extends HttpServlet {
 			//画面は遷移せず、アラートが表示される
 			// Prepar_infoのリストをつくる →リストの中のデータは、live_infoのidをもつprepar_infoのデータ
 			//　prepar_infoのデータがすべてそろっているか確認 →for文でprepar_infoのデータがあるか確かめる 
-			// List<PreparInfo> preparlistVeiw = dao.selectByUserId(1);　←これはprepar.Daoに合わせて変更
-			//for(PreparInfo pi:preparlistVeiw) {
-				// entrance_music == null, "" →データがそろってないからアラート
-			// RequestDispatcher rd =
-			// request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
-			// rd.forward(request,response);
-			// return;
-			// }
-			// 
+			PreparInfoDao preparDao = new PreparInfoDao();
+			//prepar_infoのデータ取得
+			List<PreparInfo> preparlistVeiw = dao.selectByLiveInfoId(1);
+			
+			for(PreparInfo pi:preparlistVeiw) {
+				if (pi.getEntranceMusic() == null || 
+						pi.getEntranceMusic().isEmpty()) {
+					
+					request.setAttribute("noEntranceMusic", true);
+			
+			 RequestDispatcher rd =
+			 request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
+			 rd.forward(request,response);
+			 return;
+			 }
+			} 
 			
 			// live_infoテーブルにデータはあるが、管理者がタイムテーブルを作成していない場合
 			//タイムテーブル作成画面に遷移する
