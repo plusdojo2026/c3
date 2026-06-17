@@ -195,5 +195,54 @@ public class PreparInfoDao {
         }
 
         return result;
+        
+        
     }
+    
+    public List<PreparInfo> selectByLiveInfoId(int liveInfoId) {
+
+		Connection conn = null;
+		List<PreparInfo> list = new ArrayList<>();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"root", "password");
+
+			String sql = "SELECT * FROM prepar_info WHERE live_info_id = ?";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, liveInfoId);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+				PreparInfo prepar = new PreparInfo(rs.getInt("id"),
+                        rs.getInt("time"),
+                        rs.getInt("prepar_time"),
+                        rs.getString("prepar_items"),
+                        rs.getInt("setlist"),
+                        rs.getString("entrance_music"),
+                        rs.getInt("band_info_id"),
+                        rs.getInt("live_info_id"));
+
+				list.add(prepar);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+	}
+
 }
