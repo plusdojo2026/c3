@@ -1,7 +1,11 @@
 'use strict';
 
 let live_create = document.getElementById('live_create');
-let rowIndex = document.querySelectorAll("#bands_info_row.band_info_row").length;
+let rowIndex = document.querySelectorAll("tr.band_info_row").length;
+
+if (rowIndex === 0 || rowIndex === null) {
+	rowIndex = 1;
+}
 
 // 入力欄を増やす
 function addRow() {
@@ -62,7 +66,7 @@ live_create.onsubmit = function(event) {
     if (live_create.live_name.value === '' || live_create.begin_date.value === '' || live_create.end_date.value === '' || blank) {
         document.getElementById('blank_alert').textContent = '未入力の項目があります。';
         event.preventDefault();
-    } else if(document.querySelectorAll("#bands_info_row.band_info_row").length === 0) {
+    } else if(document.querySelectorAll("tr.band_info_row").length === 0) {
         document.getElementById('blank_alert').textContent = '参加バンドを最低1つ登録してください。';
         event.preventDefault();
 	} else {

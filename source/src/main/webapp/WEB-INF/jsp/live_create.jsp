@@ -45,10 +45,10 @@
             <div class="set_date">
                 <!-- 開始日時入力 -->
                 <br>開始日時<span class="required"></span><br>
-                <input type="text" placeholder="開始日時" name="begin_date">
+                <input type="datetime-local" placeholder="開始日時" name="begin_date">
                 <!-- 終了日時入力 -->
                 <br>終了日時<span class="required"></span><br>
-                <input type="text" placeholder="終了日時" name="end_date">
+                <input type="datetime-local" placeholder="終了日時" name="end_date">
             </div>
             <!-- エラーメッセージ表示 -->
             <!-- 出演者(バンド名) & 各バンドの持ち時間 -->
