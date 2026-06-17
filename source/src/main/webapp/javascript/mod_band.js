@@ -1,20 +1,22 @@
 'use strict';
 
 let band_member = document.getElementById('band_member');
-let rowIndex = document.querySelectorAll("#bands_info_row.band_info_row").length;
-
-if (rowIndex === 0) {
+let rowIndex = document.querySelectorAll("tr.band_info_row").length;
+    
+if (rowIndex === 0 || rowIndex === null) {
 	rowIndex = 1;
 }
 
 // 入力欄を増やす
 function addRow() {
+	console.log("add呼び出されました");
     // 対象テーブルを取得
     const table = document.getElementById("members_info_row");
     const template = document.getElementById("band_row_template");
     
     // テンプレートをコピー
     const clone = template.content.cloneNode(true);
+    	console.log("コピーします");
     
     // コピーした要素のname属性を現在のrowIndexで上書き
     clone.querySelector('input[name="member_id_temp"]').name = `member_id[${rowIndex}]`;
@@ -22,8 +24,11 @@ function addRow() {
     clone.querySelector('select[name="parts_temp"]').name = `parts[${rowIndex}]`;
     clone.querySelector('span[class="memo_temp"]').value = `${rowIndex}`;
     
+    console.log("上書きしました");
+    
     table.appendChild(clone);
     
+    console.log(rowIndex);
     const memberNum = table.querySelector('input[name="member_num"]');
     if (memberNum) {
         memberNum.value = rowIndex;
@@ -42,17 +47,17 @@ band_member.onsubmit = function(event) {
     let blank = false;
     let setMemberName;
     let setMemberParts;
-    
+
+
     for (let i = 0; i < rowIndex; i++) {
         setMemberName = `member_name[${i}]`;
         setMemberParts = `parts[${i}]`;
+        console.log(document.querySelectorAll("tr.band_info_row").length);
         console.log(setMemberName);
         console.log(setMemberParts);
 
         const memberName = band_member.querySelector('input[name="' + setMemberName + '"]');
         const memberParts = band_member.querySelector('select[name="' + setMemberParts + '"]');
-        console.log(memberName);
-        console.log(memberParts);
 
         if (memberName && memberParts){
             if (memberName.value === '' || memberParts.value === '') {
@@ -67,7 +72,7 @@ band_member.onsubmit = function(event) {
     if (band_member.band_name.value === '' || blank) {
         document.getElementById('blank_alert').textContent = '未入力の項目があります。';
         event.preventDefault();
-    } else if (document.querySelectorAll("#bands_info_row.band_info_row").length === 0){
+    } else if (document.querySelectorAll("tr.band_info_row").length === 0){
 		document.getElementById('blank_alert').textContent = 'バンドメンバーを最低1人登録してください。';
 		event.preventDefault();
     } else {
