@@ -1,6 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +16,10 @@ import javax.servlet.http.HttpSession;
 import dao.BandInfoDao;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
+import dto.BandInfo;
+import dto.LiveInfo;
 import dto.LoginUser;
+import dto.Result;
 
 @WebServlet("/LiveCreateServlet")
 public class LiveCreateServlet extends HttpServlet {
@@ -46,45 +52,61 @@ public class LiveCreateServlet extends HttpServlet {
 		
 		// それぞれ情報を受け取る
 		String liveName = request.getParameter("live_name");
-		String beginDate = request.getParameter("begin_date");
-		String endDate = request.getParameter("end_date");
+		String beginDateString = request.getParameter("begin_date");
+		String endDateString = request.getParameter("end_date");
+		LocalDateTime beginDate, endDate;
+		beginDate = endDate = LocalDateTime.of(0, 0, 0, 0, 0, 0);
+		
+		if (beginDateString != null && !beginDateString.isEmpty()) {
+			beginDate = LocalDateTime.parse(beginDateString);
+		}
+		
+		if (endDateString != null && !endDateString.isEmpty()) {
+			endDate = LocalDateTime.parse(endDateString);
+		}
 		
 		PreparInfoDao piDao = new PreparInfoDao();
 		BandInfoDao biDao = new BandInfoDao();
 		LoginUser user = (LoginUser)session.getAttribute("id");
-		boolean resultPrepar;
+		boolean flag = false;
+		boolean resultPrepar = false;
 		
 		// ライブ情報テーブルへ情報を登録する。
 		LiveInfoDao liDao = new LiveInfoDao();
-//		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, user);
-//		boolean resultLive = liDao.addLibeInfo(li);
+		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, Integer.parseInt(user.getId()), flag);
+		boolean resultLive = liDao.insert(li);
+		List<LiveInfo> liList = new ArrayList<LiveInfo>();
+		liList = liDao.select(li);
+		
+		for (LiveInfo l : liList) {
+			li = l;
+		}
 		
 		// 準備情報テーブルにバンドID、ライブ情報ID、持ち時間のみが表示されたデータを作成する
 		int performerNum = Integer.parseInt(request.getParameter("band_num"));
 		for (int i = 0; i <= performerNum; i++) {
 			if (request.getParameter("bandname[" + i + "]") != null && !request.getParameter("bandname[" + i + "]" ).equals("") &&
 					request.getParameter("time[" + i + "]") != null) {
-//				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), user.getId());
+				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
 //				int bandId = biDao.showId(bi);
 				int time = Integer.parseInt(request.getParameter("time[" + i + "]"));
-//				int liveId = liDao.showId(li);
 				
-//				resultPrepar = piDao.addPreparInfo(new PreparInfo(0, time, 0, "", 0, "", bandId, liveId));
+//				resultPrepar = piDao.addPreparInfo(new PreparInfo(0, time, 0, "", 0, "", bandId, li.getId());
 				
-//				if (!resultPrepar) {
-//					break;
-//				}
+				if (!resultPrepar) {
+					break;
+				}
 			}
 		}	
 		
 //		// ホームサーブレットへ戻る。
-//		if (resultPrepar) {
-//			response.sendRedirect("/c3/HomeAdminServlet");
-//		} else {
-//			request.setAttribute("result", new Result("Create_failed", "登録できませんでした。", "/c3/LiveCreateServlet"));
-//			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
-//			dispatcher.forward(request, response);
-//		}
+		if (resultPrepar) {
+			response.sendRedirect("/c3/HomeAdminServlet");
+		} else {
+			request.setAttribute("result", new Result("Create_failed", "登録できませんでした。", "/c3/LiveCreateServlet"));
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
+			dispatcher.forward(request, response);
+		}
 		
 	}
 
