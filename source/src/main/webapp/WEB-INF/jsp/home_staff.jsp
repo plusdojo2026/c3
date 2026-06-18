@@ -29,7 +29,7 @@
             <div class="black-bg" id="js-black-bg"></div>
         </div>
         <div class="logo">
-            <img src="images/c3-logo.png" alt="ロゴ">
+            <img src="image/c3-logo.png" alt="ロゴ">
         </div>
     </header>
     <div class="box">
