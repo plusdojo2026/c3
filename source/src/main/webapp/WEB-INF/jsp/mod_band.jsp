@@ -136,7 +136,7 @@
 					<!-- JavaScriptで繰り返す用のひな形 -->
 					<template id="band_row_template">
 					<tr class="band_info_row">
-						<td><span class="memo_temp"></span>
+						<td>
                         <input type="hidden" name="member_id_temp" value="0">
                         <input type="text" name="membername_temp" placeholder="氏名"></td>
                         <td>

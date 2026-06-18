@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -33,6 +34,13 @@ public class LiveCreateServlet extends HttpServlet {
 //			response.sendRedirect("/c3/LoginServlet");
 //			return;
 //		}
+		
+		BandInfoDao biDao = new BandInfoDao();
+		List<BandInfo> biList = new ArrayList<BandInfo>();
+		
+		biList = biDao.select(new BandInfo(0, "", 0));
+		
+		request.setAttribute("band_infos", biList);
 		
 		// ライブ情報作成画面へフォワードする
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
