@@ -17,7 +17,6 @@ import dao.LiveInfoDao;
 import dao.PreparInfoDao;
 import dto.BandInfo;
 import dto.LiveInfo;
-import dto.LoginUser;
 import dto.PreparInfo;
 import dto.Result;
 
@@ -55,43 +54,58 @@ public class LiveCreateServlet extends HttpServlet {
 		String beginDateString = request.getParameter("begin_date");
 		String endDateString = request.getParameter("end_date");
 		LocalDateTime beginDate, endDate;
-		beginDate = endDate = LocalDateTime.of(0, 0, 0, 0, 0, 0);
+		beginDate = endDate = LocalDateTime.MIN;
 		
 		if (beginDateString != null && !beginDateString.isEmpty()) {
 			beginDate = LocalDateTime.parse(beginDateString);
+			System.out.println(beginDate);
 		}
 		
 		if (endDateString != null && !endDateString.isEmpty()) {
 			endDate = LocalDateTime.parse(endDateString);
+			System.out.println(endDate);
 		}
+		System.out.println("ライブ情報を登録します");
 		
 		PreparInfoDao piDao = new PreparInfoDao();
 		BandInfoDao biDao = new BandInfoDao();
-		LoginUser user = (LoginUser)session.getAttribute("id");
+//		LoginUser user = (LoginUser)session.getAttribute("id");
 		boolean flag = false;
 		boolean resultPrepar = false;
 		
 		// ライブ情報テーブルへ情報を登録する。
 		LiveInfoDao liDao = new LiveInfoDao();
-		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, Integer.parseInt(user.getId()), flag);
+		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, 1, flag);
+//		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, Integer.parseInt(user.getId()), flag);
 		boolean resultLive = liDao.insert(li);
+		
+		if (!resultLive) {
+			System.out.println("ライブ情報が登録できませんでした。");
+			request.setAttribute("result", new Result("Create_failed", "登録できませんでした。", "/c3/LiveCreateServlet"));
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
+			dispatcher.forward(request, response);
+		}
+		
 		List<LiveInfo> liList = liDao.select(li);
 		
 		for (LiveInfo l : liList) {
 			li = l;
+			System.out.println(l.getName());
 		}
 		
+		System.out.println("準備情報を登録します。");
 		// 準備情報テーブルにバンドID、ライブ情報ID、持ち時間のみが表示されたデータを作成する
 		int performerNum = Integer.parseInt(request.getParameter("band_num"));
 		for (int i = 0; i <= performerNum; i++) {
 			if (request.getParameter("bandname[" + i + "]") != null && !request.getParameter("bandname[" + i + "]" ).equals("") &&
 					request.getParameter("time[" + i + "]") != null) {
-				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
-				
+//				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
+				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), 0);
 				// バンドIDを持ってくる
 				List<BandInfo> biList = biDao.select(bi);
 				for (BandInfo b : biList) {
 					bi = b;
+					System.out.println(b.getName());
 				}
 				
 				if (bi == null) {

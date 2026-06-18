@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,7 @@
     <main>
         <!-- フォーム群 -->
 
-        <form action="" id="live_create">
+        <form action="/c3/LiveCreateServlet" method="POST" id="live_create">
             <div class="live_name">
                 <!-- ライブ名入力 -->
                 ライブ名<span class="required"></span><br>
@@ -57,7 +58,20 @@
                     <tr><th><input type="hidden" name="band_num" value="0">バンド名<span class="required"></span></th><th>持ち時間<span class="required"></span></th>
                     <td><button type="button" onclick="addRow()"><img src="image/plus.svg" alt=""></button></td></tr>
                     <tr class="band_info_row">
-                        <td><input type="text" name="bandname[0]" placeholder="バンド名"></td>
+                    <!-- バンド名入力をselectでできるようにしたい -->
+                        <td>
+                        <c:if test="${not empty band_infos }">
+                        	<select name="band_infos[0]">
+                        		<c:forEach var="band_info" items="${band_infos }">
+                        			<option value=<c:out value="${band_infos.id }" />><c:out value="${band_infos.name }" /></option>
+                        		</c:forEach>
+                        	</select>
+                        </c:if>
+                        <c:if test="${empty band_infos }">
+                        	<select name="band_infos[0]" >
+                        		<option value="0">バンド情報がありません</option>
+                        	</select>
+                        </c:if>
                         <td><input type="text" name="time[0]" placeholder="持ち時間"></td>
                         <td>
                             <button type="button" onclick="addRow()"><img src="image/plus.svg" alt=""></button>

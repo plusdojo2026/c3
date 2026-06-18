@@ -27,6 +27,7 @@ function addRow() {
         <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
         <button type="button" onclick="removeRow(this)"><img src="img/delete.svg" alt=""></button>
     `;
+    console.log(rowIndex);
     const bandNum = table.querySelector('input[name="band_num"]');
     if (bandNum) {
         bandNum.value = rowIndex;
