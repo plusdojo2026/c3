@@ -5,11 +5,11 @@
     <head>
         <meta charset="UTF-8">
         <!-- 共通デザイン（ハンバーガーメニューなど）を読み込む -->
-        <link rel="stylesheet" href="common.css">
-        <link rel="stylesheet" href="prepar_regist.css">
+        <link rel="stylesheet" href="css/common.css">
+        <link rel="stylesheet" href="css/prepar_regist.css">
         <title>ライブ運営助けるくん</title>
-        <script src="common.js"></script>
-        <script src="prepar_regist.js"></script>
+        <script src="javascript/common.js"></script>
+        <script src="javascript/prepar_regist.js"></script>
 
     </head>
 
@@ -56,7 +56,7 @@
 
                     <label>開始日時</label>
                     <input type="text" name="begin_date" value="${begin_date}">
-                    
+
                     <label>終了日時</label>
                     <input type="text" name="end_date" value="${end_date}">
 

@@ -105,4 +105,6 @@ public class PreparInfo {
     public void setLiveInfoId(Integer live_info_id) {
         this.live_info_id = live_info_id;
     }
+
+    
 }

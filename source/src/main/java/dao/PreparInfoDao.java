@@ -218,14 +218,17 @@ public class PreparInfoDao {
 			ResultSet rs = pStmt.executeQuery();
 
 			while (rs.next()) {
-				PreparInfo prepar = new PreparInfo(rs.getInt("id"),
-                        rs.getInt("time"),
-                        rs.getInt("prepar_time"),
-                        rs.getString("prepar_items"),
-                        rs.getInt("setlist"),
-                        rs.getString("entrance_music"),
-                        rs.getInt("band_info_id"),
-                        rs.getInt("live_info_id"));
+				PreparInfo prepar = new PreparInfo(
+					    rs.getInt("id"),
+					    (Integer) rs.getObject("time", Integer.class),
+					    (Integer) rs.getObject("prepar_time", Integer.class),
+					    rs.getString("prepar_items"),
+					    (Integer) rs.getObject("setlist", Integer.class),
+					    rs.getString("entrance_music"),
+					    (Integer) rs.getObject("band_info_id", Integer.class),
+					    (Integer) rs.getObject("live_info_id", Integer.class)
+					);
+
 
 				list.add(prepar);
 			}
@@ -245,4 +248,93 @@ public class PreparInfoDao {
 		return list;
 	}
 
+    
+    public List<PreparInfo> selectByBandId(int bandId) {
+
+        Connection conn = null;
+        List<PreparInfo> list = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
+                    "root", "password");
+
+            // band_info_id で検索し、setlist（順番）で昇順ソート
+            String sql = "SELECT * FROM prepar_info WHERE band_info_id = ? ORDER BY setlist ASC";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setInt(1, bandId);
+
+            ResultSet rs = pStmt.executeQuery();
+
+            while (rs.next()) {
+                PreparInfo prepar = new PreparInfo(
+                    rs.getInt("id"),
+                    (Integer) rs.getObject("time", Integer.class),
+                    (Integer) rs.getObject("prepar_time", Integer.class),
+                    rs.getString("prepar_items"),
+                    (Integer) rs.getObject("setlist", Integer.class),
+                    rs.getString("entrance_music"),
+                    (Integer) rs.getObject("band_info_id", Integer.class),
+                    (Integer) rs.getObject("live_info_id", Integer.class)
+                );
+
+                list.add(prepar);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+
+        } finally {
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
+
+        return list;
+    }
+
+ // id で 1 件の準備情報を取得する
+    public PreparInfo selectById(int id) {
+
+        Connection conn = null;
+        PreparInfo data = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+                    "root", "password");
+
+            String sql = "SELECT * FROM prepar_info WHERE id = ? ORDER BY id";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+
+            pStmt.setInt(1, id);
+
+            ResultSet rs = pStmt.executeQuery();
+
+            if (rs.next()) {
+                data = new PreparInfo(
+                    rs.getInt("id"),
+                    (Integer) rs.getObject("time", Integer.class),
+                    (Integer) rs.getObject("prepar_time", Integer.class),
+                    rs.getString("prepar_items"),
+                    (Integer) rs.getObject("setlist", Integer.class),
+                    rs.getString("entrance_music"),
+                    (Integer) rs.getObject("band_info_id", Integer.class),
+                    (Integer) rs.getObject("live_info_id", Integer.class)
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+
+        } finally {
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
+
+        return data;
+    }
 }
