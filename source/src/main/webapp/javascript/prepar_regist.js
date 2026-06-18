@@ -1,6 +1,4 @@
-/* ============================================
-               1曲分の入力欄（曲セット）を生成する関数
-               ============================================ */
+      /*  1曲分の入力欄（曲セット）を生成する関数*/
 function createMusicSet() {
 
     const div = document.createElement("div");
@@ -52,9 +50,7 @@ function createMusicSet() {
     return div;
 }
 
-/* ============================================
-   曲順を 1曲目・2曲目… と自動採番する関数
-   ============================================ */
+/*曲順を 1曲目・2曲目… と自動採番する関数 */
 function updateOrderNumbers() {
     const orders = document.querySelectorAll('.order');
     orders.forEach((input, index) => {
@@ -64,23 +60,17 @@ function updateOrderNumbers() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ============================================
-       ページ読み込み時：最初の1曲を追加
-       ============================================ */
+    /*ページ読み込み時：最初の1曲を追加*/
     document.getElementById("musicSets").appendChild(createMusicSet());
     updateOrderNumbers();
 
-    /* ============================================
-       ＋追加ボタン：曲セットを追加
-       ============================================ */
+    /*＋追加ボタン：曲セットを追加 */
     document.getElementById("addSetBtn").onclick = () => {
         document.getElementById("musicSets").appendChild(createMusicSet());
         updateOrderNumbers();
     };
 
-    /* ============================================
-       フォーム送信時の必須チェック
-       ============================================ */
+    /*フォーム送信時の必須チェック*/
     let formObj = document.getElementById('prepar_form');
     let errorMessageObj = document.getElementById('error_message');
 
