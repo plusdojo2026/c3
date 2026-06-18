@@ -122,6 +122,7 @@ public class LiveInfoDao {
 			} else {
 				pStmt.setNull(5, java.sql.Types.BOOLEAN);
 			}
+			
 			if (pStmt.executeUpdate() == 1) {
 				result = true;
 			}

@@ -2,9 +2,10 @@
 
      window.onload = function () {
 	
-	if (noLiveInfo === true || noLiveInfo === "true") {
-		alert("まだライブ情報が登録されていません");
+	if (noEntranceMusic === true || noEntranceMusic === "true") {
+		alert("出演者からの準備情報が不足しています");
 	}
+	
 	
     const nav = document.getElementById('nav-wrapper');
     const hamburger = document.getElementById('js-hamburger');

@@ -1,26 +1,14 @@
 'use Strict'
     
-    const blueButton = document.querySelector('.date.blue');
-    const redButton = document.querySelector('.date.red');
-    const purpleButton = document.querySelector('.date.purple');
-
-    blueButton.addEventListener('click', function(event){
-        event.preventDefault();
-        alert('まだライブの予定がありません。')
-        alert('まだタイムテーブルが作成されていません。')
-    });
-
-     redButton.addEventListener('click', function(event){
-        event.preventDefault();
-        alert('まだライブの予定がありません。')
-        alert('まだタイムテーブルが作成されていません。')
-    });
-
-     purpleButton.addEventListener('click', function(event){
-        event.preventDefault();
-        alert('まだライブの予定がありません。')
-        alert('まだタイムテーブルが作成されていません。')
-    });
+    window.onload = function () {
+	
+	if (noLiveInfo === true || noLiveInfo === "true") {
+		alert("まだライブの予定がありません");
+	}
+	
+	if (noTimeTable === true || noTimeTable === "true") {
+		alert("まだタイムテーブルが作成されていません");
+	}
 
     window.onload = function () {
     const nav = document.getElementById('nav-wrapper');

@@ -25,11 +25,12 @@
             <span class="hamburger__line hamburger__line--2"></span>
             <span class="hamburger__line hamburger__line--3"></span>
         </div>
+        
         <nav class="sp-nav">
               <ul>
-                <li><a href="LoginServlet">ログアウト</a></li>
-                <li><a href="ModBandServlet">バンド情報</a></li>
-                 <li><a href="LiveShowServlet">ライブ情報</a></li>
+                <li><button type= "button" href="LoginServlet">ログアウト</button></li>
+                <li><button type= "button" href="ModBandServlet">バンド情報</button></li>
+                 <li><button type= "button" href="LiveShowServlet">ライブ情報</button></li>
           </ul>
             
         </nav>
@@ -37,11 +38,26 @@
     </div>
     </header>
 
-<form action = "LiveShowServlet">
-<input name = "button1" type = "submit" value = "開催日" class = "date blue" >
-<input name = "button2" type = "submit" value = "開催日" class = "date red">
-<input name = "button3" type = "submit" value = "開催日" class = "date purple">
+<c:if test = "${not empty lives}">
+<c:forEach var = "live" items="${lives}">
+
+<form action="/c3/LiveShowServlet"	method = "POST">
+<input type = "submit" value = "${live.begin_date}" class = "date">
+<input type= "hidden" value = "${live.id}" name = "test" >
 </form>
+</c:forEach>
+</c:if>
+
+<script>
+const noLiveInfo = ${noLiveInfo ? "true" : "false"};
+</script>
+
+<script>
+const noTimeTable = ${noTimeTable ? "true" : "false"}
+</script>
+
+<script src="javascript/common.js"></script>
+<script src="javascript/home_admin.js"></script>
 
 </body>
 </html>

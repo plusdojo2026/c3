@@ -10,7 +10,8 @@ form {
 .date {
     margin-top:50px;
     margin-left:100px;
-    
+   
+   background-color: rgb(180, 58, 233);
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -24,14 +25,3 @@ form {
     margin: 20px;
 }
 
-.blue {
-    background-color: aqua;
-}
-
-.red {
-    background-color: rgba(227, 34, 195, 0.625);
-}
-
-.purple {
-    background-color: blueviolet;
-}

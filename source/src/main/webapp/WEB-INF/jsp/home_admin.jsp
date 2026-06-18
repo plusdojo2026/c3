@@ -1,19 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- 出演者が情報を登録していない時 
-「まだライブ情報が登録されていません」とアラートを表示する-->
-<!-- 出演者が情報を登録したが、管理者がタイムテーブルを作成していない時 
-TableCreateServlrtにつなぐ-->
-<!-- すでにタイムテーブルが作成されているもの
- TableShowServletにつなぐ-->
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>ライブ運営助けるくん</title>
-<link rel = "stylesheet" href="css/common.css">
-<link rel = "stylesheet" href="css/home_admin.css">
+<link rel = "stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+<link rel = "stylesheet" href="${pageContext.request.contextPath}/css/home_admin.css">
 </head>
 
 <body>
@@ -43,6 +38,7 @@ TableCreateServlrtにつなぐ-->
     </header>
  
 <c:if test = "${not empty lives}">
+
 <c:forEach var = "live" items="${lives}">
 
 <form action="/c3/HomeAdminServlet"	method = "POST">
@@ -52,9 +48,16 @@ TableCreateServlrtにつなぐ-->
 </c:forEach>
 </c:if>
 
+<c:if test = "${noLiveInfo}">
+<div class = "center-message">
+ライブ情報作成画面からライブ情報を登録してください
+</div>
+</c:if>
+
 <script>
-const noLiveInfo = ${noLiveInfo ? "true" : "false"};
+const noEntranceMusic = ${noEntranceMusic ? "true" : "false"};
 </script>
+
 
 <script src="javascript/common.js"></script>
 <script src="javascript/home_admin.js"></script>
