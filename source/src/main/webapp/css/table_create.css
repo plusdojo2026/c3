@@ -93,7 +93,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 400px;
+    width: 600px;
     height: 60px;
     background-color: #4da6ff; 
     border: 1px solid #333; 
@@ -149,4 +149,3 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
 }
-
