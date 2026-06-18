@@ -27,8 +27,8 @@
 			<nav class="sp-nav">
 				<ul>
 					<li><button type="button">新規登録</button></li>
-					<li><button type="button">ログアウト</button></li>
-					<li><button type="button">ライブ情報作成</button></li>
+                    <li><button type="button">ログアウト</button></li>
+                    <li><button type="button">ライブ情報作成</button></li>
 				</ul>
 			</nav>
 			<div class="black-bg" id="js-black-bg"></div>

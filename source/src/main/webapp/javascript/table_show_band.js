@@ -1,13 +1,3 @@
-const bands = [
-	{ name: "Aバンド", playTime: 30 },
-	{ name: "Bバンド", playTime: 30 },
-	{ name: "Cバンド", playTime: 40 },
-	{ name: "Dバンド", playTime: 30 }
-];
-
-const changeTime = 10;
-
-
 drawSchedule();
 
 function drawSchedule() {
@@ -38,7 +28,7 @@ function drawSchedule() {
 
 			let changeStart = end;
 
-			addMinute(time, changeTime);
+			addMinute(time, band.changeTime);
 
 			let changeEnd = format(time.hour, time.minute);
 

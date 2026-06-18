@@ -131,6 +131,10 @@ body {
 	cursor: pointer;
 }
 
+.sp-nav li a {
+    color: white !important;
+    text-decoration: none;
+}
 .sp-nav li:hover {
 	background: rgba(255, 255, 255, 0.1);
 }

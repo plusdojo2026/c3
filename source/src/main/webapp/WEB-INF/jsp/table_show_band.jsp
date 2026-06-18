@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.List"%>
+<%@ page import="dto.BandInfo"%>
+<%@ page import="dto.PreparInfo"%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -22,8 +25,8 @@
 			<nav class="sp-nav">
 				<ul>
 					<li><button type="button">ログアウト</button></li>
-					<li><button type="button">バンド情報</button></li>
-					<li><button type="button">準備情報</button></li>
+                    <li><button type="button">バンド情報</button></li>
+                    <li><button type="button">準備情報</button></li>
 				</ul>
 			</nav>
 			<div class="black-bg" id="js-black-bg"></div>
@@ -36,6 +39,28 @@
 		<h2 class="schedule-title">タイムスケジュール</h2>
 		<div id="schedule"></div>
 	</div>
+	<script>
+
+const bands = [
+
+<%List<BandInfo> biList = (List<BandInfo>) request.getAttribute("band_infos");
+
+List<PreparInfo> piList = (List<PreparInfo>) request.getAttribute("prepar_infos");
+
+for (int i = 0; i < biList.size(); i++) {%>
+
+{
+    name : "<%=biList.get(i).getName()%>",
+    playTime : <%=piList.get(i).getTime()%>,
+changeTime : <%=piList.get(i).getPreparTime()%>
+}
+
+<%=i < biList.size() - 1 ? "," : ""%>
+
+<%}%>
+
+];
+</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 	<script src="javascript/common.js"></script>
