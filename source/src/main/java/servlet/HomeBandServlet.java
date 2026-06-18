@@ -57,6 +57,7 @@ public class HomeBandServlet extends HttpServlet {
 //			myLiList.add(liDao.select(pi.getLiveId, "", "", "", ""));
 		}
 		
+		
 		LocalDateTime date = LocalDateTime.now();
 		LiveInfo firstLi = new LiveInfo();	// 今日の日にちにを持つデータを作成する。
 		firstLi.setBegin_date(date);
