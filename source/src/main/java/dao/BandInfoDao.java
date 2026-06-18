@@ -226,7 +226,7 @@ public boolean insert(BandInfo Band) {
 					"root", "password");
 
 			// バンド情報を取得するSQL文を作成する
-			String sql = "SELECT band_info.id, band_info.name, band_info.user_id FROM band_info\r\n";
+			String sql = "SELECT id, name, user_id FROM band_info WHERE user_id = ?";
 
 			// 値を設定する。
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -240,7 +240,7 @@ public boolean insert(BandInfo Band) {
 				BandInfo bi;
 				// リストへコピー
 				bi = new BandInfo(rs.getInt("band_info.id"), rs.getString("band_info.name"),
-						rs.getInt("band_info.band_info_id"));
+						rs.getInt("band_info.user_id"));
 				biList.add(bi);
 			}
 

@@ -41,7 +41,7 @@ public class BandInfoDaoTest {
 		
 		// update()のテスト
 				System.out.println("---------- update()のテスト ----------");
-				List<BandInfo> BandlistUp = dao.select(new BandInfo(0, "ユニゾン", 0));
+				List<BandInfo> BandlistUp = dao.select(new BandInfo(9, "ネクライトーキー", 1));
 				BandInfo upRec = BandlistUp.get(0);
 			
 				if (dao.update(upRec)) {
@@ -52,60 +52,39 @@ public class BandInfoDaoTest {
 					System.out.println("更新失敗！");
 				}
 				
-			// delete()のテスト
+				
+		//delete()のテスト
 				System.out.println("---------- delete()のテスト ----------");
-				List<BandInfo> BandlistDel = dao.select(new BandInfo(0, "PEDRO", 0));
-				if (!BandlistDel.isEmpty()) {
-					BandInfo delRec = BandlistDel.get(0);
-					if (dao.delete(delRec)) {
-					System.out.println("削除成功！");
-					BandlistDel = dao.select(new BandInfo(0, "ブランデー戦記", 0));
-					BandInfoDaoTest.showAllData(BandlistDel);
-				} else {
-					System.out.println("削除失敗！");
-				}
-					
-			// ユーザーIdを元にバンド情報を返すテスト
-						
-							showMemberTest(1);
-							isMemberTest(11);
-							isMemberTest(1);
-							showMemberTest(3);
-//							addMemberTest(new BandMember(0, "田中", 3, 3));
-//							showMemberTest(3);
-							editMemberTest(new BandInfo(10, "中田仁", 4, 3));
-						}
-						
-						public static void showMemberTest(int biId){
-							BandInfoDao biDao = new BandInfoDao();
-							List<BandInfo> biList = new ArrayList<BandInfo>();
-							biList = biDao.showBandInfo(biId);
-							for (BandInfo bi : biList) {
-								System.out.println(bi.getId() + "：" + bi.getName() +"：" + bi.getPartName());
-							}
-						}
-						
-						public static void isMemberTest(int biId) {
-							BandInfoDao biDao = new BandInfoDao();
-							System.out.println(biDao.isMember(biId));
-						}
 
-						public static void addMemberTest(BandInfo bi) {
-							BandInfoDao biDao = new BandInfoDao();
-							boolean rs;
-							rs = biDao.addMember(bi);
-							System.out.println(rs);
-						}
-						
-						public static void editMemberTest(BandInfo bi) {
-							BandInfoDao biDao = new BandInfoDao();
-							boolean rs;
-							rs = biDao.editMember(bi);
-							System.out.println(rs);
-						}
-						
-					}
-			}		
+				// id=16 のレコードを取得（name や user_id は不要）
+				List<BandInfo> BandlistDel = dao.select(new BandInfo(16, "", 0));
+				System.out.println("削除前件数: " + BandlistDel.size());
+
+				if (!BandlistDel.isEmpty()) {
+				    BandInfo delRec = BandlistDel.get(0);
+
+				    if (dao.delete(delRec)) {
+				        System.out.println("削除成功！");
+				    } else {
+				        System.out.println("削除失敗！");
+				    }
+
+				    List<BandInfo> after = dao.select(new BandInfo(16, "", 0));
+				    System.out.println("削除後件数: " + after.size());
+
+				} else {
+				    System.out.println("削除対象が見つかりません");
+				}
+
+					
+					
+			//ユーザーIdを元にバンド情報を返す
+
+	        System.out.println("---------- showBand() のテスト ----------");
+	        List<BandInfo> BandList = dao.showBand(1);
+	        BandInfo rec = BandList.get(0);
+	        System.out.println("ID: " + rec.getId());
+	        System.out.println("名前: " + rec.getName());
+	        System.out.println("ユーザーID: " + rec.getUser_id());
+	    }
 	}
-	
-}
