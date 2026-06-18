@@ -62,7 +62,7 @@ public class LiveCreateServlet extends HttpServlet {
 		String beginDateString = request.getParameter("begin_date");
 		String endDateString = request.getParameter("end_date");
 		LocalDateTime beginDate, endDate;
-		beginDate = endDate = LocalDateTime.MIN;
+		beginDate = endDate = LocalDateTime.parse("1000-01-01T00:00:00");
 		
 		if (beginDateString != null && !beginDateString.isEmpty()) {
 			beginDate = LocalDateTime.parse(beginDateString);

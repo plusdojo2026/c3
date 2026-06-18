@@ -67,7 +67,7 @@
 					<!-- バンド情報がある場合の処理 -->
 					<c:if test="${not empty band_infos }">
 						<tr class="band_info_row">
-							<td><select name="band_infos[0]">
+							<td><select name="band_infos[0]" >
 										<option value="0">--選択してください--</option>
 									<c:forEach var="band_info" items="${band_infos }">
 										<option value=<c:out value="${band_info.id }" />><c:out

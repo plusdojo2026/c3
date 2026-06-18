@@ -11,22 +11,17 @@ if (rowIndex === 0 || rowIndex === null) {
 function addRow() {
     // 対象テーブルを取得
     const table = document.getElementById("bands_info_row");
-    const newRow = table.insertRow(-1);
-    const cell_band = newRow.insertCell(0);
-    const cell_time = newRow.insertCell(1);
-    const cell_btn = newRow.insertCell(2);
-    newRow.className = "band_info_row";
+    const template = document.getElementById("band_row_template")
+
+	// テンプレートをコピー
+    const clone = template.content.cloneNode(true);
     
-    cell_band.innerHTML = `
-        <input type="text" name="bandname[${rowIndex}]" placeholder="バンド名">
-    `;
-    cell_time.innerHTML = `
-        <input type="text" name="time[${rowIndex}]" placeholder="持ち時間">
-    `;
-    cell_btn.innerHTML = `
-        <button type="button" onclick="addRow()"><img src="img/plus.svg" alt=""></button>
-        <button type="button" onclick="removeRow(this)"><img src="img/delete.svg" alt=""></button>
-    `;
+    // コピーした要素のname属性を書き換える
+    clone.querySelector('select[name="band_infos_temp"]').name = `band_infos[${rowIndex}]`;
+    clone.querySelector('input[name="time_temp"]').name = `time[${rowIndex}]`;
+    
+    table.appendChild(clone);
+    
     console.log(rowIndex);
     const bandNum = table.querySelector('input[name="band_num"]');
     if (bandNum) {
@@ -41,20 +36,21 @@ function removeRow(btn) {
     row.parentNode.removeChild(row);
 }
 
-// 空欄エラー
+// 空欄エラー,入力エラー
 live_create.onsubmit = function(event) {
-    let blank = false;
+    let blank = true;
     let setBandName;
     let setBandTime;
     for (let i = 0; i < rowIndex; i++) {
-        setBandName = `bandname[${i}]`;
+        setBandName = `band_infos[${i}]`;
         setBandTime = `time[${i}]`;
 
-        const bandName = live_create.querySelector('input[name="' + setBandName + '"]');
+        const bandName = live_create.querySelector('select[name="' + setBandName + '"]');
         const bandTime = live_create.querySelector('input[name="' + setBandTime + '"]');
 
-        if (bandName && bandTime){
-            if (bandName.value === '' || bandTime.value === '') {
+        if (bandName !=null && bandTime !=null){
+			console.log(bandName.value);
+            if (bandName.value === 0 || bandTime.value === 0) {
                 blank = true;
                 break;
             } else {
@@ -62,17 +58,24 @@ live_create.onsubmit = function(event) {
             }
         }
     }
+    
     console.log('blank = ' + blank);
+    console.log(live_create.live_name.value);
+    console.log(live_create.begin_date.value);
+    console.log(live_create.end_date.value);
 
-    if (live_create.live_name.value === '' || live_create.begin_date.value === '' || live_create.end_date.value === '' || blank) {
+	if (live_create.live_name.value === null || live_create.live_name.value === '' || live_create.begin_date.value === null || live_create.end_date.value === null || blank) {
         document.getElementById('blank_alert').textContent = '未入力の項目があります。';
         event.preventDefault();
-    } else if(document.querySelectorAll("tr.band_info_row").length === 0) {
+    } else if (live_create.begin_date.value >= live_create.end_date.value) {
+		document.getElementById('blank_alert').textContent = '終了日時は開始日時より後に設定してください。';
+		event.preventDefault();
+	} else if (document.querySelectorAll("tr.band_info_row").length === 0) {
         document.getElementById('blank_alert').textContent = '参加バンドを最低1つ登録してください。';
         event.preventDefault();
-	} else {
+	}  else {
         document.getElementById('blank_alert').textContent = '';
         window.alert('一件のライブ情報を登録しました');
-    }
-};
+   }	
 
+};
