@@ -12,6 +12,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>タイムテーブル表示</title>
+<link rel="icon" type="image/png"
+	href="image/liveicon.png">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/table_show.css">
 </head>
@@ -26,9 +28,21 @@
 			</div>
 			<nav class="sp-nav">
 				<ul>
-					<li><button type="button">新規登録</button></li>
-                    <li><button type="button">ログアウト</button></li>
-                    <li><button type="button">ライブ情報作成</button></li>
+					<li>
+						<form action="AdminRegistServlet" method="get">
+							<button type="submit">新規登録</button>
+						</form>
+					</li>
+                    <li>
+						<form action="LoginServlet" method="post">
+							<button type="submit">ログアウト</button>
+						</form>
+					</li>
+                    <li>
+						<form action="LiveCreateServlet" method="get">
+							<button type="submit">ライブ情報作成</button>
+						</form>
+					</li>
 				</ul>
 			</nav>
 			<div class="black-bg" id="js-black-bg"></div>
