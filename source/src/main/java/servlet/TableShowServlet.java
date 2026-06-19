@@ -53,7 +53,7 @@ public class TableShowServlet extends HttpServlet {
 		// 準備情報をもとにバンド情報を持ってくる
 		for (PreparInfo pi : piList) {
 			System.out.println("pi:" + pi.getId() + " bi:"+ pi.getBandInfoId());
-			biList.addAll(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
+			biList.add(biDao.selectById(pi.getBandInfoId()));
 			System.out.println("biList要素数:" + biList.size());
 		}
 
@@ -85,7 +85,7 @@ public class TableShowServlet extends HttpServlet {
 			}
 		}
 			
-		// タイムテーブル作成画面へフォワードする
+		// タイムテーブル表示画面へフォワードする
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/table_show.jsp");
 		dispatcher.forward(request, response);
 	}
