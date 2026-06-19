@@ -27,18 +27,18 @@ function login(){
 
     if(text === "" && password === "" ){
         error.textContent = "IDとパスワードを入力してください";
-        return;
+        return false;
     }
     if(text === "" ){
         error.textContent = "IDを入力してください";
-        return;
+        return false;
     }
     if(password === "" ){
         error.textContent = "パスワードを入力してください";
-        return;
+        return false;
     }
 
-    alert("登録しました！");
+    return true;
 }
 function regist(){
 
@@ -52,16 +52,16 @@ function regist(){
 
     if(text === "" && password === ""){
         error.textContent = "IDとパスワードを入力してください";
-        return;
+        return false;
     }
     if(text === "" ){
         error.textContent = "IDを入力してください";
-        return;
+        return false;
     }
     if(password === "" ){
         error.textContent = "パスワードを入力してください";
-        return;
+        return false;
     }
-
+return true;
 
 }

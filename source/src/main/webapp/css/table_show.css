@@ -87,6 +87,9 @@
 	padding: 20px;
 	border-radius: 10px;
 	position: relative;
+	max-height: calc(100vh - 40px);
+	overflow-y: auto;
+	height: 350px;
 }
 
 .close {

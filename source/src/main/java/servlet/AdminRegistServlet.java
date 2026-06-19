@@ -49,7 +49,16 @@ public class AdminRegistServlet extends HttpServlet {
 		String user_id = request.getParameter("id");
 		String password = request.getParameter("pw");
 		//int type = Integer.parseInt(request.getParameter("type"));
-		
+		if (user_id == null || user_id.trim().isEmpty()
+		        || password == null || password.trim().isEmpty()) {
+
+		    request.setAttribute("result",
+		            new Result("入力エラー", "IDとパスワードは必須です", "/c3/AdminRegistServlet"));
+
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin_regist.jsp");
+		    dispatcher.forward(request, response);
+		    return;
+		}
 		UserDao dao = new UserDao();
 		if ("login".equals(mode)) {
 			
@@ -90,5 +99,6 @@ public class AdminRegistServlet extends HttpServlet {
 			}
 			return;
 		}
+		
 	}
 }

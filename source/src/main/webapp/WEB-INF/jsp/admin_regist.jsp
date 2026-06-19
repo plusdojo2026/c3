@@ -60,14 +60,14 @@
 				<div id="loginForm">
 					<h2>管理者登録</h2>
 					<p id="loginError" class="error"></p>
-					<form action="/c3/AdminRegistServlet" method="post">
+					<form action="/c3/AdminRegistServlet" method="post"onsubmit="return login()">
 						<input type="hidden" name="mode" value="login"> <label><span
-							class="required">ID</span></label> <input type="text" name="id">
+							class="required">ID</span></label> <input type="text"id="loginId" name="id">
 
 						<label><span class="required">パスワード</span></label> <input
-							type="password" name="pw">
+							type="password"id="loginPassword" name="pw">
 
-						<button class="submit-btn" onclick="login()">登録</button>
+						<button type="submit" class="submit-btn">登録</button>
 					</form>
 				</div>
 
@@ -75,14 +75,14 @@
 				<div id="registerForm" style="display: none;">
 					<h2>運営スタッフ登録</h2>
 					<p id="registError" class="error"></p>
-					<form action="/c3/AdminRegistServlet" method="post">
+					<form action="/c3/AdminRegistServlet" method="post"onsubmit="return regist()">
 						<input type="hidden" name="mode" value="register"> <label><span
-							class="required">ID</span></label> <input type="text" name="id">
+							class="required">ID</span></label> <input type="text"id="registId" name="id">
 
 						<label><span class="required">パスワード</span></label> <input
-							type="password" name="pw">
+							type="password"id="registPassword" name="pw">
 
-						<button class="submit-btn" onclick="regist()">登録</button>
+						<button type="submit"class="submit-btn" >登録</button>
 					</form>
 				</div>
 			</div>
