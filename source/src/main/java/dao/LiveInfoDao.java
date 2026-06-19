@@ -58,9 +58,14 @@ public class LiveInfoDao {
 			ResultSet rs = pStmt.executeQuery();
 
 			while (rs.next()) {
+				System.out.println(rs.getInt("create_flag") == 1);
+				boolean createFlag = false;
+				if (rs.getInt("create_flag")== 1) {
+					createFlag = true;
+				}
 				LiveInfo liveInfo = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), rs.getInt("create_flag") == 1);
+						rs.getInt("user_id"), createFlag);
 				livelist.add(liveInfo);
 			}
 		} catch (SQLException e) {
