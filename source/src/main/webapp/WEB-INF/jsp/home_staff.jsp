@@ -21,9 +21,12 @@
             </div>
             <nav class="sp-nav">
                 <ul>
-                    <li><button type="button">ログアウト</button></li>
-                    <li><button type="button">バンド情報</button></li>
-                    <li><button type="button">準備情報</button></li>
+                    <li>
+						<form action="LoginServlet" method="post">
+							<button type="submit">ログアウト</button>
+						</form>
+					</li>
+					
                 </ul>
             </nav>
             <div class="black-bg" id="js-black-bg"></div>

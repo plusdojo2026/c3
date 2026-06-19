@@ -7,8 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>管理者、運営スタッフ登録</title>
-<link rel="icon" type="image/png"
-	href="image/liveicon.png">
+<link rel="icon" type="image/png" href="image/liveicon.png">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/admin_regist.css">
 </head>
@@ -24,19 +23,23 @@
 			<nav class="sp-nav">
 				<ul>
 					<li>
+						<form action="HomeAdminServlet" method="get">
+							<button type="submit">ホーム</button>
+						</form>
+					</li>
+					<li>
+						<form action="AdminRegistServlet" method="get">
+							<button type="submit">新規登録</button>
+						</form>
+					</li>
+					<li>
 						<form action="LoginServlet" method="post">
 							<button type="submit">ログアウト</button>
 						</form>
 					</li>
 					<li>
-						<form action="ModBandServlet" method="get">
-							<button type="submit">バンド情報</button>
-						</form>
-					</li>
-
-					<li>
-						<form action="PreparResistServlet" method="get">
-							<button type="submit">準備情報</button>
+						<form action="LiveCreateServlet" method="get">
+							<button type="submit">ライブ情報作成</button>
 						</form>
 					</li>
 				</ul>
@@ -60,12 +63,12 @@
 				<div id="loginForm">
 					<h2>管理者登録</h2>
 					<p id="loginError" class="error"></p>
-					<form action="/c3/AdminRegistServlet" method="post" onsubmit="return login()">
+					<form action="/c3/AdminRegistServlet" method="post"
+						onsubmit="return login()">
 						<input type="hidden" name="mode" value="login"> <label><span
-							class="required">ID</span></label> <input type="text"id="loginId" name="id">
-
-						<label><span class="required">パスワード</span></label> <input
-							type="password"id="loginPassword" name="pw">
+							class="required">ID</span></label> <input type="text" id="loginId"
+							name="id"> <label><span class="required">パスワード</span></label>
+						<input type="password" id="loginPassword" name="pw">
 
 						<button type="submit" class="submit-btn">登録</button>
 					</form>
@@ -75,14 +78,14 @@
 				<div id="registerForm" style="display: none;">
 					<h2>運営スタッフ登録</h2>
 					<p id="registError" class="error"></p>
-					<form action="/c3/AdminRegistServlet" method="post" onsubmit="return regist()">
+					<form action="/c3/AdminRegistServlet" method="post"
+						onsubmit="return regist()">
 						<input type="hidden" name="mode" value="register"> <label><span
-							class="required">ID</span></label> <input type="text"id="registId" name="id">
+							class="required">ID</span></label> <input type="text" id="registId"
+							name="id"> <label><span class="required">パスワード</span></label>
+						<input type="password" id="registPassword" name="pw">
 
-						<label><span class="required">パスワード</span></label> <input
-							type="password"id="registPassword" name="pw">
-
-						<button type="submit"class="submit-btn" >登録</button>
+						<button type="submit" class="submit-btn">登録</button>
 					</form>
 				</div>
 			</div>

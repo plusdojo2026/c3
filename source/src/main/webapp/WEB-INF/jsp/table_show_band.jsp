@@ -10,8 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>タイムテーブル表示</title>
-<link rel="icon" type="image/png"
-	href="image/liveicon.png">
+<link rel="icon" type="image/png" href="image/liveicon.png">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/table_show_band.css">
 </head>
@@ -26,6 +25,11 @@
 			</div>
 			<nav class="sp-nav">
 				<ul>
+					<li>
+						<form action="HomeBandServlet" method="get">
+							<button type="submit">ホーム</button>
+						</form>
+					</li>
 					<li>
 						<form action="LoginServlet" method="post">
 							<button type="submit">ログアウト</button>
