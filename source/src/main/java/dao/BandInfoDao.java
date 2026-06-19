@@ -64,6 +64,52 @@ public class BandInfoDao {
 		return Bandlist;
 	}
 
+	
+	// selectById
+	public BandInfo selectById(int id) {
+	    Connection conn = null;
+	    BandInfo band = null;
+
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        conn = DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+	                "root", "password");
+
+	        String sql = "SELECT id, name, user_id FROM Band_info WHERE id = ?";
+	        PreparedStatement pStmt = conn.prepareStatement(sql);
+	        pStmt.setInt(1, id);
+
+	        ResultSet rs = pStmt.executeQuery();
+
+	        if (rs.next()) {
+	            band = new BandInfo(
+	                rs.getInt("id"),
+	                rs.getString("name"),
+	                rs.getInt("user_id")
+	            );
+	        }
+
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException(e);
+	    } finally {
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    return band; // 見つからなければ null
+	}
+
+
+
+	
+	
 // 引数cardで指定されたレコードを登録し、成功したらtrueを返す
 public boolean insert(BandInfo Band) {
 	Connection conn = null;
