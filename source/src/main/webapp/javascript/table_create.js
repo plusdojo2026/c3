@@ -320,3 +320,4 @@ function formatTime(totalMinutes) {
 /* 初期表示 */
 renderPrepList();
 renderTimetable();
+
