@@ -60,7 +60,7 @@
 				<div id="loginForm">
 					<h2>管理者登録</h2>
 					<p id="loginError" class="error"></p>
-					<form action="/c3/AdminRegistServlet" method="post"onsubmit="return login()">
+					<form action="/c3/AdminRegistServlet" method="post" onsubmit="return login()">
 						<input type="hidden" name="mode" value="login"> <label><span
 							class="required">ID</span></label> <input type="text"id="loginId" name="id">
 
@@ -75,7 +75,7 @@
 				<div id="registerForm" style="display: none;">
 					<h2>運営スタッフ登録</h2>
 					<p id="registError" class="error"></p>
-					<form action="/c3/AdminRegistServlet" method="post"onsubmit="return regist()">
+					<form action="/c3/AdminRegistServlet" method="post" onsubmit="return regist()">
 						<input type="hidden" name="mode" value="register"> <label><span
 							class="required">ID</span></label> <input type="text"id="registId" name="id">
 
