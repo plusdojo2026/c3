@@ -52,9 +52,7 @@ public class TableShowServlet extends HttpServlet {
 		
 		// 準備情報をもとにバンド情報を持ってくる
 		for (PreparInfo pi : piList) {
-			System.out.println("pi:" + pi.getId() + " bi:"+ pi.getBandInfoId());
 			biList.add(biDao.selectById(pi.getBandInfoId()));
-			System.out.println("biList要素数:" + biList.size());
 		}
 
 		// それぞれをデータとして渡す

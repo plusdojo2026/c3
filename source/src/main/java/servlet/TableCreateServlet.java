@@ -19,6 +19,7 @@ import dto.BandInfo;
 import dto.EachMusic;
 import dto.LiveInfo;
 import dto.PreparInfo;
+import dto.Result;
 
 @WebServlet("/TableCreateServlet")
 public class TableCreateServlet extends HttpServlet {
@@ -100,24 +101,36 @@ public class TableCreateServlet extends HttpServlet {
 		//			return;
 		//		}
 		
-		BandInfoDao biDao = new BandInfoDao();
+
 		PreparInfoDao piDao = new PreparInfoDao();
-		List<BandInfo> biList = new ArrayList<BandInfo>();
 		List<PreparInfo> piList = new ArrayList<PreparInfo>();
 		boolean result = false;
 		
 		// 転換時間を得る
-		int preparTime = 0;
+		String preparTime = "";
 		if (request.getParameter("time") != null)
-			preparTime = Integer.parseInt(request.getParameter("time"));
-
-		// 順番を得る 
-		int max = 0;
-		for (int i = 0; i < max; i++) {
-			piList.add(piDao.selectById(i));
+			preparTime = request.getParameter("time");
+		
+		// name属性が"prepar_id"の要素を全て順番に読み込む。
+		String stringPiId[] = request.getParameterValues("prepar_id");
+		for (int i = 0; i < stringPiId.length; i++) {
+			result = piList.add(piDao.selectById(Integer.parseInt(stringPiId[i])));
+			// それぞれに対して順番と転換時間を設定する。
+			piList.get(i).setSetlist(i + 1);
+			piList.get(i).setPreparItems(preparTime);
 		}
 		
-		
+		// ホームサーブレットで移る。
+		if (result) {
+			response.sendRedirect("/c3/HomeAdminServlet");
+		} else {
+			int liveId = 1;
+			if (request.getParameter("live_info_id") != null)
+				liveId = Integer.parseInt(request.getParameter("live_info_id"));
+			request.setAttribute("id", liveId);
+			request.setAttribute("result", new Result("Create_failed", "作成できませんでした。", "/c3/TableCreateServlet"));
+			this.doGet(request, response);
+		}
 	}
 
 }

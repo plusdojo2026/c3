@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BandInfoDao;
-import dao.EachMusicDao;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
 import dto.BandInfo;
-import dto.EachMusic;
 import dto.LiveInfo;
 import dto.PreparInfo;
 
@@ -45,11 +43,13 @@ public class TableShowBandServlet extends HttpServlet {
 		LiveInfo li = new LiveInfo();
 
 		// ライブ情報IDを参考にライブに参加する準備情報を持ってくる
-//		piList = piDao.select(li);
+//		piList = piDao.selectByLiveInfoId(li.getId());
+		li = liDao.select(1);
+		piList = piDao.selectByLiveInfoId(1);
 
 		// 準備情報をもとにバンド情報を持ってくる
 		for (PreparInfo pi : piList) {
-//			biList.add(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
+			biList.add(biDao.selectById(pi.getBandInfoId()));
 		}
 
 		// それぞれをデータとして渡す
