@@ -70,8 +70,8 @@ public class EachMusicDao {
 				else
 					em.setMemo("");
 				
-				if (rs.getString("prepar_info") != null)
-					em.setPreparInfoId(Integer.parseInt(rs.getString("prepar_info")));
+				if (rs.getString("prepar_info_id") != null)
+					em.setPreparInfoId(Integer.parseInt(rs.getString("prepar_info_id")));
 				else
 					em.setPreparInfoId(0);
 				

@@ -44,13 +44,17 @@ public class TableShowServlet extends HttpServlet {
 
 		// ライブを特定するような情報を得てライブ情報を取得する
 		LiveInfo li = new LiveInfo();
-
+		
 		// ライブ情報IDを参考にライブに参加する準備情報を持ってくる
-//		piList = piDao.select(li);
-
+//		piList = piDao.selectByLiveInfoId(li.getId());
+		li = liDao.select(1);
+		piList = piDao.selectByLiveInfoId(1);
+		
 		// 準備情報をもとにバンド情報を持ってくる
 		for (PreparInfo pi : piList) {
-//			biList.add(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
+			System.out.println("pi:" + pi.getId() + " bi:"+ pi.getBandInfoId());
+			biList.addAll(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
+			System.out.println("biList要素数:" + biList.size());
 		}
 
 		// それぞれをデータとして渡す
@@ -58,14 +62,29 @@ public class TableShowServlet extends HttpServlet {
 		request.setAttribute("band_infos", biList);
 		request.setAttribute("prepar_infos", piList);
 
+		System.out.println("ライブ名：" + li.getName());
+		System.out.println("バンド名表示");
+		for(BandInfo b:biList) {
+			System.out.println("ライブ[" + li.getId() + "]" +b.getId() + ":" + b.getName());
+		}
+		System.out.println("準備情報表示");
+		for(PreparInfo p:piList) {
+			System.out.println("[" + p.getSetlist() + "]" + p.getId() + ":" + p.getBandInfoId());
+		}
+		
 		// each_musicの情報を取得して渡す
 		for (int i = 0; i < piList.size(); i++) {
 			String name = "each_music[" + i + "]";
 			List<EachMusic> emList = new ArrayList<EachMusic>();
 			emList = emDao.select(piList.get(i));
 			request.setAttribute(name, emList);
+			
+			// 確認
+			for (EachMusic e: emList) {
+				System.out.println(piList.get(i).getId() + ":[" + e.getSetlist() + "]" + e.getName());
+			}
 		}
-
+			
 		// タイムテーブル作成画面へフォワードする
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/table_show.jsp");
 		dispatcher.forward(request, response);
