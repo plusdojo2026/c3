@@ -59,16 +59,6 @@ public class TableShowServlet extends HttpServlet {
 		request.setAttribute("live_info", li);
 		request.setAttribute("band_infos", biList);
 		request.setAttribute("prepar_infos", piList);
-
-		System.out.println("ライブ名：" + li.getName());
-		System.out.println("バンド名表示");
-		for(BandInfo b:biList) {
-			System.out.println("ライブ[" + li.getId() + "]" +b.getId() + ":" + b.getName());
-		}
-		System.out.println("準備情報表示");
-		for(PreparInfo p:piList) {
-			System.out.println("[" + p.getSetlist() + "]" + p.getId() + ":" + p.getBandInfoId());
-		}
 		
 		// each_musicの情報を取得して渡す
 		for (int i = 0; i < piList.size(); i++) {
@@ -76,11 +66,6 @@ public class TableShowServlet extends HttpServlet {
 			List<EachMusic> emList = new ArrayList<EachMusic>();
 			emList = emDao.select(piList.get(i));
 			request.setAttribute(name, emList);
-			
-			// 確認
-			for (EachMusic e: emList) {
-				System.out.println(piList.get(i).getId() + ":[" + e.getSetlist() + "]" + e.getName());
-			}
 		}
 			
 		// タイムテーブル表示画面へフォワードする
