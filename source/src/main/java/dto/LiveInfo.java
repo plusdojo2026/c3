@@ -20,7 +20,7 @@ public class LiveInfo {
 		this.create_flag = false;
 	}
 	
-	public LiveInfo(int id, String name, LocalDateTime begin_date, LocalDateTime end_date, int user_id, boolean timetable_flag) {
+	public LiveInfo(int id, String name, LocalDateTime begin_date, LocalDateTime end_date, int user_id, boolean create_flag) {
 		super();
 		this.id = id;
 		this.name = name;
