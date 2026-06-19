@@ -8,8 +8,6 @@ form {
 }
 
 .date {
-    margin-top:50px;
-    margin-left:100px;
     
     background-color: aqua;
     width: 120px;
@@ -23,7 +21,8 @@ form {
     cursor: pointer;
    
 
-    margin: 20px;
+    margin-top: 200px;
+	margin-left: 180px;
 }
 
 .center-message {

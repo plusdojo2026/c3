@@ -135,6 +135,7 @@ public class HomeAdminServlet extends HttpServlet {
 		request.setAttribute("livelist", idLive);
 		
 		boolean created = false;
+		
 		if (!idLive.isCreate_flag()) {
 			System.out.println("テスト3");
 			response.sendRedirect("/c3/TableCreateServlet");
