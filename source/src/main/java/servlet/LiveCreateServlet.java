@@ -73,6 +73,15 @@ public class LiveCreateServlet extends HttpServlet {
 			endDate = LocalDateTime.parse(endDateString);
 			System.out.println(endDate);
 		}
+		
+		int performerNum = 0;
+		if (request.getParameter("band_num") !=  null) {
+			System.out.println("数字へ変換します。：" + request.getParameter("band_num"));
+			performerNum = Integer.parseInt(request.getParameter("band_num"));
+		}
+		System.out.println("performerNum:" + performerNum);
+		
+		
 		System.out.println("ライブ情報を登録します");
 		
 		PreparInfoDao piDao = new PreparInfoDao();
@@ -102,13 +111,13 @@ public class LiveCreateServlet extends HttpServlet {
 		}
 		
 		System.out.println("準備情報を登録します。");
+
 		// 準備情報テーブルにバンドID、ライブ情報ID、持ち時間のみが表示されたデータを作成する
-		int performerNum = Integer.parseInt(request.getParameter("band_num"));
 		for (int i = 0; i <= performerNum; i++) {
-			if (request.getParameter("bandname[" + i + "]") != null && !request.getParameter("bandname[" + i + "]" ).equals("") &&
-					request.getParameter("time[" + i + "]") != null) {
+			if (request.getParameter("band_infos[" + i + "]") != null && !request.getParameter("band_infos[" + i + "]" ).equals("") &&
+					request.getParameter("time[" + i + "]") != null && !request.getParameter("time[" + i + "]" ).equals("")) {
 //				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
-				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), 0);
+				BandInfo bi = new BandInfo(0, request.getParameter("band_infos[" + i + "]"), 0);
 				// バンドIDを持ってくる
 				List<BandInfo> biList = biDao.select(bi);
 				for (BandInfo b : biList) {
@@ -136,6 +145,9 @@ public class LiveCreateServlet extends HttpServlet {
 		if (resultPrepar && resultLive) {
 			response.sendRedirect("/c3/HomeAdminServlet");
 		} else {
+			List<BandInfo> biList = new ArrayList<BandInfo>();
+			biList = biDao.select(new BandInfo(0, "", 0));			
+			request.setAttribute("band_infos", biList);
 			request.setAttribute("result", new Result("Create_failed", "登録できませんでした。", "/c3/LiveCreateServlet"));
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
 			dispatcher.forward(request, response);

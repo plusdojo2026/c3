@@ -2,10 +2,19 @@
 
 let live_create = document.getElementById('live_create');
 let rowIndex = document.querySelectorAll("tr.band_info_row").length;
+console.log("rowIndex:" + rowIndex);
 
 if (rowIndex === 0 || rowIndex === null) {
 	rowIndex = 1;
 }
+
+// begin_date, end_dateの最低値設定
+console.log("日付を設定します");
+const date = new Date();
+const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+console.log("date:" + localDate);
+document.getElementById("begin_date").min = localDate;
+document.getElementById("end_date").min = localDate;
 
 // 入力欄を増やす
 function addRow() {
@@ -22,12 +31,13 @@ function addRow() {
     
     table.appendChild(clone);
     
-    console.log(rowIndex);
-    const bandNum = table.querySelector('input[name="band_num"]');
-    if (bandNum) {
+    console.log("rowIndex:" + rowIndex);
+    const bandNum = live_create.querySelector('input[name="band_num"]');
+    if (bandNum != null) {
         bandNum.value = rowIndex;
         rowIndex++;
     }
+    console.log("bandNum.value:" + bandNum.value);
 }
 
 // 入力欄を消す
@@ -49,8 +59,9 @@ live_create.onsubmit = function(event) {
         const bandTime = live_create.querySelector('input[name="' + setBandTime + '"]');
 
         if (bandName !=null && bandTime !=null){
-			console.log(bandName.value);
-            if (bandName.value === 0 || bandTime.value === 0) {
+			console.log("bandName:" + bandName.value);
+			console.log("bandTimes:" + bandTime.value);
+            if (bandName.value === null || bandTime.value === null || bandName.value === "" || bandTime.value === "" || bandName.value === "0" || bandTime.value === "0") {
                 blank = true;
                 break;
             } else {
@@ -64,7 +75,7 @@ live_create.onsubmit = function(event) {
     console.log(live_create.begin_date.value);
     console.log(live_create.end_date.value);
 
-	if (live_create.live_name.value === null || live_create.live_name.value === '' || live_create.begin_date.value === null || live_create.end_date.value === null || blank) {
+	if (live_create.live_name.value === null || live_create.live_name.value === '' || live_create.begin_date.value === null || live_create.end_date.value === null || live_create.begin_date.value === "" || live_create.end_date.value === "" || blank) {
         document.getElementById('blank_alert').textContent = '未入力の項目があります。';
         event.preventDefault();
     } else if (live_create.begin_date.value >= live_create.end_date.value) {

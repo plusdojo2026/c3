@@ -46,17 +46,18 @@
 			<div class="set_date">
 				<!-- 開始日時入力 -->
 				<br>開始日時<span class="required"></span><br> <input
-					type="datetime-local" placeholder="開始日時" name="begin_date">
+					type="datetime-local" placeholder="開始日時" name="begin_date" min="" id="begin_date">
 				<!-- 終了日時入力 -->
 				<br>終了日時<span class="required"></span><br> <input
-					type="datetime-local" placeholder="終了日時" name="end_date">
+					type="datetime-local" placeholder="終了日時" name="end_date" min="" id="end_date">
 			</div>
 			<!-- エラーメッセージ表示 -->
 			<!-- 出演者(バンド名) & 各バンドの持ち時間 -->
 			<div class="band_info">
+				<input type="hidden" name="band_num" value="1" />
 				<table id="bands_info_row">
 					<tr>
-						<th><input type="hidden" name="band_num" value="0">バンド名<span
+						<th>バンド名<span
 							class="required"></span></th>
 						<th>持ち時間<span class="required"></span></th>
 						<td><button type="button" onclick="addRow()">
@@ -85,7 +86,7 @@
 							</td>
 						</tr>
 						<tr class="band_info_row">
-							<td><select name="band_infos[0]">
+							<td><select name="band_infos[1]">
 							<option value="0">--選択してください--</option>
 									<c:forEach var="band_info" items="${band_infos }">
 										<option value=<c:out value="${band_info.id }" />><c:out
