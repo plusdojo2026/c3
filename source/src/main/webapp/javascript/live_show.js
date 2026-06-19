@@ -2,15 +2,11 @@
     
     window.onload = function () {
 	
-	if (noLiveInfo === true || noLiveInfo === "true") {
-		alert("まだライブの予定がありません");
-	}
-	
 	if (noTimeTable === true || noTimeTable === "true") {
 		alert("まだタイムテーブルが作成されていません");
 	}
 
-    window.onload = function () {
+   
     const nav = document.getElementById('nav-wrapper');
     const hamburger = document.getElementById('js-hamburger');
     const blackBg = document.getElementById('js-black-bg');
@@ -28,6 +24,4 @@
     spNav.addEventListener('click', function (e) {
         e.stopPropagation();
     });
-};/**
- * 
- */
+}

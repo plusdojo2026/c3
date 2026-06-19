@@ -37,83 +37,131 @@ public class LiveShowServlet extends HttpServlet {
 			//ログインユーザーIDの取得
 			//LoginUser login = (LoginUser)session.getAttribute("id"); 
 			// int userId = Integer.parseInt(login.getId());
+		    
+			String noTimeTable = request.getParameter("noTimeTable");
+
+			if ("true".equals(noTimeTable)) {
+			    request.setAttribute("noTimeTable", true);
+			}
 			
-			//prepar_info取得
+		  //live_info取得
+			LiveInfoDao liveDao = new LiveInfoDao();
+			 List <LiveInfo> livelist = liveDao.selectByUserId(1);
+		    
+			
+			 //live_info取得
 			PreparInfoDao preparDao = new PreparInfoDao();
-			 List <PreparInfo> preparlist = preparDao.selectByLiveInfoId(1);
-			 
-			// prepar_infoの情報を登録
+			List <PreparInfo> preparlist = preparDao.selectByLiveInfoId(1);
+			
+		 // prepar_infoの情報を登録
+			
+		    request.setAttribute("lives", livelist);
 			 request.setAttribute("prepares", preparlist);
-			 
-			// live_show.jspにフォワードする
-				RequestDispatcher rd = 
-				request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp");
-				rd.forward(request,response);
+
+	
+
+			 System.out.println("livelist size = " + livelist.size());	
+				// ①live_infoテーブルにデータがない場合
+		       //画面に「まだライブの予定がありません」と表示
+				if (livelist == null || livelist.isEmpty()) {
+					
+					request.setAttribute("noLiveInfo", true);
+					
+					RequestDispatcher rd =
+						request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp");
+						rd.forward(request, response);
+					System.out.println("テスト1");
+					
+					return;
+				}
+				RequestDispatcher rd =
+					    request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp");
+					rd.forward(request, response);
+					
+		
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+
+		// ②ライブ情報はあるが、準備情報がそろっていない場合
+		//準備情報登録画面に遷移する
+		int liveId = Integer.parseInt(request.getParameter("liveId"));
+
+		PreparInfoDao preparDao = new PreparInfoDao();
+		List<PreparInfo> preparlist =
+		        preparDao.selectByLiveInfoId(liveId);
 		
-		//①live_infoテーブルにデータがない場合
-		//画面は遷移せず、アラート「まだライブの予定がありません」と画面に表示
+		if (preparlist == null || preparlist.isEmpty()) {
+			System.out.println("テスト2");
+
+		    request.setAttribute("noEntranceMusic", true);
+
+		    LiveInfoDao liveDao = new LiveInfoDao();
+		    List<LiveInfo> livelist =
+		            liveDao.selectByUserId(1);
+
+		    request.setAttribute("lives", livelist);
+
+		    response.sendRedirect("/c3/PreparRegistServlet");
+
+		    return;
+		}
+		
+		boolean hasError = preparlist.stream().anyMatch(pi ->
+		pi.getEntranceMusic() == null ||
+		pi.getEntranceMusic().isEmpty()
+				);
+				
+		
+			if(hasError) {
+
+		        request.setAttribute("noEntranceMusic", true);
+		        System.out.println("テスト2");
+		        LiveInfoDao liveDao = new LiveInfoDao();
+		        List<LiveInfo> livelist =
+		                liveDao.selectByUserId(1);
+
+		        request.setAttribute("lives", livelist);
+
+		        response.sendRedirect("/c3/PreparRegistServlet");
+
+		        return;
+		    }
+
+		//③ live_infoテーブル、prepar_infoテーブルのどちらにもデータはあるが、管理者がタイムテーブルを作成していない場合
+		//画面に「まだタイムテーブルが作成されていません」と表示
 		//live_infoのデータ取得
-		LiveInfoDao liveDao = new LiveInfoDao();
-		 int liveId = Integer.parseInt(request.getParameter("test"));  
-		 
-		//live_infoデータを格納する箱を作る
-		 LiveInfo idLive = liveDao.select(liveId);
+			LiveInfoDao EachLiveDao = new LiveInfoDao();
+		 LiveInfo idLive = EachLiveDao.select(liveId);
 		 
 		 if (idLive == null) {
-				request.setAttribute("noLiveInfo", true);
-				System.out.println("テスト1");
-				
-				 RequestDispatcher rd =
-						 request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp");
-				 rd.forward(request,response);
-						 return;
+			    
+			 response.sendRedirect("/c3/LiveShowServlet");
+			    return;
 			}
-		
-		//②prepar_infoテーブルにデータがない場合
-		//準備情報登録画面へ遷移
-				
-				//prepar_infoの取得
-				PreparInfoDao preparDao = new PreparInfoDao();
-				int preparId = Integer.parseInt(request.getParameter("test"));
-				
-				//prepar_infoデータを格納する箱を作る
-				PreparInfo idPrepar = preparDao.select(preparId);
-				
-		if (idPrepar == null) {
-			request.setAttribute("noPreparInfo", true);
-			System.out.println("テスト１");
-			
-			response.sendRedirect("/c3/PreparResistServlet");
-			return;
-		}
-		
-		//③準備情報は登録されているが、タイムテーブルが作成されていない場合
-		// 画面は遷移せずアラート「まだタイムテーブルが作成されていません」の表示
+		 
 		request.setAttribute("livelist", idLive);
-		boolean created = false;
 		
-		if(!idLive.isCreate_flag()) {
+		boolean created = false;
+		if (!idLive.isCreate_flag()) {
 			
 			request.setAttribute("noTimeTable", true);
-			System.out.println("テスト2");
-			
-			RequestDispatcher rd =
-					request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp");
-					rd.forward(request,response);
-					return;
-		}
-		
-		//④準備情報を登録済みでタイムテーブルが作成されている
-		//タイムテーブル表示画面へ遷移
-		else {
 			System.out.println("テスト3");
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp"); 
+			rd.forward(request, response);
+		    
+			return;
+			
+	}
+		//④live_infoテーブル、prepar_infoテーブルのどちらにもデータがあり、タイムテーブルも作成済みの場合
+		//タイムテーブル表示画面に遷移する
+		else {
+			System.out.println("テスト4");
 			response.sendRedirect("/c3/TableShowServlet");
 			return;
 		}
+		
 	}
-
 }

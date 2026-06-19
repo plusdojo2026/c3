@@ -317,7 +317,7 @@ public class LiveInfoDao {
 			while (rs.next()) {
 				data = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), rs.getBoolean("create_flag"));
+						rs.getInt("user_id"), rs.getInt("create_flag") == 1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

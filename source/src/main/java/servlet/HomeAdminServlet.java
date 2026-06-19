@@ -49,7 +49,8 @@ public class HomeAdminServlet extends HttpServlet {
 			
 			
 			// ①live_infoテーブルにデータがない場合
-	       //ライブ情報作成画面に遷移する
+	       //画面に「ライブ情報作成画面からライブ情報を登録してください」と表示
+			
 			if (livelist == null || livelist.isEmpty()) {
 				
 				request.setAttribute("noLiveInfo", true);
@@ -72,19 +73,40 @@ public class HomeAdminServlet extends HttpServlet {
 		
 		// ②ライブ情報はあるが、準備情報がそろっていない場合、アラートが表示される
 		//画面は遷移せず、アラート「出演者からの準備情報が不足しています」が表示される
-		int liveId = Integer.parseInt(request.getParameter("test"));
+		int liveId = Integer.parseInt(request.getParameter("liveId"));
 
 		PreparInfoDao preparDao = new PreparInfoDao();
 		List<PreparInfo> preparlist =
 		        preparDao.selectByLiveInfoId(liveId);
+		
+		if (preparlist == null || preparlist.isEmpty()) {
+			System.out.println("テスト2");
 
-		for (PreparInfo pi : preparlist) {
+		    request.setAttribute("noEntranceMusic", true);
 
-		    if (pi.getEntranceMusic() == null ||
-		        pi.getEntranceMusic().isEmpty()) {
+		    LiveInfoDao liveDao = new LiveInfoDao();
+		    List<LiveInfo> livelist =
+		            liveDao.selectByUserId(1);
+
+		    request.setAttribute("lives", livelist);
+
+		    RequestDispatcher rd =
+		            request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
+		    rd.forward(request, response);
+
+		    return;
+		}
+		
+		boolean hasError = preparlist.stream().anyMatch(pi ->
+		pi.getEntranceMusic() == null ||
+		pi.getEntranceMusic().isEmpty()
+				);
+				
+		
+			if(hasError) {
 
 		        request.setAttribute("noEntranceMusic", true);
-
+		        System.out.println("テスト2");
 		        LiveInfoDao liveDao = new LiveInfoDao();
 		        List<LiveInfo> livelist =
 		                liveDao.selectByUserId(1);
@@ -97,18 +119,21 @@ public class HomeAdminServlet extends HttpServlet {
 
 		        return;
 		    }
-		}
-		
+
 		//③ live_infoテーブル、prepar_infoテーブルのどちらにもデータはあるが、管理者がタイムテーブルを作成していない場合
 		//タイムテーブル作成画面に遷移する
 		//live_infoのデータ取得
-		LiveInfoDao EachLiveDao = new LiveInfoDao();
-		 int LiveId = Integer.parseInt(request.getParameter("test"));
-		 
-		//live_infoデータを格納する箱を作る
+			LiveInfoDao EachLiveDao = new LiveInfoDao();
 		 LiveInfo idLive = EachLiveDao.select(liveId);
 		 
+		 if (idLive == null) {
+			    
+			    response.sendRedirect("/c3/HomeAdminServlet");
+			    return;
+			}
+		 
 		request.setAttribute("livelist", idLive);
+		
 		boolean created = false;
 		if (!idLive.isCreate_flag()) {
 			System.out.println("テスト3");
