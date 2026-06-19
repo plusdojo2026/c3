@@ -119,6 +119,53 @@ public class PreparInfoDao {
 
         return result;
     }
+    
+ // 登録後に自動採番されたIDを返すメソッド
+    public int insertAndReturnId(PreparInfo info) {
+        Connection conn = null;
+        int generatedId = -1;  // 失敗時は -1 を返す
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Tokyo",
+                    "root", "password");
+
+            String sql = "INSERT INTO prepar_info "
+                       + "(time, prepar_time, prepar_items, setlist, entrance_music, band_info_id, live_info_id) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            // RETURN_GENERATED_KEYS を指定
+            PreparedStatement pStmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            pStmt.setObject(1, info.getTime());
+            pStmt.setObject(2, info.getPreparTime());
+            pStmt.setString(3, info.getPreparItems() != null ? info.getPreparItems() : "");
+            pStmt.setObject(4, info.getSetlist());
+            pStmt.setString(5, info.getEntranceMusic() != null ? info.getEntranceMusic() : "");
+            pStmt.setObject(6, info.getBandInfoId());
+            pStmt.setObject(7, info.getLiveInfoId());
+
+            int result = pStmt.executeUpdate();
+
+            if (result == 1) {
+                // 自動採番されたIDを取得
+                ResultSet rs = pStmt.getGeneratedKeys();
+                if (rs.next()) {
+                    generatedId = rs.getInt(1);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
+
+        return generatedId;
+    }
+
 
     // UPDATE：引数infoの id を持つレコードを更新する
     //         成功したら true を返す

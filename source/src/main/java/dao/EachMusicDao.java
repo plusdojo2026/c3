@@ -184,4 +184,50 @@ public class EachMusicDao {
 
 		return emList;
 	}
+	// 曲情報を1件登録するメソッド 
+	public boolean insert(EachMusic music) {
+	    Connection conn = null;
+	    boolean result = false;
+
+	    try {
+	        // JDBCドライバ読み込み
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+
+	        // DB接続
+	        conn = DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
+	                "root", "password");
+
+	        // INSERT文
+	        String sql = "INSERT INTO each_music "
+	                   + "(name, setlist, light_req, se, memo, prepar_info_id) "
+	                   + "VALUES (?, ?, ?, ?, ?, ?)";
+
+	        PreparedStatement pStmt = conn.prepareStatement(sql);
+
+	        // DTO の値をセット
+	        pStmt.setString(1, music.getName());
+	        pStmt.setObject(2, music.getSetlist());
+	        pStmt.setString(3, music.getLightReq());
+	        pStmt.setString(4, music.getSe());
+	        pStmt.setString(5, music.getMemo());
+	        pStmt.setObject(6, music.getPreparInfoId());
+
+	        // 1件登録できたら true
+	        if (pStmt.executeUpdate() == 1) {
+	            result = true;
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result = false;
+
+	    } finally {
+	        try { if (conn != null) conn.close(); } catch (SQLException e) {}
+	    }
+
+	    return result;
+	}
+
+	
 }
