@@ -44,7 +44,7 @@ public class ModBandServlet extends HttpServlet {
 		List<Parts> partsList = new ArrayList<Parts>();
 		LoginUser user = (LoginUser)session.getAttribute("id");
 		List<BandInfo> biList= new ArrayList<BandInfo>();
-		int biNum = 4;
+		int biNum = 1;
 		
 		if (user != null && user.getId() != "") {
 			biList = biDao.showBand(Integer.parseInt(user.getId()));
