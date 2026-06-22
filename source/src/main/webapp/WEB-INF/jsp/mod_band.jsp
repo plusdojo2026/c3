@@ -163,7 +163,7 @@
             </div>
             <div class="cancel_create_btn">
                 <!-- キャンセルボタン -->
-                <a href="c3/HomeAdminServlet" class="cancel_btn">キャンセル</a>
+                <a href="HomeAdminServlet" class="cancel_btn">キャンセル</a>
                 <!-- 登録 -->
                 <input type="submit" name="create" id="create" value="登録">
             </div>
