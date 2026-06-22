@@ -23,6 +23,9 @@
             </div>
             <nav class="sp-nav">
                 <ul>
+                	<li><form action="HomeBandServlet" method="GET">
+                    <button type="submit">ホーム</button>
+                    </form></li>
                     <li><form action="LoginServlet" method="GET">
                     <button type="submit">ログアウト</button>
                     </form></li>

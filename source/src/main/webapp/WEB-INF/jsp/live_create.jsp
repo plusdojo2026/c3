@@ -22,6 +22,9 @@
 			</div>
 			<nav class="sp-nav">
 				<ul>
+					<li><form action="HomeAdminServlet" method="GET">
+                    <button type="submit">ホーム</button>
+                    </form></li>
 					<li>
 						<form action="AdminRegistServlet" method="post">
 							<button type="submit">新規登録</button>
