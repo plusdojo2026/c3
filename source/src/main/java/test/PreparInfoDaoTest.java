@@ -3,6 +3,7 @@ package test;
 import java.util.List;
 
 import dao.PreparInfoDao;
+import dto.LiveInfo;
 import dto.PreparInfo;
 
 public class PreparInfoDaoTest {
@@ -67,6 +68,27 @@ public class PreparInfoDaoTest {
 
         boolean deleteResult = dao.delete(1);
         System.out.println("DELETE結果: " + deleteResult);
+        
+        //ライブ情報IDからライブ情報テーブルをリストで持ってくるテスト
+        
+        System.out.println("---------- ライブ情報IDからライブ情報テーブルをリストで持ってくるリスト ----------");
+        
+        List<LiveInfo> liveInfoList = dao.selectLiveInfoByPreparId(2);
+        
+        if (liveInfoList != null && !liveInfoList.isEmpty()) {
+        	for (LiveInfo live : liveInfoList) {
+        		System.out.println(
+        				"ID" + live.getId()
+        				+ ", name=" + live.getName()
+        				+ ", begin_date=" + live.getBegin_date()
+        				+ ", end_date=" + live.getEnd_date()
+        				+ ", user_id=" + live.getUser_id()
+        				+ ", create_flag=" + live.isCreate_flag());
+        	}
+        } else {
+        	System.out.println("該当データなし");
+        }
+        
 
 
        // 5. SELECT BY LIVE_INFO_ID テスト
@@ -105,9 +127,8 @@ public class PreparInfoDaoTest {
      } else {
          System.out.println("該当データなし or SELECT失敗");
      }
-     
     }
-    
+   
     // 共通の出力メソッド（コードを短くするため）
     private static void print(PreparInfo pi) {
         System.out.println(
@@ -121,6 +142,5 @@ public class PreparInfoDaoTest {
                 ", live_info_id=" + pi.getLiveInfoId()
         );
     }
-    
-    
 }
+

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.LiveInfo;
 import dto.PreparInfo;
 
 public class PreparInfoDao {
@@ -383,5 +384,25 @@ public class PreparInfoDao {
         }
 
         return data;
+    }
+    
+    //prepar_infoテーブルに登録されたライブ情報IDからlive_infoテーブルの情報を持ってくる
+    public List<LiveInfo> selectLiveInfoByPreparId(int preparId) {
+    	
+    	PreparInfo prepar = selectById(preparId);
+    	List<LiveInfo>list = new ArrayList<>();
+    	
+    	if(prepar == null || prepar.getLiveInfoId() == null) {
+    		return list;
+    	}
+    	
+    	LiveInfoDao liveDao = new LiveInfoDao();
+    	
+    	LiveInfo live = liveDao.select(prepar.getLiveInfoId());
+    	
+    	if(live != null) {
+    		list.add(live);
+    	}
+    	return list;
     }
 }
