@@ -20,9 +20,12 @@ public class PreparRegistServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+    	
 		// TODO Auto-generated method stub
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/prepar_regist.jsp");
 		dispatcher.forward(request, response);
+		
+		
 	}   
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -91,7 +94,7 @@ public class PreparRegistServlet extends HttpServlet {
             }
      
             // 出演者ホーム画面へ戻す
-            response.sendRedirect("performer_home.jsp");
+            response.sendRedirect("home_band.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();

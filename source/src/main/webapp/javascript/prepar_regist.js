@@ -54,7 +54,7 @@ function createMusicSet() {
 function updateOrderNumbers() {
     const orders = document.querySelectorAll('.order');
     orders.forEach((input, index) => {
-        input.value = (index + 1) + "曲目";
+        input.value = (index + 1);
     });
 }
 

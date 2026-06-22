@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- 共通デザイン（ハンバーガーメニューなど）を読み込む -->
+<link rel="icon" type="image/png" href="image/liveicon.png">
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/prepar_regist.css">
 <title>ライブ運営助けるくん</title>
@@ -27,13 +28,8 @@
 			<nav class="sp-nav">
 				<ul>
 					<li>
-						<form action="HomeAdminServlet" method="get">
+						<form action="HomeBandServlet" method="get">
 							<button type="submit">ホーム</button>
-						</form>
-					</li>
-					<li>
-						<form action="AdminRegistServlet" method="get">
-							<button type="submit">新規登録</button>
 						</form>
 					</li>
 					<li>
@@ -42,8 +38,14 @@
 						</form>
 					</li>
 					<li>
-						<form action="LiveCreateServlet" method="get">
-							<button type="submit">ライブ情報作成</button>
+						<form action="ModBandServlet" method="get">
+							<button type="submit">バンド情報</button>
+						</form>
+					</li>
+
+					<li>
+						<form action="PreparRegistServlet" method="get">
+							<button type="submit">準備情報</button>
 						</form>
 					</li>
 				</ul>
@@ -65,6 +67,10 @@
 
 		<!-- ▼▼ 準備情報入力フォーム ▼▼ -->
 		<form id="prepar_form" method="POST" action="/c3/PreparRegistServlet">
+
+			<input type="hidden" name="band_info_id" value="${band_info.id}">
+			<input type="hidden" name="live_info_id" value="${live_info.id}">
+
 
 			<!-- 基本情報入力 -->
 			<div class="basic-info">
