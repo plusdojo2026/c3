@@ -85,6 +85,7 @@ public class LoginServlet extends HttpServlet {
 			LoginUser logUser = new LoginUser(id, user.getType());
 			HttpSession session = request.getSession();
 			session.setAttribute("id", logUser);
+			session.setAttribute("user", logUser);
 			
 			// メニューサーブレットにリダイレクトする
 			int type = user.getType();

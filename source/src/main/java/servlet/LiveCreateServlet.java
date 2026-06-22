@@ -18,6 +18,7 @@ import dao.LiveInfoDao;
 import dao.PreparInfoDao;
 import dto.BandInfo;
 import dto.LiveInfo;
+import dto.LoginUser;
 import dto.PreparInfo;
 import dto.Result;
 
@@ -86,14 +87,17 @@ public class LiveCreateServlet extends HttpServlet {
 		
 		PreparInfoDao piDao = new PreparInfoDao();
 		BandInfoDao biDao = new BandInfoDao();
-//		LoginUser user = (LoginUser)session.getAttribute("id");
+		LoginUser user = (LoginUser)session.getAttribute("id");
 		boolean flag = false;
 		boolean resultPrepar = false;
 		
 		// ライブ情報テーブルへ情報を登録する。
 		LiveInfoDao liDao = new LiveInfoDao();
-		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, 1, flag);
-//		LiveInfo li = new LiveInfo(0, liveName, beginDate, endDate, Integer.parseInt(user.getId()), flag);
+		LiveInfo li;
+		if (user != null)
+			li = new LiveInfo(0, liveName, beginDate, endDate, Integer.parseInt(user.getId()), flag);
+		else
+			li = new LiveInfo(0, liveName, beginDate, endDate, 1, flag);
 		boolean resultLive = liDao.insert(li);
 		
 		if (!resultLive) {
@@ -116,8 +120,11 @@ public class LiveCreateServlet extends HttpServlet {
 		for (int i = 0; i <= performerNum; i++) {
 			if (request.getParameter("band_infos[" + i + "]") != null && !request.getParameter("band_infos[" + i + "]" ).equals("") &&
 					request.getParameter("time[" + i + "]") != null && !request.getParameter("time[" + i + "]" ).equals("")) {
-//				BandInfo bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
-				BandInfo bi = new BandInfo(0, request.getParameter("band_infos[" + i + "]"), 0);
+				BandInfo bi;
+				if (user != null)
+					bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
+				else 
+					bi = new BandInfo(0, request.getParameter("band_infos[" + i + "]"), 0);
 				// バンドIDを持ってくる
 				List<BandInfo> biList = biDao.select(bi);
 				for (BandInfo b : biList) {
