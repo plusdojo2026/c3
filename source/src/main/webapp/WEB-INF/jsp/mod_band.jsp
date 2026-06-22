@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ライブ運営助けるくん</title>
+    <link rel="icon" type="image/png" href="image/liveicon.png">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/mod_band.css">
 </head>
