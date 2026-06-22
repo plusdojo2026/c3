@@ -26,7 +26,7 @@
                 	<li><form action="HomeBandServlet" method="GET">
                     <button type="submit">ホーム</button>
                     </form></li>
-                    <li><form action="LoginServlet" method="GET">
+                    <li><form action="LoginServlet" method="POST">
                     <button type="submit">ログアウト</button>
                     </form></li>
                     <li><form action="ModBandServlet" method="GET">
@@ -167,7 +167,7 @@
             </div>
             <div class="cancel_create_btn">
                 <!-- キャンセルボタン -->
-                <a href="HomeAdminServlet" class="cancel_btn">キャンセル</a>
+                <a href="HomeBandServlet" class="cancel_btn">キャンセル</a>
                 <!-- 登録 -->
                 <input type="submit" name="create" id="create" value="登録">
             </div>
