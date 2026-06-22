@@ -1,10 +1,16 @@
 @charset "UTF-8";
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-    margin-top: 80px;
+
+.live-list{
+	display: flex;
+	justify-content: center;
+	gap:50px;
+	margin-top: 80px;
+	flex-wrap: wrap;
+
+}
+
+.live-list form {
+	margin: 0;
 }
 
 .date {
@@ -22,8 +28,6 @@ form {
     text-align: center;
     cursor: pointer;
 
-   margin-top: 200px;
-	margin-left: 180px;
 }
 
 .center-message {

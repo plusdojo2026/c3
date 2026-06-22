@@ -103,7 +103,10 @@ public class LiveShowServlet extends HttpServlet {
 
 		    request.setAttribute("lives", livelist);
 
-		    response.sendRedirect("/c3/PreparRegistServlet");
+		    response.sendRedirect(
+		    		request.getContextPath()
+		    		+ "/PreparRegistServlet?liveId="
+		    		+ liveId);
 
 		    return;
 		}
@@ -124,7 +127,10 @@ public class LiveShowServlet extends HttpServlet {
 
 		        request.setAttribute("lives", livelist);
 
-		        response.sendRedirect("/c3/PreparRegistServlet");
+		        response.sendRedirect(
+		        		request.getContextPath()
+		        		+ "/PreparRegistServlet?liveId="
+		        		+ liveId);
 
 		        return;
 		    }
@@ -137,7 +143,9 @@ public class LiveShowServlet extends HttpServlet {
 		 
 		 if (idLive == null) {
 			    
-			 response.sendRedirect("/c3/LiveShowServlet");
+			 response.sendRedirect(
+					 request.getContextPath()
+					 + "/LiveShowServlet?liveId=");
 			    return;
 			}
 		 
@@ -163,7 +171,10 @@ public class LiveShowServlet extends HttpServlet {
 		//タイムテーブル表示画面に遷移する
 		else {
 			System.out.println("テスト4");
-			response.sendRedirect("/c3/TableShowServlet");
+			response.sendRedirect(
+					request.getContextPath()
+					+ "/TableShowServlet?liveId="
+					+ liveId);
 			return;
 		}
 		

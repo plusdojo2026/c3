@@ -140,7 +140,10 @@ public class HomeAdminServlet extends HttpServlet {
 		System.out.println(idLive.getName());
 		if (!idLive.isCreate_flag()) {
 			System.out.println("テスト3");
-			response.sendRedirect("/c3/TableCreateServlet");
+			response.sendRedirect(
+					request.getContextPath()
+				+	"/TableCreateServlet?liveId="
+				+ liveId);
 			return;
 			
 	}
@@ -148,7 +151,10 @@ public class HomeAdminServlet extends HttpServlet {
 		//タイムテーブル表示画面に遷移する
 		else {
 			System.out.println("テスト4");
-			response.sendRedirect("/c3/TableShowServlet");
+			response.sendRedirect(
+					request.getContextPath()
+					+ "/TableShowServlet?liveid="
+					+ liveId);
 			return;
 		}
 		

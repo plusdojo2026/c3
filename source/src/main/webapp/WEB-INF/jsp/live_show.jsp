@@ -49,6 +49,7 @@
 <c:choose>
 
   <c:when test="${not empty lives}">
+  <div class="live-list">
     <c:forEach var="live" items="${lives}">
       <form action="/c3/LiveShowServlet" method="POST">
         <button type="submit" name="liveId" value="${live.id}" class="date">
@@ -56,7 +57,9 @@
         </button>
       </form>
     </c:forEach>
+    </div>
   </c:when>
+ 
 
   <c:otherwise>
     <div class="center-message">

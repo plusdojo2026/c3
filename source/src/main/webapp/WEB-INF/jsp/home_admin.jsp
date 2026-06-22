@@ -50,7 +50,7 @@
  
 <c:if test = "${not empty lives}">
 
-
+<div class="live-list">
 <c:forEach var = "live" items="${lives}">
 
 <form action="/c3/HomeAdminServlet"	method = "POST">
@@ -59,6 +59,7 @@
     </button>
     </form>
 </c:forEach>
+</div>
 
 </c:if>
 
