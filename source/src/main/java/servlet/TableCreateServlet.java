@@ -28,12 +28,12 @@ public class TableCreateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	request.setCharacterEncoding("UTF-8");
 			
-	//		// ログインしていなかったらログインサーブレットへ
-	//		HttpSession session = request.getSession();
-	//		if (session.getAttribute("id") == null) {
-	//			response.sendRedirect("/c3/LoginServlet");
-	//			return;
-	//		}
+//			// ログインしていなかったらログインサーブレットへ
+//			HttpSession session = request.getSession();
+//			if (session.getAttribute("id") == null) {
+//				response.sendRedirect("/c3/LoginServlet");
+//				return;
+//			}
 	
 	LiveInfoDao liDao = new LiveInfoDao();
 	PreparInfoDao piDao = new PreparInfoDao();
@@ -56,7 +56,7 @@ public class TableCreateServlet extends HttpServlet {
 	
 	// 準備情報をもとにバンド情報を持ってくる
 	for (PreparInfo pi : piList) {
-		biList.addAll(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
+		biList.add(biDao.selectById(pi.getBandInfoId()));
 	}
 
 	// それぞれをデータとして渡す
@@ -104,7 +104,7 @@ public class TableCreateServlet extends HttpServlet {
 			result = piList.add(piDao.selectById(Integer.parseInt(stringPiId[i])));
 			// それぞれに対して順番と転換時間を設定する。
 			piList.get(i).setSetlist(i + 1);
-			piList.get(i).setPreparItems(preparTime);
+			piList.get(i).setPreparTime(Integer.parseInt(preparTime));
 		}
 		
 		// ホームサーブレットで移る。

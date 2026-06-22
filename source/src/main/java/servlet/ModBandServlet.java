@@ -30,10 +30,10 @@ public class ModBandServlet extends HttpServlet {
 		
 //		// ログインしていなかったらログインサーブレットへ
 		HttpSession session = request.getSession();
-//		if (session.getAttribute("id") == null) {
-//			response.sendRedirect("/c3/LoginServlet");
-//			return;
-//		}
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
 		
 		// 登録されているデータがあるか検索し、登録されたデータがあった場合その内容をリクエストスコープに登録する
 		BandInfoDao biDao = new BandInfoDao();
@@ -78,7 +78,7 @@ public class ModBandServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-//		// ログインしていなかったらログインサーブレットへ
+		// ログインしていなかったらログインサーブレットへ
 		HttpSession session = request.getSession();
 //		if (session.getAttribute("id") == null) {
 //			response.sendRedirect("/c3/LoginServlet");

@@ -45,8 +45,8 @@ public class TableShowServlet extends HttpServlet {
 		int liveId = 1;
 		
 		// ライブを特定するような情報を得てライブ情報を取得する
-		if (request.getParameter("liveId") != null) {
-			liveId = Integer.parseInt(request.getParameter("liveId"));
+		if (request.getParameter("liveid") != null) {
+			liveId = Integer.parseInt(request.getParameter("liveid"));
 			System.out.println("liveId:" + liveId);
 		}
 		
@@ -56,7 +56,7 @@ public class TableShowServlet extends HttpServlet {
 		
 		// 準備情報をもとにバンド情報を持ってくる
 		for (PreparInfo pi : piList) {
-			biList.addAll(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
+			biList.add(biDao.selectById(pi.getBandInfoId()));
 		}
 
 		// それぞれをデータとして渡す
