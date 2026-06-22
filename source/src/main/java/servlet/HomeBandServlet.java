@@ -55,9 +55,9 @@ public class HomeBandServlet extends HttpServlet {
 		List<LiveInfo> myLiList  = new ArrayList<LiveInfo>();	// 自分が出演するライブ情報の一覧を入れる
 		LiveInfo li = new LiveInfo();	// 表示するタイムテーブルのライブ情報表示
 		
-		//for (BandInfo band : biList) {
-		//   myPiList.addAll(piDao.selectByBandId(band.getId()));
-		//}
+		for (BandInfo band : biList) {
+		   myPiList.addAll(piDao.selectByBandId(band.getId()));
+		}
 		
 		
 		// PreparInfoに登録されたライブ情報IDからライブ情報テーブルを持ってくる。
