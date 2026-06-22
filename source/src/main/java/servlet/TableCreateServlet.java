@@ -70,7 +70,6 @@ public class TableCreateServlet extends HttpServlet {
 		List<EachMusic> emList = new ArrayList<EachMusic>();
 		emList = emDao.select(piList.get(i));
 		request.setAttribute(name, emList);
-		
 	}
 	
 	// タイムテーブル作成画面へフォワードする

@@ -80,7 +80,9 @@ public class LoginServlet extends HttpServlet {
 		
 		if (user != null) { // ログイン成功
 			// セッションスコープにIDを格納する
-			LoginUser logUser = new LoginUser(user_id, user.getType());
+			
+			String id = dao.select(user_id);
+			LoginUser logUser = new LoginUser(id, user.getType());
 			HttpSession session = request.getSession();
 			session.setAttribute("id", logUser);
 			

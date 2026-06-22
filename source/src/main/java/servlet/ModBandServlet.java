@@ -30,10 +30,10 @@ public class ModBandServlet extends HttpServlet {
 		
 //		// ログインしていなかったらログインサーブレットへ
 		HttpSession session = request.getSession();
-		if (session.getAttribute("id") == null) {
-			response.sendRedirect("/c3/LoginServlet");
-			return;
-		}
+//		if (session.getAttribute("id") == null) {
+//			response.sendRedirect("/c3/LoginServlet");
+//			return;
+//		}
 		
 		// 登録されているデータがあるか検索し、登録されたデータがあった場合その内容をリクエストスコープに登録する
 		BandInfoDao biDao = new BandInfoDao();
@@ -44,6 +44,7 @@ public class ModBandServlet extends HttpServlet {
 		List<Parts> partsList = new ArrayList<Parts>();
 		LoginUser user = (LoginUser)session.getAttribute("id");
 		List<BandInfo> biList= new ArrayList<BandInfo>();
+		int biNum = 4;
 		
 		if (user != null && user.getId() != "") {
 			biList = biDao.showBand(Integer.parseInt(user.getId()));
@@ -52,8 +53,6 @@ public class ModBandServlet extends HttpServlet {
 			}
 		}
 		partsList = ptDao.showAllParts();
-		
-		int biNum = 1;
 		
 		if (bi != null) {
 			bmList = bmDao.showMember(bi);

@@ -33,8 +33,7 @@ public class BandMemberDao {
 
 			// 値を設定する。
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			// pStmt.setInt(1, bi.getId()); //BandInfoDTO作成待ち
-			pStmt.setInt(1, 1);
+			 pStmt.setInt(1, bi.getId()); //BandInfoDTO作成待ち
 
 			// SELECT文を実行し結果を取得
 			ResultSet rs = pStmt.executeQuery();

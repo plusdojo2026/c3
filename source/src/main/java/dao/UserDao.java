@@ -105,4 +105,44 @@ public class UserDao {
 		}
 	}
 	
+	public String select(String name) {
+		String id = "";
+		
+		Connection conn = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/C3?"
+							+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					"root", "password");
+			
+			// 同じIDが存在するか確認
+			String checkSql = "SELECT id FROM users WHERE user_id = ?";
+			PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+			checkStmt.setString(1, name);
+			
+			ResultSet rs = checkStmt.executeQuery();
+			
+			if (rs.next()) {
+				id = rs.getString("id");
+			}
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+			
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return id;
+	}
+	
 }
