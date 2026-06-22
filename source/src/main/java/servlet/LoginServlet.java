@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
+import dto.LoginUser;
 import dto.Result;
 import dto.User;
 
@@ -79,8 +80,9 @@ public class LoginServlet extends HttpServlet {
 		
 		if (user != null) { // ログイン成功
 			// セッションスコープにIDを格納する
+			LoginUser logUser = new LoginUser(user_id, user.getType());
 			HttpSession session = request.getSession();
-			session.setAttribute("user", user);
+			session.setAttribute("id", logUser);
 			
 			// メニューサーブレットにリダイレクトする
 			int type = user.getType();
