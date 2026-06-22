@@ -17,8 +17,8 @@ import dao.BandInfoDao;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
 import dto.LiveInfo;
-import dto.LoginUser;
 import dto.PreparInfo;
+import dto.User;
 
 @WebServlet("/HomeBandServlet")
 public class HomeBandServlet extends HttpServlet {
@@ -27,34 +27,41 @@ public class HomeBandServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-//		// ログインしていなかったらログインサーブレットへ
+		 //ログインしていなかったらログインサーブレットへ
 		HttpSession session = request.getSession();
-//		if (session.getAttribute("id") == null) {
-//			response.sendRedirect("/c3/LoginServlet");
-//			return;
-//		}
+		if (session.getAttribute("user") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
+		
+		//ログインユーザーIDの取得
+		User login = (User)session.getAttribute("user");
+		String userId = login.getUser_id();
 		
 		// データがあるか検索する。
 		// データがある場合、最もライブ開催日が近い、且つタイムテーブル作成済みのものを表示する
 		
-		LoginUser user = (LoginUser)session.getAttribute("id");
-		
 		BandInfoDao biDao = new BandInfoDao();
-//		BandInfo bi = biDao.show(user.getId());	// ユーザー名検索でbiを持ってくる
+		
+		//User user = (User)session.getAttribute("user");
+		//List<BandInfo> biList = biDao.showBand(Integer.parseInt(user.getUser_id()));
 		
 		PreparInfoDao piDao = new PreparInfoDao();
-		List<PreparInfo> myPiList = new ArrayList<PreparInfo>();	// 自分のBandIdが登録されたPrepreデータを得る
+		List<PreparInfo> myPiList = new ArrayList<PreparInfo>();	// 自分のBandIdが登録されたPreparデータを得る
 		List<PreparInfo> tablePiList = new ArrayList<PreparInfo>();	// タイムテーブルに表示するためのPreparデータを得る
 		
 		LiveInfoDao liDao = new LiveInfoDao();
 		List<LiveInfo> myLiList  = new ArrayList<LiveInfo>();	// 自分が出演するライブ情報の一覧を入れる
 		LiveInfo li = new LiveInfo();	// 表示するタイムテーブルのライブ情報表示
 		
-//		myPiList = showAllPreparInfo(bi.getId());	// 自分のバンドIdが登録された準備情報を持ってくる。
+		//for (BandInfo band : biList) {
+		//   myPiList.addAll(piDao.selectByBandId(band.getId()));
+		//}
+		
 		
 		// PreparInfoに登録されたライブ情報IDからライブ情報テーブルを持ってくる。
 		for (PreparInfo pi : myPiList) {
-//			myLiList.add(liDao.select(pi.getLiveId, "", "", "", ""));
+			myLiList.add(liDao.select(pi.getLiveInfoId()));
 		}
 		
 		
@@ -66,16 +73,16 @@ public class HomeBandServlet extends HttpServlet {
 		for (LiveInfo l : myLiList ) {
 			if (l.getBegin_date().isBefore(firstLi.getBegin_date())) {
 				// タイムテーブルが作成済みならfirstLiに入れ替える
-//				if (l.getCreate_flag())  {
-//					firstLi = l;
-//				}
+				if (l.isCreate_flag())  {
+					firstLi = l;
+				}
 			}
 		}
 		
 		// 情報があればfirstLiテーブルから得られるデータを探索する
 		// 情報が一つもなければデータを設定しない
 		if (!firstLi.getBegin_date().equals(date)) {	// 情報がある場合
-//			myPiList = piDao.showAllPreparInfo(firstLi.getId());	// ライブ情報IDからリストを持ってくる
+			LiveInfo LiList = liDao.select(firstLi.getId());	// ライブ情報IDからリストを持ってくる
 			request.setAttribute("live_info", firstLi);
 			request.setAttribute("prepar_infos", myPiList);
 		}
