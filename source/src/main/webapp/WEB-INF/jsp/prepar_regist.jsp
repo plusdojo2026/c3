@@ -32,20 +32,16 @@
 							<button type="submit">ホーム</button>
 						</form>
 					</li>
-					<li>
-						<form action="LoginServlet" method="post">
+					<li><form action="LoginServlet" method="GET">
 							<button type="submit">ログアウト</button>
 						</form>
 					</li>
-					<li>
-						<form action="ModBandServlet" method="get">
+					<li><form action="ModBandServlet" method="GET">
 							<button type="submit">バンド情報</button>
 						</form>
 					</li>
-
-					<li>
-						<form action="PreparRegistServlet" method="get">
-							<button type="submit">準備情報</button>
+					<li><form action="LiveShowServlet" method="GET">
+							<button type="submit">ライブ情報</button>
 						</form>
 					</li>
 				</ul>
