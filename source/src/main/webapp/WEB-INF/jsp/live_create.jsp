@@ -188,7 +188,7 @@
 			<p id="blank_alert" class="error"></p>
 			<div class="cancel_create_btn">
 				<!-- キャンセルボタン -->
-				<a href="Home" class="cancel_btn">キャンセル</a>
+				<a href="HomeAdminServlet" class="cancel_btn">キャンセル</a>
 				<!-- 送信 -->
 				<input type="submit" name="create" id="create" value="送信">
 			</div>
