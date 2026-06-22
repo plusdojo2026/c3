@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>タイムテーブル表示</title>
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/home_band.css">
+    <link rel="stylesheet" href="css/home_staff.css">
 </head>
 
 <body>
@@ -48,9 +48,9 @@
 
     </div>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+   <!-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>-->
     <script src="javascript/common.js"></script>
-    <script src="javascript/home_band.js"></script>
+    <script src="javascript/home_staff.js"></script>
 
 </body>
 

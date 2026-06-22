@@ -85,7 +85,7 @@ function format(h,m){
 }
 
 /* 並び替え */
-function makeSortable(){
+/*function makeSortable(){
 
     new Sortable(document.getElementById("schedule"),{
 
@@ -113,7 +113,7 @@ function makeSortable(){
             drawSchedule();
         }
     });
-}
+}*/
 
 /* モーダル表示 */
 function showBandDetail(name){
