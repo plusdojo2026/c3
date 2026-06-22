@@ -41,18 +41,22 @@ public class TableShowServlet extends HttpServlet {
 		EachMusicDao emDao = new EachMusicDao();
 		List<PreparInfo> piList = new ArrayList<PreparInfo>();
 		List<BandInfo> biList = new ArrayList<BandInfo>();
-
+		LiveInfo li;
+		int liveId = 1;
+		
 		// ライブを特定するような情報を得てライブ情報を取得する
-		LiveInfo li = new LiveInfo();
+		if (request.getParameter("liveId") != null) {
+			liveId = Integer.parseInt(request.getParameter("liveId"));
+			System.out.println("liveId:" + liveId);
+		}
 		
 		// ライブ情報IDを参考にライブに参加する準備情報を持ってくる
-//		piList = piDao.selectByLiveInfoId(li.getId());
-		li = liDao.select(1);
-		piList = piDao.selectByLiveInfoId(1);
+		li = liDao.select(liveId);
+		piList = piDao.selectByLiveInfoId(liveId);
 		
 		// 準備情報をもとにバンド情報を持ってくる
 		for (PreparInfo pi : piList) {
-			biList.add(biDao.selectById(pi.getBandInfoId()));
+			biList.addAll(biDao.select(new BandInfo(pi.getBandInfoId(), "", 0)));
 		}
 
 		// それぞれをデータとして渡す

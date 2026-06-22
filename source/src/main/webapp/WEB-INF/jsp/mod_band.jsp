@@ -49,12 +49,12 @@
             <div class="band_name">
                 バンド名<span class="required"></span><br>
                 <c:if test="${not empty band_info_id }">
-                <input type="hidden" name="band_id" value=<c:out value="${band_info_id }" />>
-                <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info_name }" />>
+                <input type="hidden" name="band_id" value="<c:out value="${band_info_id }" />">
+                <input type="text" placeholder="バンド名" name="band_name" value="<c:out value="${band_info_name }" />">
                 </c:if>
                 <c:if test="${empty band_info_id }">
                 <input type="hidden" name="band_id" value="0" >
-                <input type="text" placeholder="バンド名" name="band_name" value=<c:out value="${band_info_name }" />>
+                <input type="text" placeholder="バンド名" name="band_name" value="<c:out value="${band_info_name }" />">
                 </c:if>
 
             </div>
@@ -69,14 +69,14 @@
                     <c:forEach var="band_member" items="${band_members }" varStatus="status">
                     <tr class="band_info_row">
                         <td>
-                        <input type="hidden" name="member_id[${status.index }]" value=<c:out value="${band_member.id }" />>
-                        <input type="text" name="member_name[${status.index }]" placeholder="氏名" value="${band_member.name }"></td>
+                        <input type="hidden" name="member_id[${status.index }]" value="<c:out value="${band_member.id }" />">
+                        <input type="text" name="member_name[${status.index }]" placeholder="氏名" value="<c:out value="${band_member.name }" />"></td>
                         <td>
                         <c:if test= "${not empty parts }">
                         <select name="parts[0]" >
                             <option value="">--選択してください--</option>
                             <c:forEach var="part" items="${parts }">
-                            	<option value=<c:out value="${part.id }" /> <c:if test="${part.id  == band_member.partId }">selected</c:if>><c:out value="${part.name }" /></option>
+                            	<option value="<c:out value="${part.id }" />" <c:if test="${part.id  == band_member.partId }">selected</c:if>><c:out value="${part.name }" /></option>
                             </c:forEach>
                         </select></c:if></td>
                         <td>
