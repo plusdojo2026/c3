@@ -5,8 +5,9 @@ import dao.UserDao;
 import dto.User;
 public class UserDaoTest {
 	public static void main(String[] args) {
-		testIsLoginOK1(); // ユーザーが見つかる場合のテスト
-		testIsLoginOK2(); // ユーザーが見つからない場合のテスト
+		testSelect("evrin");
+//		testIsLoginOK1(); // ユーザーが見つかる場合のテスト
+//		testIsLoginOK2(); // ユーザーが見つからない場合のテスト
 	}
 	// ユーザーが見つかる場合のテスト
 		public static void testIsLoginOK1() {
@@ -29,4 +30,9 @@ public class UserDaoTest {
 			}
 		}
 
+		public static void testSelect(String name) {
+			UserDao dao = new UserDao();
+			String id = dao.select(name);
+			System.out.println("id:" + id);
+		}
 }
