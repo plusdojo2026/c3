@@ -45,6 +45,7 @@
 		<div class="logo">
 			<img src="image/c3-logo.png" alt="ロゴ">
 		</div>
+		</header>
 <c:choose>
 
   <c:when test="${not empty lives}">
