@@ -198,6 +198,8 @@ h1 {
     width: 500px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+	overflow-y: auto;
+	height: 350px;
 }
 
 /* 閉じるボタン */

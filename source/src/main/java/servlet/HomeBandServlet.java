@@ -16,9 +16,10 @@ import javax.servlet.http.HttpSession;
 import dao.BandInfoDao;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
+import dto.BandInfo;
 import dto.LiveInfo;
+import dto.LoginUser;
 import dto.PreparInfo;
-import dto.User;
 
 @WebServlet("/HomeBandServlet")
 public class HomeBandServlet extends HttpServlet {
@@ -27,24 +28,24 @@ public class HomeBandServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		 //ログインしていなかったらログインサーブレットへ
+		// ログインしていなかったらログインサーブレットへ
 		HttpSession session = request.getSession();
 		if (session.getAttribute("user") == null) {
-			response.sendRedirect("/c3/LoginServlet");
-			return;
+		    response.sendRedirect("/c3/LoginServlet");
+		    return;
 		}
-		
-		//ログインユーザーIDの取得
-		User login = (User)session.getAttribute("user");
-		String userId = login.getUser_id();
-		
-		// データがあるか検索する。
-		// データがある場合、最もライブ開催日が近い、且つタイムテーブル作成済みのものを表示する
-		
+
+		// ★ LoginUser を取得（User ではない）
+		LoginUser login = (LoginUser)session.getAttribute("user");
+
+		// ★ LoginUser.id は users.id（数値）を文字列で保持している
+		int userId = Integer.parseInt(login.getId());
+
+		// BandInfo を取得
 		BandInfoDao biDao = new BandInfoDao();
-		
-		//User user = (User)session.getAttribute("user");
-		//List<BandInfo> biList = biDao.showBand(Integer.parseInt(user.getUser_id()));
+		List<BandInfo> biList = biDao.showBand(userId);
+
+
 		
 		PreparInfoDao piDao = new PreparInfoDao();
 		List<PreparInfo> myPiList = new ArrayList<PreparInfo>();	// 自分のBandIdが登録されたPreparデータを得る

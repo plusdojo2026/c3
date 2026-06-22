@@ -269,6 +269,12 @@ function handleTableAreaDragOver(e) {
    保存（Servlet に送信）
 ---------------------------- */
 function exportTimetable() {
+
+    // ★ 保存確認ダイアログ
+    if (!confirm("保存しますか？")) {
+        return; // キャンセルされたら何もしない
+    }
+
     fetch("TableCreateServlet", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -282,6 +288,7 @@ function exportTimetable() {
     .then(msg => alert("保存しました"))
     .catch(err => alert("保存に失敗しました"));
 }
+
 
 /* ---------------------------
    時間計算
@@ -316,6 +323,16 @@ function formatTime(totalMinutes) {
     const m = totalMinutes % 60;
     return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
+
+
+/*　削除ボタン */
+
+function cancelPage() {
+    if (confirm("変更を破棄してリセットしますか？")) {
+        location.reload();
+    }
+}
+
 
 /* 初期表示 */
 renderPrepList();
