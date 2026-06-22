@@ -33,7 +33,7 @@
 					</li>
 
 					<li>
-						<form action="PreparResistServlet" method="get">
+						<form action="PreparRegistServlet" method="get">
 							<button type="submit">準備情報</button>
 						</form>
 					</li>

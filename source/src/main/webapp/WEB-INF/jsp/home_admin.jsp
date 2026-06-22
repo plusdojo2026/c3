@@ -23,18 +23,18 @@
 			<nav class="sp-nav">
 				<ul>
 					<li>
-						<form action="LoginServlet" method="post">
+						<form action="AdminRegistServlet" method="post">
 							<button type="submit">新規登録</button>
 						</form>
 					</li>
 					<li>
-						<form action="ModBandServlet" method="get">
+						<form action="LoginServlet" method="get">
 							<button type="submit">ログアウト</button>
 						</form>
 					</li>
 
 					<li>
-						<form action="PreparResistServlet" method="get">
+						<form action="LiveCreateServlet" method="get">
 							<button type="submit">ライブ情報作成</button>
 						</form>
 					</li>

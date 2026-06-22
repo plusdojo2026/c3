@@ -130,7 +130,7 @@ public class LiveShowServlet extends HttpServlet {
 		    }
 
 		//③ live_infoテーブル、prepar_infoテーブルのどちらにもデータはあるが、管理者がタイムテーブルを作成していない場合
-		//画面に「まだタイムテーブルが作成されていません」と表示
+		//画面にアラートで「まだタイムテーブルが作成されていません」と表示
 		//live_infoのデータ取得
 			LiveInfoDao EachLiveDao = new LiveInfoDao();
 		 LiveInfo idLive = EachLiveDao.select(liveId);
@@ -146,6 +146,10 @@ public class LiveShowServlet extends HttpServlet {
 		boolean created = false;
 		if (!idLive.isCreate_flag()) {
 			
+			LiveInfoDao liveDao = new LiveInfoDao();
+			List<LiveInfo> livelist = liveDao.selectByUserId(1);
+			
+			request.setAttribute("lives", livelist);
 			request.setAttribute("noTimeTable", true);
 			System.out.println("テスト3");
 			
