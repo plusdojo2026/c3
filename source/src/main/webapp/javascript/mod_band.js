@@ -6,6 +6,7 @@ window.onload = function () {
 		alert(result.getMessage);
 	}
 
+}
 let band_member = document.getElementById('band_member');
 let rowIndex = document.querySelectorAll("tr.band_info_row").length;
     
