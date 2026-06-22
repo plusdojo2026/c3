@@ -173,7 +173,7 @@ public class LiveShowServlet extends HttpServlet {
 			System.out.println("テスト4");
 			response.sendRedirect(
 					request.getContextPath()
-					+ "/TableShowServlet?liveId="
+					+ "/TableShowBandServlet?liveId="
 					+ liveId);
 			return;
 		}
