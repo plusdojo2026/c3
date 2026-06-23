@@ -82,6 +82,7 @@ public class HomeStaffServlet extends HttpServlet {
 		// 情報が一つもなければデータを設定しない
 		if (!firstLi.getBegin_date().equals(date)) {	// 情報がある場合
 			LiveInfo LiList = liDao.select(firstLi.getId());	// ライブ情報IDからリストを持ってくる
+			request.setAttribute("band_infos", biList);
 			request.setAttribute("live_info", firstLi);
 			request.setAttribute("prepar_infos", myPiList);
 		}

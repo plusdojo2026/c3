@@ -1,29 +1,3 @@
-const bands = [
-    { name:"Aバンド", playTime:30 },
-    { name:"Bバンド", playTime:30 },
-    { name:"Cバンド", playTime:40 },
-    { name:"Dバンド", playTime:30 }
-];
-
-const changeTime = 10;
-
-/* ダミー詳細データ */
-const bandDetails = {
-    "Aバンド":[
-        { song:"Song A", light:"青", sound:"通常", note:"MCあり" },
-        { song:"Song B", light:"赤", sound:"強め", note:"ギターソロ" }
-    ],
-    "Bバンド":[
-        { song:"Rock", light:"白", sound:"低音", note:"" }
-    ],
-    "Cバンド":[
-        { song:"Summer", light:"黄", sound:"通常", note:"" }
-    ],
-    "Dバンド":[
-        { song:"Final", light:"紫", sound:"エコー", note:"ラスト" }
-    ]
-};
-
 drawSchedule();
 
 function drawSchedule(){
@@ -67,7 +41,7 @@ function drawSchedule(){
         }
     });
 
-    makeSortable();
+    //makeSortable();
 }
 
 function addMinute(time, min){
