@@ -285,8 +285,8 @@ public boolean insert(BandInfo Band) {
 			while (rs.next()) {
 				BandInfo bi;
 				// リストへコピー
-				bi = new BandInfo(rs.getInt("band_info.id"), rs.getString("band_info.name"),
-						rs.getInt("band_info.user_id"));
+				bi = new BandInfo(rs.getInt("id"), rs.getString("name"),
+						rs.getInt("user_id"));
 				biList.add(bi);
 			}
 
@@ -310,4 +310,39 @@ public boolean insert(BandInfo Band) {
 
 		return biList;
 	}
+	
+	public List<BandInfo> showAllBands() {
+	    List<BandInfo> list = new ArrayList<>();
+	    String sql = "SELECT * FROM band_info";
+
+	    try (Connection con = getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+
+	        while (rs.next()) {
+	            list.add(new BandInfo(
+	                rs.getInt("id"),
+	                rs.getString("name"),
+	                rs.getInt("user_id")
+	            ));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list;
+	}
+
+
+	private Connection getConnection() throws SQLException, ClassNotFoundException {
+	    Class.forName("com.mysql.cj.jdbc.Driver");
+	    return DriverManager.getConnection(
+	        "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+	        "root",
+	        "password"
+	    );
+	}
+
+
+	
+	
 }

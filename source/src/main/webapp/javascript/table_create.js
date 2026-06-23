@@ -30,27 +30,24 @@ let convertTime = 10;
 /* ---------------------------
    モーダル表示
 ---------------------------- */
-function showBandDetail(name) {
+function showBandDetail(bandName) {
 
-    const data = bandDetails[name] || [];
+    // バンドIDを取得
+    const band = bandInfos.find(b => b.name === bandName);
+    if (!band) return;
 
-    let html = `<h2>${name}</h2>`;
+    // 準備情報を取得
+    const prep = preparInfos.find(p => p.bandId === band.id);
 
-    data.forEach((s, i) => {
-        html += `
-            <div class="song">
-                <h3>${i + 1}曲目</h3>
-                <p>曲名：${s.song}</p>
-                <p>照明：${s.light}</p>
-                <p>音響：${s.sound}</p>
-                <p>備考：${s.note}</p>
-            </div>
-        `;
-    });
+    let html = `<h2>${bandName}</h2>`;
+
+    html += `<h3>準備情報</h3>`;
+    html += `<p>${prep ? prep.info : "準備情報がありません"}</p>`;
 
     document.getElementById("modalBody").innerHTML = html;
     document.getElementById("modal").style.display = "block";
 }
+
 
 /* ---------------------------
    モーダル閉じる
@@ -331,6 +328,24 @@ function cancelPage() {
     if (confirm("変更を破棄してリセットしますか？")) {
         location.reload();
     }
+}
+
+function showBandDetail(bandName) {
+
+    // バンドIDを取得
+    const band = bandInfos.find(b => b.name === bandName);
+    if (!band) return;
+
+    // 準備情報を取得
+    const prep = preparInfos.find(p => p.bandId === band.id);
+
+    let html = `<h2>${bandName}</h2>`;
+
+    html += `<h3>準備情報</h3>`;
+    html += `<p>${prep ? prep.info : "準備情報がありません"}</p>`;
+
+    document.getElementById("modalBody").innerHTML = html;
+    document.getElementById("modal").style.display = "block";
 }
 
 

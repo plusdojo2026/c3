@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,82 +13,81 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.BandInfoDao;
+import dao.EachMusicDao;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
 import dto.BandInfo;
+import dto.EachMusic;
 import dto.LiveInfo;
 import dto.LoginUser;
 import dto.PreparInfo;
 
 @WebServlet("/HomeStaffServlet")
 public class HomeStaffServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		// ログインしていなかったらログインサーブレットへ
-				HttpSession session = request.getSession();
-				if (session.getAttribute("user") == null) {
-				    response.sendRedirect("/c3/LoginServlet");
-				    return;
-				}
+    private static final long serialVersionUID = 1L;
 
-				// ★ LoginUser を取得（User ではない）
-				LoginUser login = (LoginUser)session.getAttribute("user");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-				// ★ LoginUser.id は users.id（数値）を文字列で保持している
-				int userId = Integer.parseInt(login.getId());
+        request.setCharacterEncoding("UTF-8");
 
-				// BandInfo を取得
-				BandInfoDao biDao = new BandInfoDao();
-				List<BandInfo> biList = biDao.showBand(userId);
-		
-		PreparInfoDao piDao = new PreparInfoDao();
-		List<PreparInfo> myPiList = new ArrayList<PreparInfo>();	// 自分のBandIdが登録されたPreparデータを得る
-		List<PreparInfo> tablePiList = new ArrayList<PreparInfo>();	// タイムテーブルに表示するためのPreparデータを得る
-		
-		LiveInfoDao liDao = new LiveInfoDao();
-		List<LiveInfo> myLiList  = new ArrayList<LiveInfo>();	// 自分が出演するライブ情報の一覧を入れる
-		LiveInfo li = new LiveInfo();	// 表示するタイムテーブルのライブ情報表示
-		
-		for (BandInfo band : biList) {
-		   myPiList.addAll(piDao.selectByBandId(band.getId()));
-		}
-		
-		
-		// PreparInfoに登録されたライブ情報IDからライブ情報テーブルを持ってくる。
-		for (PreparInfo pi : myPiList) {
-			myLiList.add(liDao.select(pi.getLiveInfoId()));
-		}
-		
-		
-		LocalDateTime date = LocalDateTime.now();
-		LiveInfo firstLi = new LiveInfo();	// 今日の日にちにを持つデータを作成する。
-		firstLi.setBegin_date(date);
-		
-		// firstLiにデータを入れる。
-		for (LiveInfo l : myLiList ) {
-			if (l.getBegin_date().isBefore(firstLi.getBegin_date())) {
-				// タイムテーブルが作成済みならfirstLiに入れ替える
-				if (l.isCreate_flag())  {
-					firstLi = l;
-				}
-			}
-		}
-		
-		// 情報があればfirstLiテーブルから得られるデータを探索する
-		// 情報が一つもなければデータを設定しない
-		if (!firstLi.getBegin_date().equals(date)) {	// 情報がある場合
-			LiveInfo LiList = liDao.select(firstLi.getId());	// ライブ情報IDからリストを持ってくる
-			request.setAttribute("band_infos", biList);
-			request.setAttribute("live_info", firstLi);
-			request.setAttribute("prepar_infos", myPiList);
-		}
-		
-		// 出演者側ホーム画面へフォワードする
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_staff.jsp");
-		dispatcher.forward(request, response);
-	}
+        // ログインチェック
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") == null) {
+            response.sendRedirect("/c3/LoginServlet");
+            return;
+        }
 
+        LoginUser login = (LoginUser) session.getAttribute("user");
+        int userId = Integer.parseInt(login.getId());
+        int type = login.getType(); 
+
+        // DAO
+        BandInfoDao biDao = new BandInfoDao();
+        PreparInfoDao piDao = new PreparInfoDao();
+        LiveInfoDao liDao = new LiveInfoDao();
+        EachMusicDao emDao = new EachMusicDao();
+
+        List<BandInfo> biList;
+
+        // ★ 管理者（-1）とスタッフ（1）は全バンドを取得
+        if (type == -1 || type == 1) {
+            biList = biDao.showAllBands();
+        } else {
+            // ★ 出演者は自分のバンドだけ
+            biList = biDao.showBand(userId);
+        }
+
+        // バンドに紐づく準備情報
+        List<PreparInfo> piList = new ArrayList<>();
+        for (BandInfo band : biList) {
+            piList.addAll(piDao.selectByBandId(band.getId()));
+        }
+
+        // ライブ情報（最初の1件）
+        LiveInfo liveInfo = null;
+        if (!piList.isEmpty()) {
+            liveInfo = liDao.select(piList.get(0).getLiveInfoId());
+        }
+
+        // 各バンドの曲情報
+        for (int i = 0; i < biList.size(); i++) {
+            BandInfo band = biList.get(i);
+            List<EachMusic> musicList = emDao.select(band.getId());
+            request.setAttribute("each_music[" + i + "]", musicList);
+        }
+
+        // データが存在しないかチェック
+        boolean noData = (biList.isEmpty() || piList.isEmpty() || liveInfo == null);
+        request.setAttribute("noData", noData);
+
+        // JSP に渡す
+        request.setAttribute("band_infos", biList);
+        request.setAttribute("prepar_infos", piList);
+        request.setAttribute("live_info", liveInfo);
+
+        RequestDispatcher dispatcher =
+                request.getRequestDispatcher("/WEB-INF/jsp/home_staff.jsp");
+        dispatcher.forward(request, response);
+    }
 }

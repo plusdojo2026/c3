@@ -50,6 +50,39 @@
 	</header>
 <h1 style="text-align:center;">タイムテーブル作成</h1>
 
+<!-- 受け取ったデータ表示 -->
+<div class="received-data-box">
+    <h2>ライブ情報</h2>
+    <p>ライブ名：${live_info.name}</p>
+    <p>開催日：${live_info.begin_date}</p>
+
+
+    <h2>出演バンド一覧</h2>
+    <c:forEach var="band" items="${band_infos}">
+        <div class="band-box">
+            <p>バンド名：${band.band_name}</p>
+            <p>持ち時間：${band.time} 分</p>
+        </div>
+    </c:forEach>
+
+    <h2>準備情報</h2>
+    <c:forEach var="prep" items="${prepar_infos}">
+        <div class="prep-box">
+            <p>バンドID：${prep.bandInfoId}</p>
+            <p>準備内容：${prep.prepar_info}</p>
+        </div>
+    </c:forEach>
+
+    <h2>曲情報</h2>
+    <c:forEach var="prep" items="${prepar_infos}" varStatus="i">
+        <h3>${band_infos[i.index].band_name} の曲一覧</h3>
+        <c:forEach var="music" items="${requestScope['each_music[' += i.index += ']']}">
+            <p>曲名：${music.music_name}</p>
+        </c:forEach>
+    </c:forEach>
+</div>
+
+
 <!-- 転換時間設定 -->
 <div class="convert-setting">
     <label>転換時間：</label>
@@ -59,7 +92,7 @@
 
 <!-- メインのタイムテーブル作成ボックス -->
 <div class="box">
-    <h2>タイムテーブル</h2>
+    <h2>${live_info.name}</h2>
 
     <div id="timetableList"
         ondragover="handleTableAreaDragOver(event)"
@@ -96,9 +129,33 @@
     </div>
 </div>
 
+
+<script>
+    // バンド情報（List<BandInfo>）
+    const bandInfos = [
+        <c:forEach var="b" items="${band_infos}">
+            {
+                id: ${b.id},
+                name: "${b.band_name}",
+                time: ${b.time}
+            },
+        </c:forEach>
+    ];
+
+    // 準備情報（List<PreparInfo>）
+    const preparInfos = [
+        <c:forEach var="p" items="${prepar_infos}">
+            {
+                bandId: ${p.bandInfoId},
+                info: "${p.prepar_info}"
+            },
+        </c:forEach>
+    ];
+
+</script>
+
 <script src="javascript/common.js"></script>
 <script src="javascript/table_create.js"></script>
-
 </body>
 </html>
 

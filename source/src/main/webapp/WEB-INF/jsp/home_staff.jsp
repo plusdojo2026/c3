@@ -18,6 +18,13 @@
 </head>
 
 <body>
+
+	<c:if test="${noData}">
+		<script>
+    		alert("表示できるデータがありません。");
+		</script>
+	</c:if>
+
     <header class="header">
         <div id="nav-wrapper" class="nav-wrapper">
             <div class="hamburger" id="js-hamburger">
@@ -55,7 +62,7 @@
                 <p>準備時間：${pi.preparTime}分</p>
                 <p>準備項目：${pi.preparItems}</p>
                 <p>入場曲：${pi.entranceMusic}</p>
-        </div>
+                    </div>
          </c:forEach>
     </div>
     <div id="modal" class="modal">
@@ -64,11 +71,9 @@
         <span class="close" onclick="closeModal()">×</span>
 
         <div id="modalBody"></div>
-
+	</div>
     </div>
-</div>
-	<script>
-
+<script>
 <%
 List<BandInfo> biList =
     (List<BandInfo>) request.getAttribute("band_infos");
@@ -96,15 +101,10 @@ for (int i = 0; i < biList.size(); i++) {
 const bandDetails = {
 <%
 for (int i = 0; i < biList.size(); i++) {
-
     BandInfo band = biList.get(i);
-
     List<EachMusic> emList =
         (List<EachMusic>) request.getAttribute("each_music[" + i + "]");
-
-    if (emList == null) {
-        emList = new ArrayList<>();
-    }
+    if (emList == null) emList = new ArrayList<>();
 %>
 "<%= band.getName() %>": [
 <%
@@ -125,8 +125,8 @@ for (int i = 0; i < biList.size(); i++) {
 }
 %>
 };
-
 </script>
+
    <!-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>-->
     <script src="javascript/common.js"></script>
     <script src="javascript/home_staff.js"></script>

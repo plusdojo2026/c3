@@ -4,7 +4,7 @@ function drawSchedule(){
 
     const schedule = document.getElementById("schedule");
     schedule.innerHTML = "";
-
+    
     // ★毎回リセット（ここ重要）
     let time = { hour:13, minute:0 };
 
@@ -28,7 +28,7 @@ function drawSchedule(){
 
             let changeStart = end;
 
-            addMinute(time, changeTime);
+            addMinute(time, band.changeTime);
 
             let changeEnd = format(time.hour, time.minute);
 
