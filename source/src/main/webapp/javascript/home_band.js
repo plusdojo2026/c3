@@ -1,4 +1,4 @@
-const bands = [
+/*const bands = [
     { name:"Aバンド", playTime:30 },
     { name:"Bバンド", playTime:30 },
     { name:"Cバンド", playTime:40 },
@@ -8,7 +8,7 @@ const bands = [
 const changeTime = 10;
 
 /* ダミー詳細データ */
-const bandDetails = {
+/*const bandDetails = {
     "Aバンド":[
         { song:"Song A", light:"青", sound:"通常", note:"MCあり" },
         { song:"Song B", light:"赤", sound:"強め", note:"ギターソロ" }
@@ -23,6 +23,7 @@ const bandDetails = {
         { song:"Final", light:"紫", sound:"エコー", note:"ラスト" }
     ]
 };
+*/
 
 drawSchedule();
 
@@ -67,7 +68,7 @@ function drawSchedule(){
         }
     });
 
-    makeSortable();
+    //makeSortable();
 }
 
 function addMinute(time, min){
@@ -85,7 +86,7 @@ function format(h,m){
 }
 
 /* 並び替え */
-function makeSortable(){
+/*function makeSortable(){
 
     new Sortable(document.getElementById("schedule"),{
 
@@ -113,10 +114,10 @@ function makeSortable(){
             drawSchedule();
         }
     });
-}
+}*/
 
 /* モーダル表示 */
-function showBandDetail(name){
+/*function showBandDetail(name){
 
     const data = bandDetails[name];
 
@@ -136,9 +137,9 @@ function showBandDetail(name){
 
     document.getElementById("modalBody").innerHTML = html;
     document.getElementById("modal").style.display = "block";
-}
+}*/
 
 /* モーダル閉じる */
-function closeModal(){
+/*function closeModal(){
     document.getElementById("modal").style.display = "none";
-}
+}*/
