@@ -120,6 +120,49 @@ input[type="text"] {
     text-align: left;
 }
 
+/* 検索付きセレクトボックス */
+.search_select_container {
+	position: relative;
+	width: 250px;
+}
+
+.options_list {
+	position: absolute;
+	margin: 2px 0 0 0;
+	padding: 2px;
+	top: 100%; /* 入力欄のすぐ下に配置 */
+	width: 80%; /* 入力欄と同じ横幅 */
+	max-height: 200px;
+	list-style: none;
+	
+	/* 上へかぶせる */
+	z-index: 9999;
+	
+	/* 枠内でスクロール */
+	max-height: 150px; /* 最大値の設定 */
+	overflow-y: auto;/* はみ出たら自動でスクロールバーを表示 */
+	
+	border: 1px solid #dcdcdc;
+	background-color: #ffffff;
+	box-shadow:0 4px 6px gray;
+	display: none;		/* 非表示にする */
+}
+
+/* 選択肢リストを表示するクラス */
+.options_list.show {
+	display: block !important;
+}
+
+.option_list li {
+	padding: 8px;
+	font-size: 12px;
+}
+
+/* ホバー時の背景色変更 */
+.options_list li:hover {
+	background-color: #f0f0f0;
+}
+
 /* 空欄エラー */
 .error {
     text-align: center;

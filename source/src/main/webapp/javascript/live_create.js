@@ -16,6 +16,81 @@ console.log("date:" + localDate);
 document.getElementById("begin_date").min = localDate;
 document.getElementById("end_date").min = localDate;
 
+// 検索付きセレクトボックスの初期化
+function initSearchSelect(rowElement) {
+	const searchInput = rowElement.querySelector('.search_input');
+	const optionsList = rowElement.querySelector('.options_list');
+	const realSubmitValue = rowElement.querySelector('.real_submit_value');
+	
+	if (searchInput === null || optionsList === null || realSubmitValue === null) {
+		return;
+	}
+	
+	const options = optionsList.getElementsByTagName('li');
+	
+	// リストに表示
+	searchInput.addEventListener('focus', () => {
+		// 一旦リストを閉じてから再度開く
+		document.querySelectorAll('.options_list.show').forEach(el => el.classList.remove('show'));
+		optionsList.classList.add('show');
+	});
+	
+	// 絞り込み検索
+	searchInput.addEventListener('input', () => {
+		const filter = searchInput.value.toLowerCase();
+		let hasMatch = false;
+		
+		const existingNoResult = optionsList.querySelector('.no-result');
+		if (existingNoResult) existingNoResult.remove();
+		
+		for (let i = 0; i < options.length; i++) {
+			// 左側が空なら右側の値を使う
+			const text = options[i].textContent || options[i].innerText;
+			if (text.toLowerCase().indexOf(filter) > -1) {
+				options[i].style.display = "";
+				hasMatch = true;
+			} else {
+				options[i].style.display = "none";
+			}
+		}
+		
+		if (!hasMatch) {
+			const noResultLi = document.createElement('li');
+			noResultLi.className = 'no-result';
+			noResultLi.textContent = '見つかりません';
+			optionsList.appendChild(noResultLi);
+		}
+	});
+	
+	// 選択肢クリック時の処理
+	optionsList.addEventListener('click', (e) =>{
+		if (e.target && e.target.nodeName === 'LI' && !e.target.classList.contains('no-result')) {
+			searchInput.value = e.target.textContent;
+			realSubmitValue.value = e.target.getAttribute('data-value');
+			optionsList.classList.remove('show');
+		}
+	});
+}
+	
+	// リストを閉じる
+	document.addEventListener('click', (e) => {
+		const containers = document.querySelectorAll('.search_select_container');
+		containers.forEach(container => {
+			if (!container.contains(e.target)) {
+				const optionsList = container.querySelector('.options_list');
+				const searchInput = container.querySelector('.search_input');
+				const realSubmitValue = container.querySelector('.real_submit_value');
+				
+				if (optionsList)
+					optionsList.classList.remove('show');
+				
+				if (realSubmitValue && realSubmitValue.value === "" && searchInput) {
+					searchInput.value = "";
+				}
+			}
+		})
+	});
+
 // 入力欄を増やす
 function addRow() {
     // 対象テーブルを取得
@@ -24,12 +99,19 @@ function addRow() {
 
 	// テンプレートをコピー
     const clone = template.content.cloneNode(true);
-    
+        
     // コピーした要素のname属性を書き換える
-    clone.querySelector('select[name="band_infos_temp"]').name = `band_infos[${rowIndex}]`;
-    clone.querySelector('input[name="time_temp"]').name = `time[${rowIndex}]`;
+   	clone.querySelector('input[name="band_infos_temp"]').name = `band_infos[${rowIndex}]`;
+   	clone.querySelector('input[name="time_temp"]').name = `time[${rowIndex}]`;
     
     table.appendChild(clone);
+    
+    // 検索機能を有効にする
+    const addedRows = table.querySelectorAll("tr.band_info_row");
+    const newRow = addedRows[addedRows.length -1];
+    if (newRow) {
+	initSearchSelect(newRow);
+}
     
     console.log("rowIndex:" + rowIndex);
     const bandNum = live_create.querySelector('input[name="band_num"]');
@@ -39,6 +121,11 @@ function addRow() {
     }
     console.log("bandNum.value:" + bandNum.value);
 }
+
+// 最初から画面に存在する行を一括で初期化する
+document.querySelectorAll('tr.band_info_row').forEach(row => {
+	initSearchSelect(row);
+});
 
 // 入力欄を消す
 function removeRow(btn) {
@@ -55,7 +142,7 @@ live_create.onsubmit = function(event) {
         setBandName = `band_infos[${i}]`;
         setBandTime = `time[${i}]`;
 
-        const bandName = live_create.querySelector('select[name="' + setBandName + '"]');
+        const bandName = live_create.querySelector('input[name="' + setBandName + '"]');
         const bandTime = live_create.querySelector('input[name="' + setBandTime + '"]');
 
         if (bandName !=null && bandTime !=null){

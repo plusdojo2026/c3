@@ -80,17 +80,21 @@
 								<img src="image/plus.svg" alt="">
 							</button></td>
 					</tr>
-
+					
 					<!-- バンド情報がある場合の処理 -->
 					<c:if test="${not empty band_infos }">
 						<tr class="band_info_row">
-							<td><select name="band_infos[0]" >
-										<option value="0">--選択してください--</option>
-									<c:forEach var="band_info" items="${band_infos }">
-										<option value=<c:out value="${band_info.id }" />><c:out
-												value="${band_info.name }" /></option>
-									</c:forEach>
-							</select></td>
+							<td>
+							<div class="search_select_container">
+									<input type="hidden" name="band_infos[0]" class="real_submit_value">
+									<input type="text" class="search_input" placeholder="バンド名" >
+									<!-- ドロップダウンリスト形式のリストを作成 -->
+									<ul class="options_list">
+										<c:forEach var="band_info" items="${band_infos }">
+											<li data-value="${band_info.id }"><c:out value="${band_info.name }" /></li>
+										</c:forEach>
+									</ul>
+							</div></td>
 							<td><input type="number" name="time[0]" placeholder="持ち時間" step="5" min="0"></td>
 							<td>
 								<button type="button" onclick="addRow()">
@@ -102,13 +106,17 @@
 							</td>
 						</tr>
 						<tr class="band_info_row">
-							<td><select name="band_infos[1]">
-							<option value="0">--選択してください--</option>
-									<c:forEach var="band_info" items="${band_infos }">
-										<option value=<c:out value="${band_info.id }" />><c:out
-												value="${band_info.name }" /></option>
-									</c:forEach>
-							</select></td>
+							<td>
+							<div class="search_select_container">
+									<input type="hidden" name="band_infos[1]" class="real_submit_value">
+									<input type="text" class="search_input" placeholder="バンド名" >
+									<!-- ドロップダウンリスト形式のリストを作成 -->
+									<ul class="options_list">
+										<c:forEach var="band_info" items="${band_infos }">
+											<li data-value="${band_info.id }"><c:out value="${band_info.name }" /></li>
+										</c:forEach>
+									</ul>
+							</div></td>
 							<td><input type="number" name="time[1]" placeholder="持ち時間" step="5" min="0"></td>
 							<td>
 								<button type="button" onclick="addRow()">
@@ -121,12 +129,18 @@
 						</tr>
 					</c:if>
 
-					<!-- バンド情報がある場合の処理 -->
+					<!-- バンド情報が場合ないの処理 -->
 					<c:if test="${empty band_infos }">
 						<tr class="band_info_row">
-							<td><select name="band_infos[0]">
-									<option value="0">バンド情報がありません</option>
-							</select></td>
+							<td>
+							<div class="search_select_container">
+									<input type="hidden" name="band_infos[0]" class="real_submit_value">
+									<input type="text" class="search_input" placeholder="バンド名" >
+									<!-- ドロップダウンリスト形式のリストを作成 -->
+									<ul class="options_list">
+										<li data-value="0">バンド情報がありません</li>
+									</ul>
+							</div></td>
 							<td><input type="number" name="time[0]" placeholder="持ち時間" step="5" min="0"></td>
 							<td>
 								<button type="button" onclick="addRow()">
@@ -139,17 +153,21 @@
 						</tr>
 					</c:if>
 
-					<!-- バンド情報がある場合の処理 -->
+					<!-- バンド情報がある場合のテンプレート -->
 					<c:if test="${not empty band_infos }">
 					<template id="band_row_template">
 						<tr class="band_info_row">
-							<td><select name="band_infos_temp">
-										<option value="0">--選択してください--</option>
-									<c:forEach var="band_info" items="${band_infos }">
-										<option value=<c:out value="${band_info.id }" />><c:out
-												value="${band_info.name }" /></option>
-									</c:forEach>
-							</select></td>
+							<td>
+							<div class="search_select_container">
+									<input type="hidden" name="band_infos_temp" class="real_submit_value">
+									<input type="text" class="search_input" placeholder="バンド名" >
+									<!-- ドロップダウンリスト形式のリストを作成 -->
+									<ul class="options_list">
+										<c:forEach var="band_info" items="${band_infos }">
+											<li data-value="${band_info.id }"><c:out value="${band_info.name }" /></li>
+										</c:forEach>
+									</ul>
+							</div></td>
 							<td><input type="number" name="time_temp" placeholder="持ち時間" step="5" min="0"></td>
 							<td>
 								<button type="button" onclick="addRow()">
@@ -163,13 +181,19 @@
 						</template>
 					</c:if>
 
-					<!-- バンド情報がある場合の処理 -->
+					<!-- バンド情報がない場合のテンプレート -->
 					<c:if test="${empty band_infos }">
 					<template id="band_row_template">
 						<tr class="band_info_row">
-							<td><select name="band_infos_temp">
-									<option value="0">バンド情報がありません</option>
-							</select>
+							<td>
+							<div class="search_select_container">
+									<input type="hidden" name="band_infos_temp" id="select_box" class="real_submit_value">
+									<input type="text" class="search_input" placeholder="バンド名" >
+									<!-- ドロップダウンリスト形式のリストを作成 -->
+									<ul class="options_list">
+										<li data-value="0">バンド情報がありません</li>
+									</ul>
+							</div></td>
 							<td><input type="number" name="time_temp" placeholder="持ち時間" step="5" min="0"></td>
 							<td>
 								<button type="button" onclick="addRow()">
