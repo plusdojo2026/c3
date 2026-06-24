@@ -65,7 +65,7 @@ public class LiveInfoDao {
 				}
 				LiveInfo liveInfo = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), createFlag);
+						rs.getInt("user_id"), createFlag, rs.getString("status"));
 				livelist.add(liveInfo);
 			}
 		} catch (SQLException e) {
@@ -167,7 +167,7 @@ public class LiveInfoDao {
 					"root", "password");
 
 			// SQL文を準備する
-			String sql = "UPDATE live_info SET name=?, begin_date=?, end_date=?, user_id=? " + "WHERE id=?";
+			String sql = "UPDATE live_info SET name=?, begin_date=?, end_date=?, user_id=?, create_flag=? " + "WHERE id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			// SQL文を完成させる
@@ -187,7 +187,10 @@ public class LiveInfoDao {
 			} else {
 				pStmt.setNull(4, java.sql.Types.INTEGER);
 			}
-			pStmt.setInt(5, live.getId());
+			
+			pStmt.setBoolean(5, live.isCreate_flag());
+			pStmt.setInt(6, live.getId());
+			
 
 			int count = pStmt.executeUpdate();
 			if (count == 1) {
@@ -280,7 +283,7 @@ public class LiveInfoDao {
 			while (rs.next()) {
 				LiveInfo live = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), rs.getInt("create_flag") == 1);
+						rs.getInt("user_id"), rs.getInt("create_flag") == 1, rs.getString("status"));
 
 				list.add(live);
 			}
@@ -322,7 +325,7 @@ public class LiveInfoDao {
 			while (rs.next()) {
 				data = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), rs.getInt("create_flag") == 1);
+						rs.getInt("user_id"), rs.getInt("create_flag") == 1,rs.getString("status"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -46,7 +46,10 @@ public class LiveShowServlet extends HttpServlet {
 			
 		  //live_info取得
 			LiveInfoDao liveDao = new LiveInfoDao();
-			 List <LiveInfo> livelist = liveDao.selectByUserId(1);
+			LiveInfo condition = new LiveInfo();
+		    condition.setUser_id(0);
+	        
+	        List<LiveInfo>livelist = liveDao.select(condition);
 		    
 			
 			 //live_info取得
@@ -98,8 +101,10 @@ public class LiveShowServlet extends HttpServlet {
 		    request.setAttribute("noEntranceMusic", true);
 
 		    LiveInfoDao liveDao = new LiveInfoDao();
-		    List<LiveInfo> livelist =
-		            liveDao.selectByUserId(1);
+		    LiveInfo condition = new LiveInfo();
+		    condition.setUser_id(0);
+	        
+	        List<LiveInfo>livelist = liveDao.select(condition);
 
 		    request.setAttribute("lives", livelist);
 
@@ -122,8 +127,10 @@ public class LiveShowServlet extends HttpServlet {
 		        request.setAttribute("noEntranceMusic", true);
 		        System.out.println("テスト2");
 		        LiveInfoDao liveDao = new LiveInfoDao();
-		        List<LiveInfo> livelist =
-		                liveDao.selectByUserId(1);
+		        LiveInfo condition = new LiveInfo();
+			    condition.setUser_id(0);
+		        
+		        List<LiveInfo>livelist = liveDao.select(condition);
 
 		        request.setAttribute("lives", livelist);
 
@@ -155,7 +162,10 @@ public class LiveShowServlet extends HttpServlet {
 		if (!idLive.isCreate_flag()) {
 			
 			LiveInfoDao liveDao = new LiveInfoDao();
-			List<LiveInfo> livelist = liveDao.selectByUserId(1);
+			LiveInfo condition = new LiveInfo();
+		    condition.setUser_id(0);
+	        
+	        List<LiveInfo>livelist = liveDao.select(condition);
 			
 			request.setAttribute("lives", livelist);
 			request.setAttribute("noTimeTable", true);

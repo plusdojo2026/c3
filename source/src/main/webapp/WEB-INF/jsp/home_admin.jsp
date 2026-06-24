@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -48,15 +49,25 @@
 			<img src="image/c3-logo.png" alt="ロゴ">
 		</div>
 		</header>
+		
+
  
 <c:if test = "${not empty lives}">
 
 <div class="live-list">
+
+<h2 class="live-title">ライブ日程一覧</h2>
 <c:forEach var = "live" items="${lives}">
 
 <form action="/c3/HomeAdminServlet"	method = "POST">
-<button type="submit" name="liveId" value="${live.id}" class = "date">
-        ${live.begin_date}
+<button type="submit" 
+		name="liveId" 
+		value="${live.id}" 
+		class = "date"
+		title="${live.name}">
+        ${fn: replace(fn:substring(live.begin_date, 0, 10), "-", "/")}
+<br>
+${fn:substring(live.begin_date, 11,16)}~
     </button>
     </form>
 </c:forEach>

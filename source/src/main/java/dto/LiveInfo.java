@@ -9,6 +9,7 @@ public class LiveInfo {
 	private LocalDateTime end_date;	     //終了日時
 	private int user_id;                //ユーザーID
 	private boolean create_flag;        //作成前後識別
+	private String status;
 	
 	public LiveInfo() {
 		super();
@@ -18,9 +19,10 @@ public class LiveInfo {
 		this.end_date = null;
 		this.user_id = 0;
 		this.create_flag = false;
+		this.status = "";
 	}
 	
-	public LiveInfo(int id, String name, LocalDateTime begin_date, LocalDateTime end_date, int user_id, boolean create_flag) {
+	public LiveInfo(int id, String name, LocalDateTime begin_date, LocalDateTime end_date, int user_id, boolean create_flag, String status) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,6 +30,7 @@ public class LiveInfo {
 		this.end_date = end_date;
 		this.user_id = user_id;
 		this.create_flag = create_flag;
+		this.status = status;
 	}
 
 	public int getId() {
@@ -77,6 +80,14 @@ public class LiveInfo {
 	    public void setCreate_flag(boolean create_flag) {
 	        this.create_flag = create_flag;
 	    }
+	    
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 }
 

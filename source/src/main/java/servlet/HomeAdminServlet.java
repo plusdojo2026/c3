@@ -42,9 +42,43 @@ public class HomeAdminServlet extends HttpServlet {
 		
 	//live_info取得
 			LiveInfoDao liveDao = new LiveInfoDao();
-			 List <LiveInfo> livelist = liveDao.selectByUserId(1);
+			 LiveInfo condition = new LiveInfo();
+			 condition.setUser_id(0);
+			
+			 List<LiveInfo> livelist = liveDao.select(condition);
+			 //各ライブの状態判定
+			 PreparInfoDao preparDao = new PreparInfoDao();
 			 
-	// live_infoの情報を登録
+			 for (LiveInfo live : livelist) {
+				 
+				 List<PreparInfo> preparlist =preparDao.selectByLiveInfoId(live.getId());
+				 
+				 //テスト2:準備情報なし
+				if (preparlist == null || preparlist.isEmpty()) {
+					live.setStatus("TEST2");
+					continue;
+				}
+				 //テスト2:入場曲未入力
+				 boolean hasError = preparlist.stream().anyMatch(pi ->
+				 pi.getEntranceMusic() == null ||
+				 pi.getEntranceMusic().trim().isEmpty());
+				 
+				 if (hasError) {
+					 live.setStatus("TEST2");
+					 continue;
+				 }
+				 
+				 //テスト3:タイムテーブル未作成
+				 if (!live.isCreate_flag()) {
+					 live.setStatus("TEST3");
+				 }
+				 
+				 //テスト4:タイムテーブル作成済み
+				 else {
+					 live.setStatus("TEST4");
+				 }
+			 }	 
+			 // live_infoの情報を登録
 			 request.setAttribute("lives", livelist);
 			
 			
@@ -85,10 +119,11 @@ public class HomeAdminServlet extends HttpServlet {
 		    request.setAttribute("noEntranceMusic", true);
 
 		    LiveInfoDao liveDao = new LiveInfoDao();
-		    List<LiveInfo> livelist =
-		            liveDao.selectByUserId(1);
-
-		    request.setAttribute("lives", livelist);
+		    LiveInfo condition = new LiveInfo();
+		    condition.setUser_id(0);
+	        
+	        List<LiveInfo>livelist = liveDao.select(condition);
+		   request.setAttribute("lives", livelist);
 
 		    RequestDispatcher rd =
 		            request.getRequestDispatcher("/WEB-INF/jsp/home_admin.jsp");
@@ -108,8 +143,10 @@ public class HomeAdminServlet extends HttpServlet {
 		        request.setAttribute("noEntranceMusic", true);
 		        System.out.println("テスト2");
 		        LiveInfoDao liveDao = new LiveInfoDao();
-		        List<LiveInfo> livelist =
-		                liveDao.selectByUserId(1);
+		        LiveInfo condition = new LiveInfo();
+		        condition.setUser_id(0);
+		        
+		        List<LiveInfo>livelist = liveDao.select(condition);
 
 		        request.setAttribute("lives", livelist);
 
