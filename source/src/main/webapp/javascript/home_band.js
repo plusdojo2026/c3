@@ -1,72 +1,47 @@
-/*const bands = [
-    { name:"Aバンド", playTime:30 },
-    { name:"Bバンド", playTime:30 },
-    { name:"Cバンド", playTime:40 },
-    { name:"Dバンド", playTime:30 }
-];
-
-const changeTime = 10;
-
-/* ダミー詳細データ */
-/*const bandDetails = {
-    "Aバンド":[
-        { song:"Song A", light:"青", sound:"通常", note:"MCあり" },
-        { song:"Song B", light:"赤", sound:"強め", note:"ギターソロ" }
-    ],
-    "Bバンド":[
-        { song:"Rock", light:"白", sound:"低音", note:"" }
-    ],
-    "Cバンド":[
-        { song:"Summer", light:"黄", sound:"通常", note:"" }
-    ],
-    "Dバンド":[
-        { song:"Final", light:"紫", sound:"エコー", note:"ラスト" }
-    ]
-};
-*/
-
 drawSchedule();
 
 function drawSchedule(){
 
     const schedule = document.getElementById("schedule");
     schedule.innerHTML = "";
-
+    
     // ★毎回リセット（ここ重要）
     let time = { hour:13, minute:0 };
 
     bands.forEach((band,index)=>{
 
-        let start = format(time.hour, time.minute);
+    // そのバンドの転換時間を先に表示
+    if(band.changeTime > 0){
 
-        addMinute(time, band.playTime);
+        let changeStart = format(time.hour, time.minute);
 
-        let end = format(time.hour, time.minute);
+        addMinute(time, band.changeTime);
+
+        let changeEnd = format(time.hour, time.minute);
 
         schedule.innerHTML += `
-            <div class="band" data-name="${band.name}"
-            onclick="showBandDetail('${band.name}')">
-                <span>${band.name}</span>
-                <span class="time">${start}～${end}</span>
+            <div class="change">
+                転換時間
+                <span class="time">${changeStart}～${changeEnd}</span>
             </div>
         `;
+    }
 
-        if(index !== bands.length - 1){
+    let start = format(time.hour, time.minute);
 
-            let changeStart = end;
+    addMinute(time, band.playTime);
 
-            addMinute(time, changeTime);
+    let end = format(time.hour, time.minute);
 
-            let changeEnd = format(time.hour, time.minute);
-
-            schedule.innerHTML += `
-                <div class="change">
-                    転換時間
-                    <span class="time">${changeStart}～${changeEnd}</span>
-                </div>
-            `;
-        }
-    });
+    schedule.innerHTML += `
+        <div class="band"
+             data-name="${band.name}"
+             onclick="showBandDetail(${band.id})">
+            <span>${band.name}</span>
+            <span class="time">${start}～${end}</span>
+        </div>
+    `;
+});
 
     //makeSortable();
 }
@@ -116,21 +91,32 @@ function format(h,m){
     });
 }*/
 
-/* モーダル表示 */
-/*function showBandDetail(name){
+/* モーダル表示 
+function showBandDetail(bandId){
 
-    const data = bandDetails[name];
+    console.log("bandId =", bandId);
 
-    let html = `<h2>${name}</h2>`;
+    const data = bandPreparInfos[bandId];
 
-    data.forEach((s,i)=>{
+    console.log("data =", data);
+
+    if (!data || data.length === 0) {
+        document.getElementById("modalBody").innerHTML =
+            "<p>準備情報がありません。</p>";
+        document.getElementById("modal").style.display = "block";
+        return;
+    }
+
+    let html = `<h2>準備情報</h2>`;
+
+    data.forEach((p,i)=>{
         html += `
             <div class="song">
-                <h3>${i+1}曲目</h3>
-                <p>曲名：${s.song}</p>
-                <p>照明：${s.light}</p>
-                <p>音響：${s.sound}</p>
-                <p>備考：${s.note}</p>
+                <h3>${i+1}件目</h3>
+                <p>持ち時間：${p.time}分</p>
+                <p>準備時間：${p.preparTime}分</p>
+                <p>準備項目：${p.preparItems}</p>
+                <p>入場曲：${p.entranceMusic}</p>
             </div>
         `;
     });
@@ -140,6 +126,6 @@ function format(h,m){
 }*/
 
 /* モーダル閉じる */
-/*function closeModal(){
+function closeModal(){
     document.getElementById("modal").style.display = "none";
-}*/
+}

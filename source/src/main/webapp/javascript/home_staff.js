@@ -10,36 +10,38 @@ function drawSchedule(){
 
     bands.forEach((band,index)=>{
 
-        let start = format(time.hour, time.minute);
+    // そのバンドの転換時間を先に表示
+    if(band.changeTime > 0){
 
-        addMinute(time, band.playTime);
+        let changeStart = format(time.hour, time.minute);
 
-        let end = format(time.hour, time.minute);
+        addMinute(time, band.changeTime);
+
+        let changeEnd = format(time.hour, time.minute);
 
         schedule.innerHTML += `
-            <div class="band" data-name="${band.name}"
-            onclick="showBandDetail('${band.name}')">
-                <span>${band.name}</span>
-                <span class="time">${start}～${end}</span>
+            <div class="change">
+                転換時間
+                <span class="time">${changeStart}～${changeEnd}</span>
             </div>
         `;
+    }
 
-        if(index !== bands.length - 1){
+    let start = format(time.hour, time.minute);
 
-            let changeStart = end;
+    addMinute(time, band.playTime);
 
-            addMinute(time, band.changeTime);
+    let end = format(time.hour, time.minute);
 
-            let changeEnd = format(time.hour, time.minute);
-
-            schedule.innerHTML += `
-                <div class="change">
-                    転換時間
-                    <span class="time">${changeStart}～${changeEnd}</span>
-                </div>
-            `;
-        }
-    });
+    schedule.innerHTML += `
+        <div class="band"
+             data-name="${band.name}"
+             onclick="showBandDetail(${band.id})">
+            <span>${band.name}</span>
+            <span class="time">${start}～${end}</span>
+        </div>
+    `;
+});
 
     //makeSortable();
 }
@@ -90,20 +92,31 @@ function format(h,m){
 }*/
 
 /* モーダル表示 */
-function showBandDetail(name){
+function showBandDetail(bandId){
 
-    const data = bandDetails[name];
+    console.log("bandId =", bandId);
 
-    let html = `<h2>${name}</h2>`;
+    const data = bandPreparInfos[bandId];
 
-    data.forEach((s,i)=>{
+    console.log("data =", data);
+
+    if (!data || data.length === 0) {
+        document.getElementById("modalBody").innerHTML =
+            "<p>準備情報がありません。</p>";
+        document.getElementById("modal").style.display = "block";
+        return;
+    }
+
+    let html = `<h2>準備情報</h2>`;
+
+    data.forEach((p,i)=>{
         html += `
             <div class="song">
-                <h3>${i+1}曲目</h3>
-                <p>曲名：${s.song}</p>
-                <p>照明：${s.light}</p>
-                <p>音響：${s.sound}</p>
-                <p>備考：${s.note}</p>
+                <h3>${i+1}件目</h3>
+                <p>持ち時間：${p.time}分</p>
+                <p>準備時間：${p.preparTime}分</p>
+                <p>準備項目：${p.preparItems}</p>
+                <p>入場曲：${p.entranceMusic}</p>
             </div>
         `;
     });

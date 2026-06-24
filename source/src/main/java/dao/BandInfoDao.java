@@ -341,8 +341,4 @@ public boolean insert(BandInfo Band) {
 	        "password"
 	    );
 	}
-
-
-	
-	
 }

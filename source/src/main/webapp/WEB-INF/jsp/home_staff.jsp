@@ -19,11 +19,11 @@
 
 <body>
 
-	<c:if test="${noData}">
+<!-- 	<c:if test="${noData}">	
 		<script>
     		alert("表示できるデータがありません。");
 		</script>
-	</c:if>
+	</c:if> -->
 
     <header class="header">
         <div id="nav-wrapper" class="nav-wrapper">
@@ -56,13 +56,14 @@
     </c:if>
         <div id="schedule">
          <c:forEach var="pi" items="${prepar_infos}">
-            <div class="schedule-item">
+            <div class="schedule-item" onclick="showBandDetail(${pi.bandInfoId})">
+
                 <h4>${pi.setlist}番目</h4>
                 <p>持ち時間：${pi.time}分</p>
-                <p>準備時間：${pi.preparTime}分</p>
-                <p>準備項目：${pi.preparItems}</p>
-                <p>入場曲：${pi.entranceMusic}</p>
-                    </div>
+				<p>準備時間：${pi.preparTime}分</p>
+				<p>準備項目：${pi.preparItems}</p>
+				<p>入場曲：${pi.entranceMusic}</p>
+			</div>
          </c:forEach>
     </div>
     <div id="modal" class="modal">
@@ -73,59 +74,79 @@
         <div id="modalBody"></div>
 	</div>
     </div>
+    </div>
 <script>
 <%
 List<BandInfo> biList =
     (List<BandInfo>) request.getAttribute("band_infos");
 if (biList == null) biList = new ArrayList<>();
-
-List<PreparInfo> piList =
-    (List<PreparInfo>) request.getAttribute("prepar_infos");
-if (piList == null) piList = new ArrayList<>();
 %>
 
-const bands = [
-<%
-for (int i = 0; i < biList.size(); i++) {
-%>
-{
-    name: "<%= biList.get(i).getName() %>",
-    playTime: <%= (i < piList.size() ? piList.get(i).getTime() : 0) %>,
-    changeTime: <%= (i < piList.size() ? piList.get(i).getPreparTime() : 0) %>
-}<%= (i < biList.size() - 1) ? "," : "" %>
-<%
-}
-%>
-];
+const bandPreparInfos = {
+		<%
+		List<BandInfo> biList2 = (List<BandInfo>) request.getAttribute("band_infos");
+		for (BandInfo band : biList2) {
+		    List<PreparInfo> list = (List<PreparInfo>) request.getAttribute("prepar_info_" + band.getId());
+		
+		    
+		    System.out.println(
+		        "JSP bandId="
+		        + band.getId()
+		        + " list="
+		        + list
+		    );
+		 
+		%>
+		    "<%= band.getId() %>": [
+		    <%
+		        if (list != null) {
+		            for (int j = 0; j < list.size(); j++) {
+		                PreparInfo pi = list.get(j);
+		    %>
+		        {
+		            time: <%= pi.getTime() %>,
+		            preparTime: <%= pi.getPreparTime() %>,
+		            preparItems: "<%= pi.getPreparItems() %>",
+		            entranceMusic: "<%= pi.getEntranceMusic() %>"
+		        }<%= (j < list.size() - 1) ? "," : "" %>
+		    <%
+		            }
+		        }
+		    %>
+		    ]<%= (biList2.indexOf(band) < biList2.size() - 1) ? "," : "" %>
+		<%
+		}
+		%>
+		};
+		console.log("bandPreparInfos:", bandPreparInfos);
 
-const bandDetails = {
-<%
-for (int i = 0; i < biList.size(); i++) {
-    BandInfo band = biList.get(i);
-    List<EachMusic> emList =
-        (List<EachMusic>) request.getAttribute("each_music[" + i + "]");
-    if (emList == null) emList = new ArrayList<>();
-%>
-"<%= band.getName() %>": [
-<%
-    for (int j = 0; j < emList.size(); j++) {
-        EachMusic em = emList.get(j);
-%>
-{
-    song: "<%= em.getName() %>",
-    light: "<%= em.getLightReq() %>",
-    sound: "<%= em.getSe() %>",
-    note: "<%= em.getMemo() %>"
-}<%= (j < emList.size() - 1) ? "," : "" %>
-<%
-    }
-%>
-]<%= (i < biList.size() - 1) ? "," : "" %>
-<%
-}
-%>
-};
+		const bands = [
+			<%
+			for (BandInfo band : biList) {
+			    List<PreparInfo> list = (List<PreparInfo>) request.getAttribute("prepar_info_" + band.getId());
+			    int play = 0;
+			    int change = 0;
+
+			    if (list != null && !list.isEmpty()) {
+			        play = list.get(0).getTime();
+			        change = list.get(0).getPreparTime();
+			    }
+			%>
+			    {
+			        id: <%= band.getId() %>,
+			        name: "<%= band.getName() %>",
+			        playTime: <%= play %>,
+			        changeTime: <%= change %>
+			    }<%= (biList.indexOf(band) < biList.size() - 1) ? "," : "" %>
+			<%
+			}
+			%>
+			];
+
+
+console.log("bandPreparInfos:", bandPreparInfos);
 </script>
+
 
    <!-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>-->
     <script src="javascript/common.js"></script>

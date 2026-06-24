@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class HomeStaffServlet extends HttpServlet {
 
         LoginUser login = (LoginUser) session.getAttribute("user");
         int userId = Integer.parseInt(login.getId());
-        int type = login.getType(); 
+        int type = login.getType();
 
         // DAO
         BandInfoDao biDao = new BandInfoDao();
@@ -49,36 +50,108 @@ public class HomeStaffServlet extends HttpServlet {
         EachMusicDao emDao = new EachMusicDao();
 
         List<BandInfo> biList;
+        
+     // 全ライブ取得
+        List<LiveInfo> liveList = liDao.select(new LiveInfo());
+
+        // 現在日時
+        LocalDateTime now = LocalDateTime.now();
+
+        // 直近ライブ
+        LiveInfo nearestLive = null;
+
+        for (LiveInfo live : liveList) {
+
+            // 終了済みライブは除外
+            if (live.getEnd_date().isBefore(now)) {
+                continue;
+            }
+
+            if (nearestLive == null) {
+            	
+                nearestLive = live;
+            }
+            else if (live.getBegin_date().isBefore(nearestLive.getBegin_date())) {
+                nearestLive = live;
+            }
+        }
+        
+        if (nearestLive != null) {
+            System.out.println("対象ライブID=" + nearestLive.getId());
+            System.out.println("対象ライブ名=" + nearestLive.getName());
+            System.out.println("開始=" + nearestLive.getBegin_date());
+            System.out.println("終了=" + nearestLive.getEnd_date());
+        }
 
         // ★ 管理者（-1）とスタッフ（1）は全バンドを取得
-        if (type == -1 || type == 1) {
+        if (type == -1 || type >= 1 ) {
             biList = biDao.showAllBands();
         } else {
             // ★ 出演者は自分のバンドだけ
             biList = biDao.showBand(userId);
         }
+        
+        
+        
 
-        // バンドに紐づく準備情報
+     // ★ バンドに紐づく準備情報を取得
         List<PreparInfo> piList = new ArrayList<>();
+
+        System.out.println("=== BandInfo List ===");
+
+        List<BandInfo> filteredBands = new ArrayList<>();
+
         for (BandInfo band : biList) {
-            piList.addAll(piDao.selectByBandId(band.getId()));
+
+            List<PreparInfo> list =
+                    piDao.selectByBandId(band.getId());
+
+            List<PreparInfo> targetList =
+                    new ArrayList<>();
+
+            System.out.println("piList件数=" + piList.size());
+            
+            for (PreparInfo pi : list) {
+
+                System.out.println(
+                    "bandId=" + band.getId() +
+                    ", liveId=" + pi.getLiveInfoId()
+                );
+
+                if (nearestLive != null &&
+                    pi.getLiveInfoId() == nearestLive.getId()) {
+
+                    targetList.add(pi);
+                }
+            }
+
+            // このライブに出演するバンドだけ残す
+            if (!targetList.isEmpty()) {
+
+                filteredBands.add(band);
+
+                request.setAttribute(
+                        "prepar_info_" + band.getId(),
+                        targetList);
+
+                piList.addAll(targetList);
+            }
         }
 
-        // ライブ情報（最初の1件）
-        LiveInfo liveInfo = null;
-        if (!piList.isEmpty()) {
-            liveInfo = liDao.select(piList.get(0).getLiveInfoId());
-        }
+        biList = filteredBands;
 
-        // 各バンドの曲情報
+        // ★ ライブ情報（存在するものを探す）
+        LiveInfo liveInfo = nearestLive;
+
+        // ★ 各バンドの曲情報
         for (int i = 0; i < biList.size(); i++) {
             BandInfo band = biList.get(i);
             List<EachMusic> musicList = emDao.select(band.getId());
             request.setAttribute("each_music[" + i + "]", musicList);
         }
 
-        // データが存在しないかチェック
-        boolean noData = (biList.isEmpty() || piList.isEmpty() || liveInfo == null);
+        // ★ noData 判定（liveInfo が null でも準備情報は表示する）
+        boolean noData = (biList.isEmpty() || piList.isEmpty());
         request.setAttribute("noData", noData);
 
         // JSP に渡す
@@ -90,4 +163,6 @@ public class HomeStaffServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/jsp/home_staff.jsp");
         dispatcher.forward(request, response);
     }
+    
+    
 }
