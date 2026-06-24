@@ -259,7 +259,7 @@ public class PreparInfoDao {
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
 					"root", "password");
 
-			String sql = "SELECT * FROM prepar_info WHERE live_info_id = ?";
+			String sql = "SELECT * FROM prepar_info WHERE live_info_id = ? ORDER BY setlist ASC";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, liveInfoId);
 
