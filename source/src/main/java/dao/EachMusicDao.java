@@ -63,7 +63,12 @@ public class EachMusicDao {
 				if (rs.getString("light_req") != null)
 					em.setLightReq(rs.getString("light_req"));
 				else
-					em.setName("");
+					em.setLightReq("");
+				
+				if (rs.getString("se") != null)
+					em.setSe(rs.getString("se"));
+				else
+					em.setSe("");
 				
 				if (rs.getString("memo") != null)
 					em.setMemo(rs.getString("memo"));
@@ -149,7 +154,12 @@ public class EachMusicDao {
 				if (rs.getString("light_req") != null)
 					em.setLightReq(rs.getString("light_req"));
 				else
-					em.setName("");
+					em.setLightReq("");
+
+				if (rs.getString("se") != null)
+					em.setSe(rs.getString("se"));
+				else
+					em.setSe("");
 				
 				if (rs.getString("memo") != null)
 					em.setMemo(rs.getString("memo"));
