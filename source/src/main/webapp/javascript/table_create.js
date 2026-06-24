@@ -1,27 +1,12 @@
 // ---------------------------
 // バンド詳細データ（★ここに追加）
 // ---------------------------
-const bandDetails = {
-    "バンドA": [
-        { song: "曲A1", light: "赤", sound: "強め", note: "特になし" },
-        { song: "曲A2", light: "青", sound: "弱め", note: "MCあり" },
-        { song: "曲A3", light: "青", sound: "弱め", note: "MCあり" },
-        { song: "曲A4", light: "青", sound: "弱め", note: "MCあり" }
-    ],
-    "バンドB": [],
-    "バンドC": [],
-    "バンドD": []
-};
+let bandDetails = {};
 
 // ---------------------------
 // グローバル変数
 // ---------------------------
-let prepBands = [
-    { name: "バンドA", time: 20 },
-    { name: "バンドB", time: 25 },
-    { name: "バンドC", time: 30 },
-    { name: "バンドD", time: 15 }
-];
+let prepBands = [];
 
 let tableBands = [];
 let convertTime = 10;
@@ -32,7 +17,7 @@ let convertTime = 10;
 ---------------------------- */
 function showBandDetail(bandName) {
 
-    // バンドIDを取得
+/*    // バンドIDを取得
     const band = bandInfos.find(b => b.name === bandName);
     if (!band) return;
 
@@ -42,7 +27,37 @@ function showBandDetail(bandName) {
     let html = `<h2>${bandName}</h2>`;
 
     html += `<h3>準備情報</h3>`;
-    html += `<p>${prep ? prep.info : "準備情報がありません"}</p>`;
+    html += `<p>${prep ? prep.items : "準備情報がありません"}</p>`;*/
+
+	const data = bandDetails[bandName] || [];
+
+    const prepInfo = prepBands.find(b => b.name === bandName);
+
+    let html = `<h2>${bandName}</h2>`;
+    
+    if (prepInfo) {
+        html += `
+            <div class="prep-info" style="background:#f4f4f4; padding:10px; margin-bottom:15px; border-radius:4px;">
+                <p><strong>持ち時間：</strong>${prepInfo.time}分</p>
+                <p><strong>準備項目：</strong>${prepInfo.item || "特になし"}</p>
+                <p><strong>入場曲：</strong>${prepInfo.music || "特になし"}</p>
+            </div>
+        `;
+    }
+    
+    html += `<hr>`;
+
+	data.forEach((s, i) => {
+		html += `
+            <div class="song">
+                <h3>${i + 1}曲目</h3>
+                <p>曲名：${s.song}</p>
+                <p>照明：${s.light}</p>
+                <p>音響：${s.sound}</p>
+                <p>備考：${s.note}</p>
+            </div>
+        `;
+	});
 
     document.getElementById("modalBody").innerHTML = html;
     document.getElementById("modal").style.display = "block";
@@ -108,10 +123,12 @@ function renderPrepList() {
         btn.dataset.area = "prep";
         btn.dataset.index = index;
         btn.setAttribute("draggable", "true");
+        
+        btn.dataset.id = band.id; 
 
         // ツールチップ
         btn.addEventListener("mousemove", (e) => {
-            showTooltip(e, `${band.name}（${band.time}分）`);
+            showTooltip(e, `${band.name}（${band.time}分）`) ;
         });
         btn.addEventListener("mouseout", hideTooltip);
 
@@ -158,9 +175,11 @@ function renderTimetable() {
         mainBtn.dataset.index = index;
         mainBtn.setAttribute("draggable", "true");
 
+        mainBtn.dataset.id = band.id; 
+        
         // ツールチップ
         mainBtn.addEventListener("mousemove", (e) => {
-            showTooltip(e, `${band.name}（${band.time}分）`);
+            showTooltip(e, `${band.name}（${band.time}分）`) ;
         });
         mainBtn.addEventListener("mouseout", hideTooltip);
 
@@ -266,23 +285,57 @@ function handleTableAreaDragOver(e) {
    保存（Servlet に送信）
 ---------------------------- */
 function exportTimetable() {
+	
+	    // 時間超過チェック
+    const times = calculateTimes();
+    const endTime = document.getElementById("end_date");
+    
+    if (times.length > 0 && endTime && endTime.value) {
+		const bandEnd = times[times.length - 1].end;
+		let limitTime = endTime.value;
+		
+		if (limitTime.includes("T")) {
+			limitTime = limitTime.split("T")[1];
+		}
+		
+		const [bandH, bandM] = bandEnd.split(":").map(Number);
+		const [ltH, ltM] = limitTime.split(":").map(Number);
+		console.log("バンド：", (bandH * 60 + bandM));
+		console.log("決まり：", (ltH * 60 + ltM));
+		
+		if ((bandH * 60 + bandM) > (ltH * 60 + ltM)) {
+			alert("時間が超過しています。");
+			return;
+		}
+		
+	}
 
     // ★ 保存確認ダイアログ
     if (!confirm("保存しますか？")) {
         return; // キャンセルされたら何もしない
     }
 
+	const params = new URLSearchParams();
+	// 転換時間をセット
+	params.append("time", convertTime);
+	// live_info_idをセット
+	params.append("live_info_id", document.getElementById("live_info_id").value);
+	
+	// 順番でprepar_info_idを得る
+	tableBands.forEach(band => {
+		params.append("prepar_info_id", band.id);
+	})
+
     fetch("TableCreateServlet", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            convertTime: convertTime,
-            tableBands: tableBands,
-            prepBands: prepBands
-        })
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString()
     })
     .then(res => res.text())
-    .then(msg => alert("保存しました"))
+    .then(msg => {
+	alert("保存しました");
+	window.location.href = "HomeAdminServlet";
+	})
     .catch(err => alert("保存に失敗しました"));
 }
 
@@ -301,7 +354,7 @@ function calculateTimes() {
 
     tableBands.forEach(band => {
         const start = current;
-        const end = current + band.time;
+        const end = current + Number(band.time);
 
         result.push({
             name: band.name,
@@ -309,7 +362,7 @@ function calculateTimes() {
             end: formatTime(end)
         });
 
-        current = end + convertTime;
+        current = end + Number(convertTime);
     });
 
     return result;
@@ -332,7 +385,7 @@ function cancelPage() {
 
 function showBandDetail(bandName) {
 
-    // バンドIDを取得
+/*    // バンドIDを取得
     const band = bandInfos.find(b => b.name === bandName);
     if (!band) return;
 
@@ -342,8 +395,38 @@ function showBandDetail(bandName) {
     let html = `<h2>${bandName}</h2>`;
 
     html += `<h3>準備情報</h3>`;
-    html += `<p>${prep ? prep.info : "準備情報がありません"}</p>`;
+    html += `<p>${prep ? prep.info : "準備情報がありません"}</p>`;*/
 
+	const data = bandDetails[bandName] || [];
+
+    const prepInfo = prepBands.find(b => b.name === bandName);
+
+    let html = `<h2>${bandName}</h2>`;
+    
+    if (prepInfo) {
+        html += `
+            <div class="prep-info" style="background:#f4f4f4; padding:10px; margin-bottom:15px; border-radius:4px;">
+                <p><strong>転換時間：</strong>${prepInfo.time}分</p>
+                <p><strong>準備項目：</strong>${prepInfo.item || "特になし"}</p>
+                <p><strong>入場曲：</strong>${prepInfo.music || "特になし"}</p>
+            </div>
+        `;
+    }
+    
+    html += `<hr>`;
+    
+    data.forEach((s, i) => {
+        html += `
+            <div class="song">
+                <h3>${i + 1}曲目</h3>
+                <p>曲名：${s.song}</p>
+                <p>照明：${s.light}</p>
+                <p>音響：${s.sound}</p>
+                <p>備考：${s.note}</p>
+            </div>
+        `;
+    });
+    
     document.getElementById("modalBody").innerHTML = html;
     document.getElementById("modal").style.display = "block";
 }

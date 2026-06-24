@@ -55,7 +55,13 @@ h1 {
 
 }
 
-
+.song {
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 8px;
+	background: #f8f8f8;
+}
 
 /* タイムテーブルのボタン */
 
