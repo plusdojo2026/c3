@@ -56,19 +56,6 @@
 	<div class="content-wrapper">
 
 		<h1>準備情報登録</h1>
-		<!-- ★ 出演バンド一覧表示 -->
-		<h2>出演バンド一覧</h2>
-
-		<div class="band-list-box">
-			<c:forEach var="b" items="${band_list}" varStatus="s">
-				<p>
-					<strong>${b.name}</strong>：${time_list[s.index]} 分
-				</p>
-			</c:forEach>
-		</div>
-
-		<hr>
-
 
 		<hr>
 

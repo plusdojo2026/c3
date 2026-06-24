@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,190 +26,149 @@ import dto.PreparInfo;
 
 @WebServlet("/PreparRegistServlet")
 public class PreparRegistServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        try {
-            Integer liveId = parseIntOrNull(request.getParameter("liveId"));
-            if (liveId == null) {
-                response.sendRedirect("LiveShowServlet");
-                return;
-            }
+		try {
+			Integer liveId = parseIntOrNull(request.getParameter("liveId"));
+			if (liveId == null) {
+				response.sendRedirect("LiveShowServlet");
+				return;
+			}
 
-            LiveInfoDao liveDao = new LiveInfoDao();
-            LiveInfo liveInfo = liveDao.select(liveId);
+			LiveInfoDao liveDao = new LiveInfoDao();
+			LiveInfo liveInfo = liveDao.select(liveId);
 
-            HttpSession session = request.getSession();
-            LoginUser loginUser = (LoginUser) session.getAttribute("id");
-            int userId = Integer.parseInt(loginUser.getId());
+			HttpSession session = request.getSession();
+			LoginUser loginUser = (LoginUser) session.getAttribute("id");
+			int userId = Integer.parseInt(loginUser.getId());
 
-            BandInfoDao bandDao = new BandInfoDao();
-            BandInfo bandInfo = bandDao.showBand(userId).get(0);
+			BandInfoDao bandDao = new BandInfoDao();
+			BandInfo bandInfo = bandDao.showBand(userId).get(0);
 
-            request.setAttribute("live_info", liveInfo);
-            request.setAttribute("band_info", bandInfo);
+			request.setAttribute("live_info", liveInfo);
+			request.setAttribute("band_info", bandInfo);
 
-            if (liveInfo.getBegin_date() != null) {
-                request.setAttribute("begin_date", liveInfo.getBegin_date().toString().replace("T", " "));
-            }
-            if (liveInfo.getEnd_date() != null) {
-                request.setAttribute("end_date", liveInfo.getEnd_date().toString().replace("T", " "));
-            }
+			if (liveInfo.getBegin_date() != null) {
+				request.setAttribute("begin_date", liveInfo.getBegin_date().toString().replace("T", " "));
+			}
+			if (liveInfo.getEnd_date() != null) {
+				request.setAttribute("end_date", liveInfo.getEnd_date().toString().replace("T", " "));
+			}
 
-          // 持ち時間（ログインバンド分）
-             Integer time = null;
+			// 持ち時間（ログインバンド分）
+			Integer time = null;
 
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
-                        "root", "password");
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection conn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
+						"root", "password");
 
-                String sql = "SELECT time FROM prepar_info WHERE live_info_id = ? AND band_info_id = ?";
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setInt(1, liveId);
-                ps.setInt(2, bandInfo.getId());
+				String sql = "SELECT time FROM prepar_info WHERE live_info_id = ? AND band_info_id = ?";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setInt(1, liveId);
+				ps.setInt(2, bandInfo.getId());
 
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    time = (Integer) rs.getObject("time");
-                }
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					time = (Integer) rs.getObject("time");
+				}
 
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-            request.setAttribute("time", time);
+			request.setAttribute("time", time);
 
-            // ライブに出演する全バンド一覧（名前＋持ち時間）
-            List<BandInfo> bandList = new ArrayList<>();
-            List<Integer> timeList = new ArrayList<>();
+			
 
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
-                        "root", "password");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/prepar_regist.jsp");
+			dispatcher.forward(request, response);
 
-                String sql = """
-                    SELECT b.id, b.name, p.time
-                    FROM band_info b
-                    JOIN prepar_info p ON b.id = p.band_info_id
-                    WHERE p.live_info_id = ?  
-                    ORDER BY p.id
-                """;
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("error_message", "データ取得中にエラーが発生しました。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
+	}
 
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setInt(1, liveId);
-               
+	// doPost
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-                ResultSet rs = ps.executeQuery();
+		request.setCharacterEncoding("UTF-8");
 
-                while (rs.next()) {
-                    BandInfo b = new BandInfo();
-                    b.setId(rs.getInt("id"));
-                    b.setName(rs.getString("name"));
-                    bandList.add(b);
+		try {
+			Integer time = parseIntOrNull(request.getParameter("time"));
+			Integer setlist = parseIntOrNull(request.getParameter("prepar_setlist"));
+			String entranceMusic = request.getParameter("entrance_music");
 
-                    timeList.add((Integer) rs.getObject("time"));
-                }
+			Integer bandId = parseIntOrNull(request.getParameter("band_info_id"));
+			Integer liveId = parseIntOrNull(request.getParameter("live_info_id"));
 
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+			PreparInfo p = new PreparInfo();
+			p.setTime(time);
+			p.setPreparTime(null);
+			p.setPreparItems("");
+			p.setSetlist(setlist);
+			p.setEntranceMusic(entranceMusic);
+			p.setBandInfoId(bandId);
+			p.setLiveInfoId(liveId);
 
-            // JSP に渡す
-            request.setAttribute("band_list", bandList);
-            request.setAttribute("time_list", timeList);
+			PreparInfoDao pDao = new PreparInfoDao();
+			int preparId = pDao.insertAndReturnId(p);
 
-            // JSP へ
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/prepar_regist.jsp");
-            dispatcher.forward(request, response);
+			if (preparId == -1) {
+				throw new Exception("準備情報の登録に失敗しました。");
+			}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error_message", "データ取得中にエラーが発生しました。");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
-        }
-    }
+			String[] names = request.getParameterValues("each_name[]");
+			String[] ses = request.getParameterValues("se[]");
+			String[] lights = request.getParameterValues("light_req[]");
+			String[] memos = request.getParameterValues("memo[]");
+			String[] orders = request.getParameterValues("each_setlist[]");
 
-   // doPost（変更なし）
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+			EachMusicDao mDao = new EachMusicDao();
 
-        request.setCharacterEncoding("UTF-8");
+			for (int i = 0; i < names.length; i++) {
+				EachMusic m = new EachMusic();
+				m.setName(names[i]);
+				m.setSe(ses[i]);
+				m.setLightReq(lights[i]);
+				m.setMemo(memos[i]);
 
-        try {
-            Integer time = parseIntOrNull(request.getParameter("time"));
-            Integer setlist = parseIntOrNull(request.getParameter("prepar_setlist"));
-            String entranceMusic = request.getParameter("entrance_music");
+				Integer orderNum = parseIntOrNull(orders[i]);
+				if (orderNum == null) {
+					orderNum = i + 1;
+				}
+				m.setSetlist(orderNum);
+				m.setPreparInfoId(preparId);
 
-            Integer bandId = parseIntOrNull(request.getParameter("band_info_id"));
-            Integer liveId = parseIntOrNull(request.getParameter("live_info_id"));
+				if (!mDao.insert(m)) {
+					throw new Exception("曲情報の登録に失敗しました（" + (i + 1) + "曲目）");
+				}
+			}
 
-            PreparInfo p = new PreparInfo();
-            p.setTime(time);
-            p.setPreparTime(null);
-            p.setPreparItems("");
-            p.setSetlist(setlist);
-            p.setEntranceMusic(entranceMusic);
-            p.setBandInfoId(bandId);
-            p.setLiveInfoId(liveId);
+			response.sendRedirect("home_band.jsp");
 
-            PreparInfoDao pDao = new PreparInfoDao();
-            int preparId = pDao.insertAndReturnId(p);
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("error_message", "登録中にエラーが発生しました。");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
+	}
 
-            if (preparId == -1) {
-                throw new Exception("準備情報の登録に失敗しました。");
-            }
-
-            String[] names = request.getParameterValues("each_name[]");
-            String[] ses = request.getParameterValues("se[]");
-            String[] lights = request.getParameterValues("light_req[]");
-            String[] memos = request.getParameterValues("memo[]");
-            String[] orders = request.getParameterValues("each_setlist[]");
-
-            EachMusicDao mDao = new EachMusicDao();
-
-            for (int i = 0; i < names.length; i++) {
-                EachMusic m = new EachMusic();
-                m.setName(names[i]);
-                m.setSe(ses[i]);
-                m.setLightReq(lights[i]);
-                m.setMemo(memos[i]);
-
-                Integer orderNum = parseIntOrNull(orders[i]);
-                if (orderNum == null) {
-                    orderNum = i + 1;
-                }
-                m.setSetlist(orderNum);
-                m.setPreparInfoId(preparId);
-
-                if (!mDao.insert(m)) {
-                    throw new Exception("曲情報の登録に失敗しました（" + (i + 1) + "曲目）");
-                }
-            }
-
-            response.sendRedirect("home_band.jsp");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error_message", "登録中にエラーが発生しました。");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
-        }
-    }
-
-    private Integer parseIntOrNull(String s) {
-        try {
-            if (s == null || s.isEmpty())
-                return null;
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
+	private Integer parseIntOrNull(String s) {
+		try {
+			if (s == null || s.isEmpty())
+				return null;
+			return Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 }
