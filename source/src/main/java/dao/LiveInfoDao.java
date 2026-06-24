@@ -65,7 +65,7 @@ public class LiveInfoDao {
 				}
 				LiveInfo liveInfo = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), createFlag, rs.getString("status"));
+						rs.getInt("user_id"), createFlag);
 				livelist.add(liveInfo);
 			}
 		} catch (SQLException e) {
@@ -283,7 +283,7 @@ public class LiveInfoDao {
 			while (rs.next()) {
 				LiveInfo live = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), rs.getInt("create_flag") == 1, rs.getString("status"));
+						rs.getInt("user_id"), rs.getInt("create_flag") == 1);
 
 				list.add(live);
 			}
@@ -325,7 +325,7 @@ public class LiveInfoDao {
 			while (rs.next()) {
 				data = new LiveInfo(rs.getInt("id"), rs.getString("name"),
 						rs.getTimestamp("begin_date").toLocalDateTime(), rs.getTimestamp("end_date").toLocalDateTime(),
-						rs.getInt("user_id"), rs.getInt("create_flag") == 1,rs.getString("status"));
+						rs.getInt("user_id"), rs.getInt("create_flag") == 1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -46,38 +46,7 @@ public class HomeAdminServlet extends HttpServlet {
 			 condition.setUser_id(0);
 			
 			 List<LiveInfo> livelist = liveDao.select(condition);
-			 //各ライブの状態判定
-			 PreparInfoDao preparDao = new PreparInfoDao();
 			 
-			 for (LiveInfo live : livelist) {
-				 
-				 List<PreparInfo> preparlist =preparDao.selectByLiveInfoId(live.getId());
-				 
-				 //テスト2:準備情報なし
-				if (preparlist == null || preparlist.isEmpty()) {
-					live.setStatus("TEST2");
-					continue;
-				}
-				 //テスト2:入場曲未入力
-				 boolean hasError = preparlist.stream().anyMatch(pi ->
-				 pi.getEntranceMusic() == null ||
-				 pi.getEntranceMusic().trim().isEmpty());
-				 
-				 if (hasError) {
-					 live.setStatus("TEST2");
-					 continue;
-				 }
-				 
-				 //テスト3:タイムテーブル未作成
-				 if (!live.isCreate_flag()) {
-					 live.setStatus("TEST3");
-				 }
-				 
-				 //テスト4:タイムテーブル作成済み
-				 else {
-					 live.setStatus("TEST4");
-				 }
-			 }	 
 			 // live_infoの情報を登録
 			 request.setAttribute("lives", livelist);
 			
