@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -34,16 +35,13 @@
 					</li>
 					<li><form action="LoginServlet" method="GET">
 							<button type="submit">ログアウト</button>
-						</form>
-					</li>
+						</form></li>
 					<li><form action="ModBandServlet" method="GET">
 							<button type="submit">バンド情報</button>
-						</form>
-					</li>
+						</form></li>
 					<li><form action="LiveShowServlet" method="GET">
 							<button type="submit">ライブ情報</button>
-						</form>
-					</li>
+						</form></li>
 				</ul>
 			</nav>
 			<div class="black-bg" id="js-black-bg"></div>
@@ -58,6 +56,20 @@
 	<div class="content-wrapper">
 
 		<h1>準備情報登録</h1>
+		<!-- ★ 出演バンド一覧表示 -->
+		<h2>出演バンド一覧</h2>
+
+		<div class="band-list-box">
+			<c:forEach var="b" items="${band_list}" varStatus="s">
+				<p>
+					<strong>${b.name}</strong>：${time_list[s.index]} 分
+				</p>
+			</c:forEach>
+		</div>
+
+		<hr>
+
+
 		<hr>
 
 
@@ -72,16 +84,16 @@
 			<div class="basic-info">
 
 				<label>ライブ名</label> <input type="text" name="live_name"
-					value="${live_info.name}"> <label>開始日時</label> <input
-					type="text" name="begin_date" value="${begin_date}"> <label>終了日時</label>
-				<input type="text" name="end_date" value="${end_date}"> <label>持ち時間</label>
-				<input type="text" name="time" value="${time}"> <label>バンド名</label>
-				<input type="text" name="band_name" value="${band_info.name}">
+					value="${live_info.name}" readonly> <label>開始日時</label> <input
+					type="text" name="begin_date" value="${begin_date}" readonly>
 
-				<label>順番希望</label> <input type="text" name="prepar_setlist">
-
-				<label class="required">入場曲</label> <input type="text"
-					name="entrance_music">
+				<label>終了日時</label> <input type="text" name="end_date"
+					value="${end_date}" readonly> <label>バンド名</label> <input
+					type="text" name="band_name" value="${band_info.name}" readonly>
+				<label>持ち時間(分)</label> <input type="text" name="time"
+					value="${time}" readonly> <label>順番希望(任意)</label> <input
+					type="text" name="prepar_setlist"> <label class="required">入場曲</label>
+				<input type="text" name="entrance_music">
 
 			</div>
 
