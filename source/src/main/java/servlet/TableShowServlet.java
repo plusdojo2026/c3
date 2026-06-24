@@ -19,6 +19,7 @@ import dto.BandInfo;
 import dto.EachMusic;
 import dto.LiveInfo;
 import dto.PreparInfo;
+import dto.Result;
 
 @WebServlet("/TableShowServlet")
 public class TableShowServlet extends HttpServlet {
@@ -75,6 +76,49 @@ public class TableShowServlet extends HttpServlet {
 		// タイムテーブル表示画面へフォワードする
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/table_show.jsp");
 		dispatcher.forward(request, response);
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
+		//		// ログインしていなかったらログインサーブレットへ
+		//		HttpSession session = request.getSession();
+		//		if (session.getAttribute("id") == null) {
+		//			response.sendRedirect("/c3/LoginServlet");
+		//			return;
+		//		}
+		
+		int liveId = 1;
+		if (request.getParameter("live_info_id") != null)
+			liveId = Integer.parseInt(request.getParameter("live_info_id"));
+
+		LiveInfoDao liDao = new LiveInfoDao();
+		LiveInfo li = liDao.select(liveId);
+		PreparInfoDao piDao = new PreparInfoDao();
+		List<PreparInfo> piList = new ArrayList<PreparInfo>();
+		boolean result = false;
+		
+		// name属性が"prepar_id"の要素を全て順番に読み込む。
+		String stringPiId[] = request.getParameterValues("prepar_info_id");
+		for (int i = 0; i < stringPiId.length; i++) {
+			result = piList.add(piDao.selectById(Integer.parseInt(stringPiId[i])));
+			System.out.println("[" + i + "]id:" + stringPiId[i]);
+			// それぞれに対して順番と転換時間を設定する。
+			piList.get(i).setSetlist(i + 1);
+			result = piDao.update(piList.get(i));
+			System.out.println("登録：" + piList.get(i).getSetlist());
+		}
+		
+		// ホームサーブレットで移る。
+		if (result) {
+			response.sendRedirect("/c3/HomeAdminServlet");
+		} else {
+			if (request.getParameter("live_info_id") != null)
+				liveId = Integer.parseInt(request.getParameter("live_info_id"));
+			request.setAttribute("id", liveId);
+			request.setAttribute("result", new Result("Create_failed", "保存できませんでした。", "/c3/TableCreateServlet"));
+			this.doGet(request, response);
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List"%>
 <%@ page import="dto.BandInfo"%>
 <%@ page import="dto.PreparInfo"%>
@@ -58,6 +59,8 @@
 	<div class="box">
 		<button class="delete-schedule-btn">✖</button>
 		<h2 class="schedule-title">タイムスケジュール</h2>
+		<h3 class="schedule-title"><c:out value="${live_info.name }" /></h3>
+		<input type="hidden" name="live_info_id" value="${live_info.id }">
 		<div id="schedule"></div>
 	</div>
 	<div id="modal" class="modal">
@@ -82,7 +85,8 @@ for (int i = 0; i < biList.size(); i++) {%>
 {
     name : "<%=biList.get(i).getName()%>",
     playTime : <%=piList.get(i).getTime()%>,
-changeTime : <%=piList.get(i).getPreparTime()%>
+	changeTime : <%=piList.get(i).getPreparTime()%>,
+    id: <%= piList.get(i).getId()%>
 }
 
 <%=i < biList.size() - 1 ? "," : ""%>
@@ -126,6 +130,19 @@ const bandDetails = {
 <%}%>
 
 };
+
+// ページ移動の際に自動でデータを保存する
+window.addEventListener("pagehide", function() {
+    const params = new URLSearchParams();
+    
+    // 順番通りにidを取得する
+    bands.forEach(band => {
+        params.append("prepar_info_id", band.id);
+    });
+
+    // doPostへ送信する
+    navigator.sendBeacon("TableShowServlet", params);
+});
 
 </script>
 	<script
