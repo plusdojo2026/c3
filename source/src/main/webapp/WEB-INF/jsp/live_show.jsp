@@ -52,13 +52,29 @@
 
   <c:when test="${not empty lives}">
   <div class="live-list">
+  
   <h2 class="live-title">ライブ日程一覧</h2>
+  <div class="status-legend">
+	<div class="legend-item">
+	<span class ="legend-color test2"></span>
+	準備情報未登録
+	</div>
+	<div class="legend-item">
+	<span class="legend-color test3"></span>
+	タイムテーブル未作成
+	</div>
+	<div class="legend-item">
+	<span class="legend-color test4"></span>
+	タイムテーブル作成済み
+	</div>
+	</div>
+	
     <c:forEach var="live" items="${lives}">
       <form action="/c3/LiveShowServlet" method="POST">
         <button type="submit" 
         		name="liveId" 
         		value="${live.id}" 
-        		class="date"
+        		class = "date ${statusMap[live.id]}"
         		title="${live.name}">
           ${fn:replace(fn:substring(live.begin_date,0,10),"-","/")}
           <br>
