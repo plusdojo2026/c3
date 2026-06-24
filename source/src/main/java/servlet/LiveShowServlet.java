@@ -1,7 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +25,46 @@ import dto.PreparInfo;
 @WebServlet("/LiveShowServlet")
 public class LiveShowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	//ボタンの状態判定
+		 private Map<Integer, String> createStatusMap(List<LiveInfo> livelist) {
+		 Map<Integer, String> statusMap = new HashMap<>();
+		 
+		 PreparInfoDao preparDao = new PreparInfoDao();
+		 
+		 if (livelist != null) {
+			 for (LiveInfo live : livelist) {
+				 List<PreparInfo> preparlist = preparDao.selectByLiveInfoId(live.getId());
+				 
+				 //テスト2:準備情報未登録
+				 if (preparlist == null || preparlist.isEmpty()) {
+					 statusMap.put(live.getId(), "TEST2");
+					 continue;
+				 }
+				 
+				 //テスト2:入場曲未入力
+				 boolean hasError = preparlist.stream().anyMatch(pi ->
+				 pi.getEntranceMusic() == null || pi.getEntranceMusic().trim().isEmpty());
+				 
+				 if(hasError) {
+					 statusMap.put(live.getId(), "TEST2");
+					 continue;
+				 }
+				 
+				 //テスト3:タイムテーブル未作成
+				 if (!live.isCreate_flag()) {
+					 statusMap.put(live.getId(), "TEST3");
+				 }
+				 
+				 //テスト4:タイムテーブル作成済み
+				 else {
+					 statusMap.put(live.getId(), "TEST4");
+				 }
+			 }
+		 }
+		 return statusMap;
+		 }
+		 
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -50,7 +92,8 @@ public class LiveShowServlet extends HttpServlet {
 		    condition.setUser_id(0);
 	        
 	        List<LiveInfo>livelist = liveDao.select(condition);
-		    
+	        Map<Integer, String> statusMap= createStatusMap(livelist);
+	        request.setAttribute("statusMap", statusMap);
 			
 			 //live_info取得
 			PreparInfoDao preparDao = new PreparInfoDao();
@@ -166,8 +209,10 @@ public class LiveShowServlet extends HttpServlet {
 		    condition.setUser_id(0);
 	        
 	        List<LiveInfo>livelist = liveDao.select(condition);
-			
-			request.setAttribute("lives", livelist);
+	        request.setAttribute("lives", livelist);
+	        Map<Integer, String> statusMap= createStatusMap(livelist);
+			 request.setAttribute("statusMap", statusMap);
+
 			request.setAttribute("noTimeTable", true);
 			System.out.println("テスト3");
 			
