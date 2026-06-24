@@ -55,9 +55,7 @@ public class HomeBandServlet extends HttpServlet {
         List<LiveInfo> liveList = liDao.select(new LiveInfo());
 
         // 現在日時
-        LocalDateTime now = LocalDateTime.of(
-        	    2026, 8, 28, 0, 0
-        	);
+        LocalDateTime now = LocalDateTime.now();
         System.out.println("現在時刻=" + now);
 
         // 直近ライブ
