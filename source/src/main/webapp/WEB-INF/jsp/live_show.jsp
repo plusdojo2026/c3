@@ -23,6 +23,11 @@
 			</div>
 			<nav class="sp-nav">
 				<ul>
+				<li>
+						<form action="HomeBandServlet"  method="get">
+							<button type="submit">ホーム</button>
+						</form>
+					</li>
 					<li>
 						<form action="LoginServlet" method="post">
 							<button type="submit">ログアウト</button>
@@ -34,11 +39,6 @@
 						</form>
 					</li>
 
-					<li>
-						<form action="PreparRegistServlet" method="get">
-							<button type="submit">準備情報</button>
-						</form>
-					</li>
 				</ul>
 			</nav>
 
