@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.BandInfoDao;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
+import dto.BandInfo;
 import dto.LiveInfo;
 import dto.LoginUser;
 import dto.PreparInfo;
@@ -69,6 +72,7 @@ public class LiveShowServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		
 		//もしもログインしていなかったらログインサーブレットにリダイレクトする
 				HttpSession session = request.getSession();
 				
@@ -81,7 +85,15 @@ public class LiveShowServlet extends HttpServlet {
 			//ログインユーザーIDの取得
 				LoginUser login = (LoginUser)session.getAttribute("id"); 
 				int userId = Integer.parseInt(login.getId());
-		    
+				
+				//band_infoデータの取得
+				BandInfoDao bandDao = new BandInfoDao();
+				 List<BandInfo>bandlist = bandDao.showBand(userId);
+				 
+				 //prepar_infoデータの取得
+				 PreparInfoDao preparDao = new PreparInfoDao();
+				 List<PreparInfo>preparlist = preparDao.selectByBandId(bandlist.get(0).getId());
+				 
 			String noTimeTable = request.getParameter("noTimeTable");
 
 			if ("true".equals(noTimeTable)) {
@@ -92,7 +104,12 @@ public class LiveShowServlet extends HttpServlet {
 			LiveInfoDao liveDao = new LiveInfoDao();
 			
 	        
-	        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
+	        List<LiveInfo>livelist = new ArrayList<LiveInfo>();
+	        for (PreparInfo pi: preparlist) {
+	        	LiveInfo liveTemp = liveDao.select(pi.getLiveInfoId());
+	        	livelist.add(liveTemp);
+	        }
+	        
 	        Map<Integer, String> statusMap= createStatusMap(livelist);
 	        request.setAttribute("statusMap", statusMap);
 			
@@ -185,38 +202,54 @@ public class LiveShowServlet extends HttpServlet {
 		//③ live_infoテーブル、prepar_infoテーブルのどちらにもデータはあるが、管理者がタイムテーブルを作成していない場合
 		//画面にアラートで「まだタイムテーブルが作成されていません」と表示
 		//live_infoのデータ取得
-			LiveInfoDao EachLiveDao = new LiveInfoDao();
-		 LiveInfo idLive = EachLiveDao.select(liveId);
-		 
-		 if (idLive == null) {
-			    
-			 response.sendRedirect(
-					 request.getContextPath()
-					 + "/LiveShowServlet?liveId=");
+			LiveInfoDao eachLiveDao = new LiveInfoDao();
+			LiveInfo idLive = eachLiveDao.select(liveId);
+
+			if (idLive == null) {
+
+			    response.sendRedirect(
+			            request.getContextPath()
+			            + "/LiveShowServlet");
 			    return;
 			}
-		 
-		request.setAttribute("livelist", idLive);
-		
-		boolean created = false;
-		if (!idLive.isCreate_flag()) {
-			
-			LiveInfoDao liveDao = new LiveInfoDao();
-	        
-	        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
-	        request.setAttribute("lives", livelist);
-	        Map<Integer, String> statusMap= createStatusMap(livelist);
-			 request.setAttribute("statusMap", statusMap);
 
-			request.setAttribute("noTimeTable", true);
-			System.out.println("テスト3");
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp"); 
-			rd.forward(request, response);
-		    
-			return;
-			
-	}
+			request.setAttribute("livelist", idLive);
+
+			if (!idLive.isCreate_flag()) {
+
+			    BandInfoDao bandDao = new BandInfoDao();
+			    List<BandInfo> bandlist = bandDao.showBand(userId);
+
+			    PreparInfoDao pDao = new PreparInfoDao();
+			    List<PreparInfo> bandPreparList =
+			            pDao.selectByBandId(bandlist.get(0).getId());
+
+			    LiveInfoDao liveDao = new LiveInfoDao();
+			    List<LiveInfo> livelist = new ArrayList<>();
+
+			    for (PreparInfo pi : bandPreparList) {
+			        LiveInfo live = liveDao.select(pi.getLiveInfoId());
+
+			        if (live != null) {
+			            livelist.add(live);
+			        }
+			    }
+
+			    request.setAttribute("lives", livelist);
+
+			    Map<Integer, String> statusMap = createStatusMap(livelist);
+			    request.setAttribute("statusMap", statusMap);
+
+			    request.setAttribute("noTimeTable", true);
+
+			    System.out.println("テスト3");
+
+			    RequestDispatcher rd =
+			            request.getRequestDispatcher("/WEB-INF/jsp/live_show.jsp");
+			    rd.forward(request, response);
+
+			    return;
+			}
 		//④live_infoテーブル、prepar_infoテーブルのどちらにもデータがあり、タイムテーブルも作成済みの場合
 		//タイムテーブル表示画面に遷移する
 		else {
