@@ -56,7 +56,7 @@
 
 <div class="live-list">
 
-<h2 class="live-title">ライブ日程一覧</h2>
+<h2 class="live-title">ライブ一覧</h2>
 <div class="status-legend">
 	<div class="legend-item">
 	<span class ="legend-color test2"></span>
