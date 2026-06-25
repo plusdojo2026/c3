@@ -20,7 +20,7 @@ public class UserDao {
 			
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 			
 			// SELECT文を準備する
@@ -63,7 +63,7 @@ public class UserDao {
 			
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?"
-							+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+							+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 			
 			// 同じIDが存在するか確認
@@ -115,7 +115,7 @@ public class UserDao {
 			
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?"
-							+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+							+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 			
 			// 同じIDが存在するか確認

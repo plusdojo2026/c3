@@ -24,7 +24,7 @@ public class BandMemberDao {
 
 			// データベースに接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			// バンドメンバーのid、名前、楽器ID、バンド情報ID、楽器名を取得するSQL文を作成する
@@ -80,7 +80,7 @@ public class BandMemberDao {
 
 			// データベースに接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			// バンドメンバーのid、名前、楽器ID、バンド情報ID、楽器名を取得するSQL文を作成する
@@ -136,7 +136,7 @@ public class BandMemberDao {
 
 			// データベースに接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			// バンドメンバーのid、名前、楽器ID、バンド情報ID、楽器名を取得するSQL文を作成する
@@ -189,7 +189,7 @@ public class BandMemberDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			// 楽器名から楽器IDを取得する
@@ -251,7 +251,7 @@ public class BandMemberDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql;
@@ -320,7 +320,7 @@ public class BandMemberDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql;
@@ -390,7 +390,7 @@ public class BandMemberDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql;
@@ -461,7 +461,7 @@ public class BandMemberDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql;
@@ -532,7 +532,7 @@ public class BandMemberDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql;
@@ -604,7 +604,7 @@ public class BandMemberDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "DELETE FROM band_member WHERE id = ?;";

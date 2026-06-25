@@ -23,7 +23,7 @@ public class PartsDao {
 
 			// データベースに接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
-					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
+					+ "characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			// 登録されている担当楽器情報を全て取得する。
