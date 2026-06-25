@@ -25,7 +25,7 @@ public class EachMusicDao {
 			// データベースに接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
 					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 
 			// 曲ごとID、名前、順番、照明要望、SE、備考、準備情報IDを取得するSQL文
 			String sql = "SELECT id, name, setlist, light_req, se, memo, prepar_info_id\n"
@@ -116,7 +116,7 @@ public class EachMusicDao {
 			// データベースに接続
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/c3?"
 					+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 
 			// 曲ごとID、名前、順番、照明要望、SE、備考、準備情報IDを取得するSQL文
 			String sql = "SELECT id, name, setlist, light_req, se, memo, prepar_info_id\n"
@@ -206,7 +206,7 @@ public class EachMusicDao {
 	        // DB接続
 	        conn = DriverManager.getConnection(
 	                "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
-	                "root", "password");
+	                "c3", "zTfP4Ep4RMwQge3E");
 
 	        // INSERT文
 	        String sql = "INSERT INTO each_music "
