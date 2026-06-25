@@ -120,6 +120,24 @@ public class PreparRegistServlet extends HttpServlet {
 			Integer bandId = parseIntOrNull(request.getParameter("band_info_id"));
 			Integer liveId = parseIntOrNull(request.getParameter("live_info_id"));
 
+			// 既存のprepar_infoを削除
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection conn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
+						"root", "password");
+
+				String deleteSql = "DELETE FROM prepar_info WHERE live_info_id = ? AND band_info_id = ?";
+				PreparedStatement deletePs = conn.prepareStatement(deleteSql);
+				deletePs.setInt(1, liveId);
+				deletePs.setInt(2, bandId);
+				deletePs.executeUpdate();
+
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			PreparInfo p = new PreparInfo();
 			p.setTime(time);
 			p.setPreparTime(null);
