@@ -20,7 +20,7 @@ public class LiveInfoDao {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 			String sql = "SELECT id, name, begin_date, end_date, user_id , create_flag " + "FROM live_info "
 					+ "WHERE name LIKE ? " + "AND (? IS NULL OR begin_date = ?) " + "AND (? IS NULL OR end_date = ?) "
@@ -98,7 +98,7 @@ public class LiveInfoDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "INSERT INTO live_info VALUES (0, ?, ?, ?, ?, ?)";
@@ -163,7 +163,7 @@ public class LiveInfoDao {
 
 			// データベースに接続する
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			// SQL文を準備する
@@ -230,7 +230,7 @@ public class LiveInfoDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "DELETE FROM live_info WHERE id=?";
@@ -271,7 +271,7 @@ public class LiveInfoDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "SELECT * FROM live_info WHERE user_id = ?";
@@ -311,7 +311,7 @@ public class LiveInfoDao {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 			String sql = "SELECT id, name, begin_date, end_date, user_id , create_flag " + "FROM live_info "
 					+ "WHERE id = ? " 
