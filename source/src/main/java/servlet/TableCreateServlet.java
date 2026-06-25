@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.BandInfoDao;
 import dao.EachMusicDao;
@@ -30,12 +31,12 @@ public class TableCreateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	request.setCharacterEncoding("UTF-8");
 			
-//			// ログインしていなかったらログインサーブレットへ
-//			HttpSession session = request.getSession();
-//			if (session.getAttribute("id") == null) {
-//				response.sendRedirect("/c3/LoginServlet");
-//				return;
-//			}
+			// ログインしていなかったらログインサーブレットへ
+			HttpSession session = request.getSession();
+			if (session.getAttribute("id") == null) {
+				response.sendRedirect("/c3/LoginServlet");
+				return;
+			}
 	
 	LiveInfoDao liDao = new LiveInfoDao();
 	PreparInfoDao piDao = new PreparInfoDao();
@@ -84,12 +85,12 @@ public class TableCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		//		// ログインしていなかったらログインサーブレットへ
-		//		HttpSession session = request.getSession();
-		//		if (session.getAttribute("id") == null) {
-		//			response.sendRedirect("/c3/LoginServlet");
-		//			return;
-		//		}
+				// ログインしていなかったらログインサーブレットへ
+				HttpSession session = request.getSession();
+				if (session.getAttribute("id") == null) {
+					response.sendRedirect("/c3/LoginServlet");
+					return;
+				}
 		
 		int liveId = 1;
 		if (request.getParameter("live_info_id") != null)

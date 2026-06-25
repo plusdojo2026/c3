@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.BandInfoDao;
 import dao.EachMusicDao;
@@ -29,12 +30,12 @@ public class TableShowServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		// // ログインしていなかったらログインサーブレットへ
-		// HttpSession session = request.getSession();
-		// if (session.getAttribute("id") == null) {
-		// response.sendRedirect("/c3/LoginServlet");
-		// return;
-		// }
+		 // ログインしていなかったらログインサーブレットへ
+		 HttpSession session = request.getSession();
+		 if (session.getAttribute("id") == null) {
+		 response.sendRedirect("/c3/LoginServlet");
+		 return;
+		 }
 
 		LiveInfoDao liDao = new LiveInfoDao();
 		PreparInfoDao piDao = new PreparInfoDao();
@@ -81,19 +82,17 @@ public class TableShowServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		//		// ログインしていなかったらログインサーブレットへ
-		//		HttpSession session = request.getSession();
-		//		if (session.getAttribute("id") == null) {
-		//			response.sendRedirect("/c3/LoginServlet");
-		//			return;
-		//		}
+				// ログインしていなかったらログインサーブレットへ
+				HttpSession session = request.getSession();
+				if (session.getAttribute("id") == null) {
+					response.sendRedirect("/c3/LoginServlet");
+					return;
+				}
 		
 		int liveId = 1;
 		if (request.getParameter("live_info_id") != null)
 			liveId = Integer.parseInt(request.getParameter("live_info_id"));
 
-		LiveInfoDao liDao = new LiveInfoDao();
-		LiveInfo li = liDao.select(liveId);
 		PreparInfoDao piDao = new PreparInfoDao();
 		List<PreparInfo> piList = new ArrayList<PreparInfo>();
 		boolean result = false;
@@ -113,8 +112,6 @@ public class TableShowServlet extends HttpServlet {
 		if (result) {
 			response.sendRedirect("/c3/HomeAdminServlet");
 		} else {
-			if (request.getParameter("live_info_id") != null)
-				liveId = Integer.parseInt(request.getParameter("live_info_id"));
 			request.setAttribute("id", liveId);
 			request.setAttribute("result", new Result("Create_failed", "保存できませんでした。", "/c3/TableCreateServlet"));
 			this.doGet(request, response);

@@ -66,6 +66,7 @@ function initSearchSelect(rowElement) {
 	optionsList.addEventListener('click', (e) =>{
 		if (e.target && e.target.nodeName === 'LI' && !e.target.classList.contains('no-result')) {
 			searchInput.value = e.target.textContent;
+			//	'data-value'の値をreal_submit_valueクラスが付与された部分に挿入する
 			realSubmitValue.value = e.target.getAttribute('data-value');
 			optionsList.classList.remove('show');
 		}

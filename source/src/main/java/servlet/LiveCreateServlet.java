@@ -29,12 +29,12 @@ public class LiveCreateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-//		// ログインしていなかったらログインサーブレットへ
-//		HttpSession session = request.getSession();
-//		if (session.getAttribute("id") == null) {
-//			response.sendRedirect("/c3/LoginServlet");
-//			return;
-//		}
+		// ログインしていなかったらログインサーブレットへ
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
 		
 		BandInfoDao biDao = new BandInfoDao();
 		List<BandInfo> biList = new ArrayList<BandInfo>();
@@ -51,12 +51,12 @@ public class LiveCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-//		// ログインしていなかったらログインサーブレットへ
+		// ログインしていなかったらログインサーブレットへ
 		HttpSession session = request.getSession();
-//		if (session.getAttribute("id") == null) {
-//			response.sendRedirect("/c3/LoginServlet");
-//			return;
-//		}
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
 		
 		// それぞれ情報を受け取る
 		String liveName = request.getParameter("live_name");

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.BandInfoDao;
 import dao.LiveInfoDao;
@@ -26,12 +27,12 @@ public class TableShowBandServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		// // ログインしていなかったらログインサーブレットへ
-		// HttpSession session = request.getSession();
-		// if (session.getAttribute("id") == null) {
-		// response.sendRedirect("/c3/LoginServlet");
-		// return;
-		// }
+		 // ログインしていなかったらログインサーブレットへ
+		 HttpSession session = request.getSession();
+		 if (session.getAttribute("id") == null) {
+		 response.sendRedirect("/c3/LoginServlet");
+		 return;
+		 }
 
 		LiveInfoDao liDao = new LiveInfoDao();
 		PreparInfoDao piDao = new PreparInfoDao();

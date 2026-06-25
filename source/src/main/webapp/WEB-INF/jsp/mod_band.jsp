@@ -77,7 +77,7 @@
                         <input type="text" name="member_name[${status.index }]" placeholder="氏名" value="<c:out value="${band_member.name }" />"></td>
                         <td>
                         <c:if test= "${not empty parts }">
-                        <select name="parts[0]" >
+                        <select name="parts[${status.index }]" >
                             <option value="">--選択してください--</option>
                             <c:forEach var="part" items="${parts }">
                             	<option value="<c:out value="${part.id }" />" <c:if test="${part.id  == band_member.partId }">selected</c:if>><c:out value="${part.name }" /></option>
