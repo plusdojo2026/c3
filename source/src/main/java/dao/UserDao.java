@@ -64,7 +64,7 @@ public class UserDao {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/C3?"
 							+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 			
 			// 同じIDが存在するか確認
 			String checkSql = "SELECT user_id FROM users WHERE user_id = ?";
@@ -116,7 +116,7 @@ public class UserDao {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/C3?"
 							+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 			
 			// 同じIDが存在するか確認
 			String checkSql = "SELECT id FROM users WHERE user_id = ?";
