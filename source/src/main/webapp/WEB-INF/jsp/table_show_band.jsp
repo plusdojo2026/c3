@@ -43,7 +43,7 @@
 
 					<li>
 						<form action="PreparRegistServlet" method="get">
-							<button type="submit">準備情報</button>
+							<button type="submit">ライブ一覧</button>
 						</form>
 					</li>
 				</ul>
