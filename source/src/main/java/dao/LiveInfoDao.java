@@ -21,7 +21,7 @@ public class LiveInfoDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 			String sql = "SELECT id, name, begin_date, end_date, user_id , create_flag " + "FROM live_info "
 					+ "WHERE name LIKE ? " + "AND (? IS NULL OR begin_date = ?) " + "AND (? IS NULL OR end_date = ?) "
 					+ "AND (? = 0 OR user_id = ?) " + "ORDER BY id";
@@ -99,7 +99,7 @@ public class LiveInfoDao {
 
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "INSERT INTO live_info VALUES (0, ?, ?, ?, ?, ?)";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -164,7 +164,7 @@ public class LiveInfoDao {
 			// データベースに接続する
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 
 			// SQL文を準備する
 			String sql = "UPDATE live_info SET name=?, begin_date=?, end_date=?, user_id=?, create_flag=? " + "WHERE id=?";
@@ -231,7 +231,7 @@ public class LiveInfoDao {
 
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "DELETE FROM live_info WHERE id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -272,7 +272,7 @@ public class LiveInfoDao {
 
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "SELECT * FROM live_info WHERE user_id = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -312,7 +312,7 @@ public class LiveInfoDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 			String sql = "SELECT id, name, begin_date, end_date, user_id , create_flag " + "FROM live_info "
 					+ "WHERE id = ? " 
 					+ "ORDER BY id";
