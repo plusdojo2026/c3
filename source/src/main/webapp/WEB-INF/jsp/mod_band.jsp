@@ -33,7 +33,7 @@
                     <button type="submit">バンド情報</button>
                     </form></li>
                     <li><form action="LiveShowServlet" method="GET">
-                    <button type="submit">ライブ情報</button>
+                    <button type="submit">ライブ一覧</button>
                     </form></li>
                 </ul>
             </nav>
