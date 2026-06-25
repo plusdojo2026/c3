@@ -62,7 +62,7 @@ public class UserDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/C3?"
+					"jdbc:mysql://localhost:3306/c3?"
 							+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 			
@@ -114,7 +114,7 @@ public class UserDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/C3?"
+					"jdbc:mysql://localhost:3306/c3?"
 							+ "characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 			
