@@ -48,12 +48,12 @@ public class AdminRegistServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		
-//		// ログインしていなかったらログインサーブレットへ
+		// ログインしていなかったらログインサーブレットへ
 		HttpSession session = request.getSession();
-//		if (session.getAttribute("id") == null) {
-//			response.sendRedirect("/c3/LoginServlet");
-//			return;
-//		}
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
 		
 		String mode = request.getParameter("mode");
 		String user_id = request.getParameter("id");
