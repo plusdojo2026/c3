@@ -31,6 +31,13 @@ public class PreparRegistServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// ログインしていなかったらログインサーブレットへ
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
+
 		try {
 			Integer liveId = parseIntOrNull(request.getParameter("liveId"));
 			if (liveId == null) {
@@ -41,7 +48,6 @@ public class PreparRegistServlet extends HttpServlet {
 			LiveInfoDao liveDao = new LiveInfoDao();
 			LiveInfo liveInfo = liveDao.select(liveId);
 
-			HttpSession session = request.getSession();
 			LoginUser loginUser = (LoginUser) session.getAttribute("id");
 			int userId = Integer.parseInt(loginUser.getId());
 
@@ -84,8 +90,6 @@ public class PreparRegistServlet extends HttpServlet {
 
 			request.setAttribute("time", time);
 
-			
-
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/prepar_regist.jsp");
 			dispatcher.forward(request, response);
 
@@ -99,6 +103,12 @@ public class PreparRegistServlet extends HttpServlet {
 	// doPost
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
 
 		request.setCharacterEncoding("UTF-8");
 
@@ -154,7 +164,6 @@ public class PreparRegistServlet extends HttpServlet {
 			}
 
 			response.sendRedirect("HomeBandServlet");
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
