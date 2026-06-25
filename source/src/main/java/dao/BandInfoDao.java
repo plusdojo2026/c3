@@ -21,7 +21,7 @@ public class BandInfoDao {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
 					"c3", "zTfP4Ep4RMwQge3E");
-			String sql = "SELECT id, name, user_id " + "FROM Band_info " + "WHERE name LIKE ? " + "AND (? = 0 OR user_id = ?) " + "ORDER BY id";
+			String sql = "SELECT id, name, user_id " + "FROM band_info " + "WHERE name LIKE ? " + "AND (? = 0 OR user_id = ?) " + "ORDER BY id";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			if (Band.getName() != null) {
@@ -76,7 +76,7 @@ public class BandInfoDao {
 	                "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
 	                "c3", "zTfP4Ep4RMwQge3E");
 
-	        String sql = "SELECT id, name, user_id FROM Band_info WHERE id = ?";
+	        String sql = "SELECT id, name, user_id FROM band_info WHERE id = ?";
 	        PreparedStatement pStmt = conn.prepareStatement(sql);
 	        pStmt.setInt(1, id);
 
@@ -229,7 +229,7 @@ public boolean insert(BandInfo Band) {
 						"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
 						"c3", "zTfP4Ep4RMwQge3E");
 
-				String sql = "DELETE FROM Band_info WHERE id=?";
+				String sql = "DELETE FROM band_info WHERE id=?";
 				PreparedStatement pStmt = conn.prepareStatement(sql);
 
 				pStmt.setInt(1, Band.getId());
