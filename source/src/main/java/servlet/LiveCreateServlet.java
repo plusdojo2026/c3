@@ -118,26 +118,28 @@ public class LiveCreateServlet extends HttpServlet {
 
 		// 準備情報テーブルにバンドID、ライブ情報ID、持ち時間のみが表示されたデータを作成する
 		for (int i = 0; i <= performerNum; i++) {
-			if (request.getParameter("band_infos[" + i + "]") != null && !request.getParameter("band_infos[" + i + "]" ).equals("") &&
-					request.getParameter("time[" + i + "]") != null && !request.getParameter("time[" + i + "]" ).equals("")) {
-				BandInfo bi;
-				if (user != null)
-					bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
-				else 
-					bi = new BandInfo(0, request.getParameter("band_infos[" + i + "]"), 0);
-				// バンドIDを持ってくる
-				List<BandInfo> biList = biDao.select(bi);
-				for (BandInfo b : biList) {
-					bi = b;
-					System.out.println(b.getName());
-				}
+//			if (request.getParameter("band_infos[" + i + "]") != null && !request.getParameter("band_infos[" + i + "]" ).equals("") &&
+//					request.getParameter("time[" + i + "]") != null && !request.getParameter("time[" + i + "]" ).equals("")) {
+//				BandInfo bi;
+//				if (user != null)
+//					bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), Integer.parseInt(user.getId()));
+//				else 
+//					bi = new BandInfo(0, request.getParameter("bandname[" + i + "]"), 0);
+//				// バンドIDを持ってくる
+//				List<BandInfo> biList = biDao.select(bi);
+//				for (BandInfo b : biList) {
+//					bi = b;
+//					System.out.println("バンド情報を持ってくる" + b.getName());
+//				}
+			if (request.getParameter("band_infos[" + i + "]") != null && !request.getParameter("band_infos[" + i + "]" ).equals("")) {
+				BandInfo bi = biDao.selectById(Integer.parseInt(request.getParameter("band_infos[" + i + "]")));
 				
 				if (bi == null) {
 					request.setAttribute("result", new Result("Create_failed", "バンドが存在しません。", "/c3/LiveCreateServlet"));
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/live_create.jsp");
 					dispatcher.forward(request, response);
 				}
-				
+				System.out.println("バンド情報を持ってくる" + bi.getName());
 				int time = Integer.parseInt(request.getParameter("time[" + i + "]"));
 				System.out.println("登録します：時間[" + time + "]\tバンドID[" + bi.getId() + "]\tライブID[" + li.getId() + "]");
 				resultPrepar = piDao.insert(new PreparInfo(0, time, 0, "", 0, "", bi.getId(), li.getId()));

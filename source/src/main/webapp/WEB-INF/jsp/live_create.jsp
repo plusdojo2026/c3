@@ -91,7 +91,7 @@
 									<!-- ドロップダウンリスト形式のリストを作成 -->
 									<ul class="options_list">
 										<c:forEach var="band_info" items="${band_infos }">
-											<li data-value="${band_info.id }"><c:out value="${band_info.name }" /></li>
+											<li data-value="${band_info.id }" ><c:out value="${band_info.name }" /></li>
 										</c:forEach>
 									</ul>
 							</div></td>
