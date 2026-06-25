@@ -152,7 +152,7 @@ public class TableShowServlet extends HttpServlet {
 	protected void deleteTimeTable(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		int liveId = 1;
+		int liveId = 0;
 		if (request.getParameter("live_info_id") != null)
 			liveId = Integer.parseInt(request.getParameter("live_info_id"));
 
