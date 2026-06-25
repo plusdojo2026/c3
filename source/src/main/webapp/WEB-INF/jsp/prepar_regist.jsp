@@ -52,7 +52,7 @@
 	</header>
 	<!-- 変えない -->
 
-	<!-- ★ 追加：中央寄せ用のラッパー -->
+	<!--追加：中央寄せ用のラッパー-->
 	<div class="content-wrapper">
 
 		<h1>準備情報登録</h1>
@@ -60,7 +60,7 @@
 		<hr>
 
 
-		<!-- ▼▼ 準備情報入力フォーム ▼▼ -->
+		<!--準備情報入力フォーム-->
 		<form id="prepar_form" method="POST" action="/c3/PreparRegistServlet">
 
 			<input type="hidden" name="band_info_id" value="${band_info.id}">
@@ -78,7 +78,7 @@
 					value="${end_date}" readonly> <label>バンド名</label> <input
 					type="text" name="band_name" value="${band_info.name}" readonly>
 				<label>持ち時間(分)</label> <input type="text" name="time"
-					value="${time}" readonly> <label>順番希望(任意)</label> <input
+					value="${time}" readonly> <label>順番希望(数字のみ)</label> <input
 					type="text" name="prepar_setlist"> <label class="required">入場曲</label>
 				<input type="text" name="entrance_music">
 
@@ -101,7 +101,6 @@
 		</form>
 
 	</div>
-	<!-- ▲▲ フォームここまで ▲▲ -->
 
 </body>
 
