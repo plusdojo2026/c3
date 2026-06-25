@@ -153,7 +153,8 @@ public class PreparRegistServlet extends HttpServlet {
 				}
 			}
 
-			response.sendRedirect("home_band.jsp");
+			response.sendRedirect("HomeBandServlet");
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
