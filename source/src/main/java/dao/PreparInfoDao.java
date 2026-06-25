@@ -25,7 +25,7 @@ public class PreparInfoDao {
             // 2. DB接続
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
-                    "root", "password");
+                    "c3", "zTfP4Ep4RMwQge3E");
 
             // 3. 実行するSQL文（? は後で値を埋めるプレースホルダ）
             String sql = "SELECT * FROM prepar_info "
@@ -87,7 +87,7 @@ public class PreparInfoDao {
 
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
-                    "root", "password");
+                    "c3", "zTfP4Ep4RMwQge3E");
 
             // id は AUTO_INCREMENT 想定なので指定しない
             String sql = "INSERT INTO prepar_info "
@@ -131,7 +131,7 @@ public class PreparInfoDao {
 
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Tokyo",
-                    "root", "password");
+                    "c3", "zTfP4Ep4RMwQge3E");
 
             String sql = "INSERT INTO prepar_info "
                        + "(time, prepar_time, prepar_items, setlist, entrance_music, band_info_id, live_info_id) "
@@ -179,7 +179,7 @@ public class PreparInfoDao {
 
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
-                    "root", "password");
+                    "c3", "zTfP4Ep4RMwQge3E");
 
             String sql = "UPDATE prepar_info SET "
                        + "time=?, prepar_time=?, prepar_items=?, setlist=?, entrance_music=?, "
@@ -224,7 +224,7 @@ public class PreparInfoDao {
 
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9",
-                    "root", "password");
+                    "c3", "zTfP4Ep4RMwQge3E");
 
             String sql = "DELETE FROM prepar_info WHERE id=?";
             PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -257,7 +257,7 @@ public class PreparInfoDao {
 
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 
 			String sql = "SELECT * FROM prepar_info WHERE live_info_id = ? ORDER BY setlist ASC";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -307,7 +307,7 @@ public class PreparInfoDao {
 
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
-                    "root", "password");
+                    "c3", "zTfP4Ep4RMwQge3E");
 
             // band_info_id で検索し、setlist（順番）で昇順ソート
             String sql = "SELECT * FROM prepar_info WHERE band_info_id = ? ORDER BY setlist ASC";
@@ -353,7 +353,7 @@ public class PreparInfoDao {
 
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-                    "root", "password");
+                    "c3", "zTfP4Ep4RMwQge3E");
 
             String sql = "SELECT * FROM prepar_info WHERE id = ? ORDER BY id";
             PreparedStatement pStmt = conn.prepareStatement(sql);
