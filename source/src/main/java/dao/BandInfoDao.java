@@ -20,7 +20,7 @@ public class BandInfoDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
-					"root", "password");
+					"c3", "zTfP4Ep4RMwQge3E");
 			String sql = "SELECT id, name, user_id " + "FROM Band_info " + "WHERE name LIKE ? " + "AND (? = 0 OR user_id = ?) " + "ORDER BY id";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
