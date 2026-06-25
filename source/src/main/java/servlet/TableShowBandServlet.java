@@ -53,6 +53,11 @@ public class TableShowBandServlet extends HttpServlet {
 		li = liDao.select(liveId);
 		piList = piDao.selectByLiveInfoId(liveId);
 		
+		// 準備情報をもとにバンド情報を持ってくる
+		for (PreparInfo pi : piList) {
+			biList.add(biDao.selectById(pi.getBandInfoId()));
+		}
+		
 		// それぞれをデータとして渡す
 		request.setAttribute("live_info", li);
 		request.setAttribute("band_infos", biList);
