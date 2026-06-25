@@ -71,7 +71,7 @@ public class PreparRegistServlet extends HttpServlet {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
-						"root", "password");
+						"c3", "zTfP4Ep4RMwQge3E");
 
 				String sql = "SELECT time FROM prepar_info WHERE live_info_id = ? AND band_info_id = ?";
 				PreparedStatement ps = conn.prepareStatement(sql);
@@ -125,7 +125,7 @@ public class PreparRegistServlet extends HttpServlet {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection conn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
-						"root", "password");
+						"c3", "zTfP4Ep4RMwQge3E");
 
 				String deleteSql = "DELETE FROM prepar_info WHERE live_info_id = ? AND band_info_id = ?";
 				PreparedStatement deletePs = conn.prepareStatement(deleteSql);
