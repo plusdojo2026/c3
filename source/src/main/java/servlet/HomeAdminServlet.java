@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
 import dto.LiveInfo;
+import dto.LoginUser;
 import dto.PreparInfo;
 
 /**
@@ -69,25 +70,23 @@ public class HomeAdminServlet extends HttpServlet {
 	throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		// もしもログインしていなかったらログインサーブレットにリダイレクトする
+		//もしもログインしていなかったらログインサーブレットにリダイレクトする
 		HttpSession session = request.getSession();
 		
-	//	if (session.getAttribute("id") == null) {
-	//		response.sendRedirect("/c3/LoginServlet");
-	//		return;
-	//	}
+	if (session.getAttribute("id") == null) {
+		response.sendRedirect("/c3/LoginServlet");
+			return;
+	}
 
 
 	//ログインユーザーIDの取得
-		//LoginUser login = (LoginUser)session.getAttribute("id"); 
-		// int userId = Integer.parseInt(login.getId());
+		LoginUser login = (LoginUser)session.getAttribute("id"); 
+		int userId = Integer.parseInt(login.getId());
 		
 	//live_info取得
 			LiveInfoDao liveDao = new LiveInfoDao();
-			 LiveInfo condition = new LiveInfo();
-			 condition.setUser_id(0);
 			
-			 List<LiveInfo> livelist = liveDao.select(condition);
+			 List<LiveInfo> livelist = liveDao.selectByUserId(userId);
 			
 			 
 			 
@@ -118,7 +117,7 @@ public class HomeAdminServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
+		  HttpSession session = request.getSession();
 		
 		// ②ライブ情報はあるが、準備情報がそろっていない場合、アラートが表示される
 		//画面は遷移せず、アラート「出演者からの準備情報が不足しています」が表示される
@@ -132,12 +131,13 @@ public class HomeAdminServlet extends HttpServlet {
 			System.out.println("テスト2");
 
 		    request.setAttribute("noEntranceMusic", true);
+		    
+		    LoginUser login = (LoginUser)session.getAttribute("id");
+		    int userId = Integer.parseInt(login.getId());
 
 		    LiveInfoDao liveDao = new LiveInfoDao();
-		    LiveInfo condition = new LiveInfo();
-		    condition.setUser_id(0);
 	        
-	        List<LiveInfo>livelist = liveDao.select(condition);
+	        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
 		   request.setAttribute("lives", livelist);
 			 Map<Integer, String> statusMap= createStatusMap(livelist);
 			 request.setAttribute("statusMap", statusMap);
@@ -159,11 +159,14 @@ public class HomeAdminServlet extends HttpServlet {
 
 		        request.setAttribute("noEntranceMusic", true);
 		        System.out.println("テスト2");
-		        LiveInfoDao liveDao = new LiveInfoDao();
-		        LiveInfo condition = new LiveInfo();
-		        condition.setUser_id(0);
 		        
-		        List<LiveInfo>livelist = liveDao.select(condition);
+		        LoginUser login = (LoginUser)session.getAttribute("id");
+		        int userId = Integer.parseInt(login.getId());
+		        
+		        LiveInfoDao liveDao = new LiveInfoDao();
+		       
+		        
+		        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
 		        Map<Integer, String> statusMap= createStatusMap(livelist);
 		        
 		        request.setAttribute("lives", livelist);

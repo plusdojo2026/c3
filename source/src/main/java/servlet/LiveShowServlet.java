@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import dao.LiveInfoDao;
 import dao.PreparInfoDao;
 import dto.LiveInfo;
+import dto.LoginUser;
 import dto.PreparInfo;
 
 
@@ -68,17 +69,18 @@ public class LiveShowServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		// もしもログインしていなかったらログインサーブレットにリダイレクトする
-			HttpSession session = request.getSession();
-			
-			//	if (session.getAttribute("id") == null) {
-			//		response.sendRedirect("/c3/LoginServlet");
-			//		return;
-			// }
-			
+		//もしもログインしていなかったらログインサーブレットにリダイレクトする
+				HttpSession session = request.getSession();
+				
+			if (session.getAttribute("id") == null) {
+				response.sendRedirect("/c3/LoginServlet");
+					return;
+			}
+
+
 			//ログインユーザーIDの取得
-			//LoginUser login = (LoginUser)session.getAttribute("id"); 
-			// int userId = Integer.parseInt(login.getId());
+				LoginUser login = (LoginUser)session.getAttribute("id"); 
+				int userId = Integer.parseInt(login.getId());
 		    
 			String noTimeTable = request.getParameter("noTimeTable");
 
@@ -88,21 +90,16 @@ public class LiveShowServlet extends HttpServlet {
 			
 		  //live_info取得
 			LiveInfoDao liveDao = new LiveInfoDao();
-			LiveInfo condition = new LiveInfo();
-		    condition.setUser_id(0);
+			
 	        
-	        List<LiveInfo>livelist = liveDao.select(condition);
+	        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
 	        Map<Integer, String> statusMap= createStatusMap(livelist);
 	        request.setAttribute("statusMap", statusMap);
-			
-			 //live_info取得
-			PreparInfoDao preparDao = new PreparInfoDao();
-			List <PreparInfo> preparlist = preparDao.selectByLiveInfoId(1);
 			
 		 // prepar_infoの情報を登録
 			
 		    request.setAttribute("lives", livelist);
-			 request.setAttribute("prepares", preparlist);
+		
 
 	
 
@@ -129,10 +126,14 @@ public class LiveShowServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		LoginUser login = (LoginUser)session.getAttribute("id");
+	    int userId = Integer.parseInt(login.getId());
 
+	    int liveId = Integer.parseInt(request.getParameter("liveId"));
+	    
 		// ②ライブ情報はあるが、準備情報がそろっていない場合
 		//準備情報登録画面に遷移する
-		int liveId = Integer.parseInt(request.getParameter("liveId"));
 
 		PreparInfoDao preparDao = new PreparInfoDao();
 		List<PreparInfo> preparlist =
@@ -144,10 +145,8 @@ public class LiveShowServlet extends HttpServlet {
 		    request.setAttribute("noEntranceMusic", true);
 
 		    LiveInfoDao liveDao = new LiveInfoDao();
-		    LiveInfo condition = new LiveInfo();
-		    condition.setUser_id(0);
-	        
-	        List<LiveInfo>livelist = liveDao.select(condition);
+		   
+	        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
 
 		    request.setAttribute("lives", livelist);
 
@@ -170,10 +169,8 @@ public class LiveShowServlet extends HttpServlet {
 		        request.setAttribute("noEntranceMusic", true);
 		        System.out.println("テスト2");
 		        LiveInfoDao liveDao = new LiveInfoDao();
-		        LiveInfo condition = new LiveInfo();
-			    condition.setUser_id(0);
 		        
-		        List<LiveInfo>livelist = liveDao.select(condition);
+		        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
 
 		        request.setAttribute("lives", livelist);
 
@@ -205,10 +202,8 @@ public class LiveShowServlet extends HttpServlet {
 		if (!idLive.isCreate_flag()) {
 			
 			LiveInfoDao liveDao = new LiveInfoDao();
-			LiveInfo condition = new LiveInfo();
-		    condition.setUser_id(0);
 	        
-	        List<LiveInfo>livelist = liveDao.select(condition);
+	        List<LiveInfo>livelist = liveDao.selectByUserId(userId);
 	        request.setAttribute("lives", livelist);
 	        Map<Integer, String> statusMap= createStatusMap(livelist);
 			 request.setAttribute("statusMap", statusMap);
