@@ -25,9 +25,11 @@ import dto.Result;
 @WebServlet("/TableShowServlet")
 public class TableShowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private boolean deleteFlag;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		deleteFlag = false;
 		request.setCharacterEncoding("UTF-8");
 
 		 // ログインしていなかったらログインサーブレットへ
@@ -82,12 +84,40 @@ public class TableShowServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-				// ログインしていなかったらログインサーブレットへ
-				HttpSession session = request.getSession();
-				if (session.getAttribute("id") == null) {
-					response.sendRedirect("/c3/LoginServlet");
-					return;
-				}
+		// ログインしていなかったらログインサーブレットへ
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/c3/LoginServlet");
+			return;
+		}
+		
+		String type = request.getParameter("action_type");
+		
+		if (type == null || type.equals("")) {
+			doGet(request, response);
+		}
+		
+		System.out.println("フラグ:" + deleteFlag);
+		
+		switch(type) {
+			case "delete":
+				deleteFlag = true;
+				deleteTimeTable(request, response);
+				break;
+			case "edit":
+				if (!deleteFlag)
+					editTimeTable(request, response);
+				else
+					response.sendRedirect("/c3/HomeAdminServlet");
+				break;
+			default:
+				doGet(request, response);
+		}
+
+	}
+
+	protected void editTimeTable(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		
 		int liveId = 1;
 		if (request.getParameter("live_info_id") != null)
@@ -113,9 +143,53 @@ public class TableShowServlet extends HttpServlet {
 			response.sendRedirect("/c3/HomeAdminServlet");
 		} else {
 			request.setAttribute("id", liveId);
-			request.setAttribute("result", new Result("Create_failed", "保存できませんでした。", "/c3/TableCreateServlet"));
+			request.setAttribute("result", new Result("Create_failed", "保存できませんでした。", "/c3/TableShowServlet"));
 			this.doGet(request, response);
 		}
+		
 	}
+	
+	protected void deleteTimeTable(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
+		int liveId = 1;
+		if (request.getParameter("live_info_id") != null)
+			liveId = Integer.parseInt(request.getParameter("live_info_id"));
 
+		PreparInfoDao piDao = new PreparInfoDao();
+		List<PreparInfo> piList = new ArrayList<PreparInfo>();
+		LiveInfoDao liDao = new LiveInfoDao();
+		boolean result = false;
+		
+		// ライブ情報IDが0だったらホーム画面に戻る
+		if (liveId == 0) {
+			response.sendRedirect("/c3/HomeAdminServlet");
+		}
+		
+		LiveInfo li = liDao.select(liveId);
+		
+		// liveIdから準備情報テーブルを持ってくる
+		piList = piDao.selectByLiveInfoId(liveId);
+		
+		// 一件ずつ削除する
+		for (PreparInfo p : piList) {
+			result = piDao.delete(p.getId());
+			System.out.println(p.getId() + "削除しました：" + result);
+		}
+		
+		// ライブ情報も削除する
+		result = liDao.delete(li);
+		System.out.println("ライブ情報削除しました。");
+		
+		// ホームサーブレットで移る。
+		if (result) {
+			response.sendRedirect("/c3/HomeAdminServlet");
+		} else {
+			request.setAttribute("id", liveId);
+			request.setAttribute("result", new Result("Delete_failed", "削除できませんでした。", "/c3/TableShowServlet"));
+			this.doGet(request, response);
+		}
+		
+	}
+	
 }

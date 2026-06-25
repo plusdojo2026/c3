@@ -117,3 +117,34 @@ function showBandDetail(name) {
 function closeModal() {
 	document.getElementById("modal").style.display = "none";
 }
+
+
+/* テーブルの削除 */
+window.deleteTable = function() {
+	if (!confirm("・ライブ情報\n・それぞれのバンドが登録した情報\nが全て削除されます。\n削除しますか？")) {
+		return;
+	}
+	
+	const params = new URLSearchParams();
+	
+	const liveInfo = document.getElementById("live_info_id");
+	if (!liveInfo) {
+		return;
+	}
+	const liveInfoId = liveInfo.value;
+	
+	params.append("live_info_id", liveInfoId);
+	params.append("action_type", "delete");
+	
+	fetch("TableShowServlet", {
+		method: "POST",
+		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString()
+	})
+	    .then(res => res.text())
+    .then(msg => {
+	alert("削除しました");
+	window.location.href = "HomeAdminServlet";
+	})
+    .catch(err => alert("削除に失敗しました"));
+};

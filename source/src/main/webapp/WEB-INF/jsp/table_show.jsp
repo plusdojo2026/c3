@@ -57,10 +57,10 @@
 		</div>
 	</header>
 	<div class="box">
-		<button class="delete-schedule-btn">✖</button>
+		<button type="button" class="delete-schedule-btn" onclick="deleteTable()" >✖</button>
 		<h2 class="schedule-title">タイムスケジュール</h2>
 		<h3 class="schedule-title"><c:out value="${live_info.name }" /></h3>
-		<input type="hidden" name="live_info_id" value="${live_info.id }">
+		<input type="hidden" name="live_info_id" value="${live_info.id }" id="live_info_id">
 		<div id="schedule"></div>
 	</div>
 	<div id="modal" class="modal">
@@ -139,7 +139,8 @@ window.addEventListener("pagehide", function() {
     bands.forEach(band => {
         params.append("prepar_info_id", band.id);
     });
-
+    params.append("action_type", "edit");
+    
     // doPostへ送信する
     navigator.sendBeacon("TableShowServlet", params);
 });
