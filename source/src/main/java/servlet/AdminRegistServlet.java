@@ -30,6 +30,7 @@ public class AdminRegistServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 	
+//	こんにちは
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
