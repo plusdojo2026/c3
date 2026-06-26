@@ -107,7 +107,7 @@ public class ModBandServlet extends HttpServlet {
 			// バンドIDを取得する
 			BandInfo bi = null;
 			if (user != null) {
-				bi = (BandInfo)biDao.select(new BandInfo(0, name, Integer.parseInt(user.getId())));
+				bi = biDao.select(new BandInfo(0, name, Integer.parseInt(user.getId()))).get(0);
 			}
 			
 			// メンバーの登録
