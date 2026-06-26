@@ -132,7 +132,8 @@ public class TableCreateServlet extends HttpServlet {
 		
 		// ホームサーブレットで移る。
 		if (result) {
-			response.sendRedirect("/c3/HomeAdminServlet");
+			response.setContentType("text/plain; charset=UTF-8");
+			response.getWriter().write("success");
 		} else {
 			if (request.getParameter("live_info_id") != null)
 				liveId = Integer.parseInt(request.getParameter("live_info_id"));

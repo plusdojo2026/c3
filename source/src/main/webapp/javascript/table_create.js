@@ -342,12 +342,20 @@ function exportTimetable() {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params.toString()
     })
-    .then(res => res.text())
+	.then(res => {
+		if (!res.ok) {
+            throw new Error(`サーバーエラー: ${res.status}`);
+        }
+        return res.text();
+	})
     .then(msg => {
-	alert("保存しました");
+	alert("作成しました");
 	window.location.href = "HomeAdminServlet";
 	})
-    .catch(err => alert("保存に失敗しました"));
+    .catch(err => {
+		console.error(err);
+		alert("作成に失敗しました。:" + err.message);
+});
 }
 
 
