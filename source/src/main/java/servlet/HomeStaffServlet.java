@@ -52,7 +52,7 @@ public class HomeStaffServlet extends HttpServlet {
         List<BandInfo> biList;
         
      // 全ライブ取得
-        List<LiveInfo> liveList = liDao.select(new LiveInfo());
+        List<LiveInfo> liveList = liDao.selectByUserId(type);
 
         // 現在日時
         LocalDateTime now = LocalDateTime.now();
