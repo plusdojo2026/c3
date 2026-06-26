@@ -62,20 +62,19 @@ public class HomeStaffServlet extends HttpServlet {
 
         for (LiveInfo live : liveList) {
 
-            // 終了済みライブは除外
+            // 終了済みは除外
             if (live.getEnd_date().isBefore(now)) {
                 continue;
             }
-            
+
+            // 作成済みだけ対象
             if (!live.isCreate_flag()) {
                 continue;
             }
 
-            if (nearestLive == null) {
-            	
-                nearestLive = live;
-            }
-            else if (live.getBegin_date().isBefore(nearestLive.getBegin_date())) {
+            if (nearestLive == null ||
+                live.getBegin_date().isBefore(nearestLive.getBegin_date())) {
+
                 nearestLive = live;
             }
         }
