@@ -44,7 +44,7 @@ public class ModBandServlet extends HttpServlet {
 		List<Parts> partsList = new ArrayList<Parts>();
 		LoginUser user = (LoginUser)session.getAttribute("id");
 		List<BandInfo> biList= new ArrayList<BandInfo>();
-		int biNum = 1;
+		int biNum = 0;
 		
 		if (user != null && user.getId() != "") {
 			biList = biDao.showBand(Integer.parseInt(user.getId()));
@@ -61,11 +61,9 @@ public class ModBandServlet extends HttpServlet {
 			request.setAttribute("band_members", bmList);
 			request.setAttribute("parts", partsList);
 		} else {
-			bmList = bmDao.showMember(biNum);
-			bi = biDao.selectById(biNum);
-			request.setAttribute("band_info_id", biNum);
-			request.setAttribute("band_info_name", bi.getName());
-			request.setAttribute("band_members", bmList);
+			request.setAttribute("band_info_id", 0);
+			request.setAttribute("band_info_name", "");
+			request.setAttribute("band_members", null);
 			request.setAttribute("parts", partsList);
 		}
 		

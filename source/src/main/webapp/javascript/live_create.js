@@ -142,14 +142,15 @@ live_create.onsubmit = function(event) {
     for (let i = 0; i < rowIndex; i++) {
         setBandName = `band_infos[${i}]`;
         setBandTime = `time[${i}]`;
-
+        
         const bandName = live_create.querySelector('input[name="' + setBandName + '"]');
         const bandTime = live_create.querySelector('input[name="' + setBandTime + '"]');
+        const bandInput = live_create.querySelector('input[name="band_name_text"]');
 
         if (bandName !=null && bandTime !=null){
 			console.log("bandName:" + bandName.value);
 			console.log("bandTimes:" + bandTime.value);
-            if (bandName.value === null || bandTime.value === null || bandName.value === "" || bandTime.value === "" || bandName.value === "0" || bandTime.value === "0") {
+            if (bandName.value === null || bandTime.value === null || bandName.value === "" || bandTime.value === "" || bandName.value === "0" || bandTime.value === "0" || bandInput === null || bandInput === "") {
                 blank = true;
                 break;
             } else {
