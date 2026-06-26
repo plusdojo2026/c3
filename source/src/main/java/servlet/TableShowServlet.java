@@ -183,7 +183,8 @@ public class TableShowServlet extends HttpServlet {
 		
 		// ホームサーブレットで移る。
 		if (result) {
-			response.sendRedirect("/c3/HomeAdminServlet");
+			response.setContentType("text/plain; charset=UTF-8");
+			response.getWriter().write("success");
 		} else {
 			request.setAttribute("id", liveId);
 			request.setAttribute("result", new Result("Delete_failed", "削除できませんでした。", "/c3/TableShowServlet"));
