@@ -318,11 +318,11 @@ public class PreparInfoDao {
 			ResultSet rs = pStmt.executeQuery();
 
 			while (rs.next()) {
-				PreparInfo prepar = new PreparInfo(rs.getInt("id"), (Integer) rs.getObject("time", Integer.class),
-						(Integer) rs.getObject("prepar_time", Integer.class), rs.getString("prepar_items"),
-						(Integer) rs.getObject("setlist", Integer.class), rs.getString("entrance_music"),
-						(Integer) rs.getObject("band_info_id", Integer.class),
-						(Integer) rs.getObject("live_info_id", Integer.class));
+				PreparInfo prepar = new PreparInfo(rs.getInt("prepar_info.id"), (Integer) rs.getObject("prepar_info.time", Integer.class),
+						(Integer) rs.getObject("prepar_info.prepar_time", Integer.class), rs.getString("prepar_info.prepar_items"),
+						(Integer) rs.getObject("prepar_info.setlist", Integer.class), rs.getString("prepar_info.entrance_music"),
+						(Integer) rs.getObject("prepar_info.band_info_id", Integer.class),
+						(Integer) rs.getObject("prepar_info.live_info_id", Integer.class));
 
 				list.add(prepar);
 			}
