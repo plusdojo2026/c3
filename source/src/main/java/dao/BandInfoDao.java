@@ -123,7 +123,7 @@ public boolean insert(BandInfo Band) {
 				"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
 				"c3", "zTfP4Ep4RMwQge3E");
 
-		String sql = "INSERT INTO Band_info VALUES (0, ?, ?)";
+		String sql = "INSERT INTO band_info VALUES (0, ?, ?)";
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 
 		pStmt.setString(1, Band.getName());
@@ -175,7 +175,7 @@ public boolean insert(BandInfo Band) {
 					"c3", "zTfP4Ep4RMwQge3E");
 
 			// SQL文を準備する
-			String sql = "UPDATE Band_info SET name=?, user_id=? " + "WHERE id=?";
+			String sql = "UPDATE band_info SET name=?, user_id=? " + "WHERE id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			// SQL文を完成させる
