@@ -91,75 +91,28 @@
     </div>
     </div>
 <script>
-<%
-List<BandInfo> biList =
-    (List<BandInfo>) request.getAttribute("band_infos");
-if (biList == null) biList = new ArrayList<>();
-%>
 
-const bandPreparInfos = {
-		<%
-		List<BandInfo> biList2 = (List<BandInfo>) request.getAttribute("band_infos");
-		for (BandInfo band : biList2) {
-		    List<PreparInfo> list = (List<PreparInfo>) request.getAttribute("prepar_info_" + band.getId());
-		
-		    
-		    System.out.println(
-		        "JSP bandId="
-		        + band.getId()
-		        + " list="
-		        + list
-		    );
-		 
-		%>
-		    "<%= band.getId() %>": [
-		    <%
-		        if (list != null) {
-		            for (int j = 0; j < list.size(); j++) {
-		                PreparInfo pi = list.get(j);
-		    %>
-		        {
-		            time: <%= pi.getTime() %>,
-		            preparTime: <%= pi.getPreparTime() %>,
-		            preparItems: "<%= pi.getPreparItems() %>",
-		            entranceMusic: "<%= pi.getEntranceMusic() %>"
-		        }<%= (j < list.size() - 1) ? "," : "" %>
-		    <%
-		            }
-		        }
-		    %>
-		    ]<%= (biList2.indexOf(band) < biList2.size() - 1) ? "," : "" %>
-		<%
-		}
-		%>
-		};
-		console.log("bandPreparInfos:", bandPreparInfos);
+const liveStart = "${live_info.begin_date}";
 
-		const bands = [
-			<%
-			for (BandInfo band : biList) {
-			    List<PreparInfo> list = (List<PreparInfo>) request.getAttribute("prepar_info_" + band.getId());
-			    int play = 0;
-			    int change = 0;
+const bands = [
 
-			    if (list != null && !list.isEmpty()) {
-			        play = list.get(0).getTime();
-			        change = list.get(0).getPreparTime();
-			    }
-			%>
-			    {
-			        id: <%= band.getId() %>,
-			        name: "<%= band.getName() %>",
-			        playTime: <%= play %>,
-			        changeTime: <%= change %>
-			    }<%= (biList.indexOf(band) < biList.size() - 1) ? "," : "" %>
-			<%
-			}
-			%>
-			];
+<%List<BandInfo> biList = (List<BandInfo>) request.getAttribute("band_infos");
 
+List<PreparInfo> piList = (List<PreparInfo>) request.getAttribute("prepar_infos");
 
-console.log("bandPreparInfos:", bandPreparInfos);
+for (int i = 0; i < biList.size(); i++) {%>
+
+{
+    name : "<%=biList.get(i).getName()%>",
+    playTime : <%=piList.get(i).getTime()%>,
+changeTime : <%=piList.get(i).getPreparTime()%>
+}
+
+<%=i < biList.size() - 1 ? "," : ""%>
+
+<%}%>
+
+];
 </script>
 
 

@@ -51,6 +51,8 @@ public class HomeBandServlet extends HttpServlet {
 
         List<BandInfo> biList;
         
+     
+        
      // 全ライブ取得
         List<LiveInfo> liveList = liDao.select(new LiveInfo());
 
@@ -84,20 +86,7 @@ public class HomeBandServlet extends HttpServlet {
             System.out.println("終了=" + nearestLive.getEnd_date());
         }
         
-     // タイムテーブル未作成ならライブなし扱い
-        if (nearestLive == null || !nearestLive.isCreate_flag()) {
-
-            request.setAttribute("noLive", true);
-
-            request.setAttribute("band_infos", new ArrayList<BandInfo>());
-            request.setAttribute("prepar_infos", new ArrayList<PreparInfo>());
-            request.setAttribute("live_info", null);
-
-            RequestDispatcher dispatcher =
-                    request.getRequestDispatcher("/WEB-INF/jsp/home_band.jsp");
-            dispatcher.forward(request, response);
-            return;
-        }
+     
 
      // ★ 管理者（-1）とスタッフ（1以上）は全バンドを取得
         if (type == -1 || type >= 1) {
@@ -154,6 +143,18 @@ public class HomeBandServlet extends HttpServlet {
             if (myNearestLive != null) {
                 myLiveId = myNearestLive.getId();
                 nearestLive = myNearestLive;
+            }
+            if (nearestLive == null || !nearestLive.isCreate_flag()) {
+
+                request.setAttribute("noLive", true);
+                request.setAttribute("band_infos", new ArrayList<>());
+                request.setAttribute("prepar_infos", new ArrayList<>());
+                request.setAttribute("live_info", null);
+
+                RequestDispatcher dispatcher =
+                    request.getRequestDispatcher("/WEB-INF/jsp/home_band.jsp");
+                dispatcher.forward(request, response);
+                return;
             }
             if (myNearestLive == null) {
 
@@ -223,9 +224,11 @@ public class HomeBandServlet extends HttpServlet {
             
             for (PreparInfo pi : list) {
 
-                System.out.println(
-                    "bandId=" + band.getId() +
-                    ", liveId=" + pi.getLiveInfoId()
+            	System.out.println(
+            	        "LIVE=" + pi.getLiveInfoId() +
+            	        " BAND=" + pi.getBandInfoId() +
+            	        " SETLIST=" + pi.getSetlist() +
+            	        " TIME=" + pi.getTime()
                 );
 
                 if (nearestLive != null &&

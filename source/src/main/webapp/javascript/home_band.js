@@ -6,26 +6,31 @@ function drawSchedule(){
     schedule.innerHTML = "";
     
     // ★毎回リセット（ここ重要）
-    let time = { hour:13, minute:0 };
+    const start = new Date(liveStart);
+
+let time = {
+    hour: start.getHours(),
+    minute: start.getMinutes()
+};
 
     bands.forEach((band,index)=>{
 
     // そのバンドの転換時間を先に表示
-    if(band.changeTime > 0){
+    if(index > 0 && band.changeTime > 0){
 
-        let changeStart = format(time.hour, time.minute);
+    let changeStart = format(time.hour, time.minute);
 
-        addMinute(time, band.changeTime);
+    addMinute(time, band.changeTime);
 
-        let changeEnd = format(time.hour, time.minute);
+    let changeEnd = format(time.hour, time.minute);
 
-        schedule.innerHTML += `
-            <div class="change">
-                転換時間
-                <span class="time">${changeStart}～${changeEnd}</span>
-            </div>
-        `;
-    }
+    schedule.innerHTML += `
+        <div class="change">
+            転換時間
+            <span class="time">${changeStart}～${changeEnd}</span>
+        </div>
+    `;
+}
 
     let start = format(time.hour, time.minute);
 

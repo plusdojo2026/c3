@@ -87,6 +87,17 @@ List<BandInfo> biList =
 if (biList == null) biList = new ArrayList<>();
 %>
 
+
+const liveStart =
+    "${live_info.begin_date}";
+
+    const start = new Date(liveStart);
+
+    let time = {
+        hour: start.getHours(),
+        minute: start.getMinutes()
+    };
+
 const bandPreparInfos = {
 		<%
 		List<BandInfo> biList2 = (List<BandInfo>) request.getAttribute("band_infos");
