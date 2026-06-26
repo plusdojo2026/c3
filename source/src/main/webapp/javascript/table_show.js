@@ -157,10 +157,18 @@ window.deleteTable = function() {
 		headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params.toString()
 	})
-	    .then(res => res.text())
+	.then(res => {
+		if (!res.ok) {
+            throw new Error(`サーバーエラー: ${res.status}`);
+        }
+        return res.text();
+	})
     .then(msg => {
 	alert("削除しました");
 	window.location.href = "HomeAdminServlet";
 	})
-    .catch(err => alert("削除に失敗しました"));
+    .catch(err => {
+		console.error(err);
+		alert("削除に失敗しました。:" + err.message);
+});
 };
