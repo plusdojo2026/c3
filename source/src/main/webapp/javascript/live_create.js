@@ -104,6 +104,7 @@ function addRow() {
     // コピーした要素のname属性を書き換える
    	clone.querySelector('input[name="band_infos_temp"]').name = `band_infos[${rowIndex}]`;
    	clone.querySelector('input[name="time_temp"]').name = `time[${rowIndex}]`;
+    clone.querySelector('input[name="band_input_temp"]').name = `band_input[${rowIndex}]`;
     
     table.appendChild(clone);
     
@@ -139,18 +140,24 @@ live_create.onsubmit = function(event) {
     let blank = true;
     let setBandName;
     let setBandTime;
+    let setBandInput;
     for (let i = 0; i < rowIndex; i++) {
         setBandName = `band_infos[${i}]`;
         setBandTime = `time[${i}]`;
+        setBandInput = `band_input[${i}]`;
         
         const bandName = live_create.querySelector('input[name="' + setBandName + '"]');
         const bandTime = live_create.querySelector('input[name="' + setBandTime + '"]');
-        const bandInput = live_create.querySelector('input[name="band_name_text"]');
+        const bandInput = live_create.querySelector('input[name="' + setBandInput + '"]');
+        console.log("name:" + live_create.live_name.value);
+	    console.log("begin_date:" + live_create.begin_date.value);
+ 	    console.log("end_date:" + live_create.end_date.value);
 
         if (bandName !=null && bandTime !=null){
 			console.log("bandName:" + bandName.value);
 			console.log("bandTimes:" + bandTime.value);
-            if (bandName.value === null || bandTime.value === null || bandName.value === "" || bandTime.value === "" || bandName.value === "0" || bandTime.value === "0" || bandInput === null || bandInput === "") {
+			console.log("bandInput:" + bandInput.value);
+            if (!bandName.value || !bandTime.value || bandName.value === "0" || bandTime.value === "0" || !bandInput.value) {
                 blank = true;
                 break;
             } else {
@@ -164,7 +171,7 @@ live_create.onsubmit = function(event) {
     console.log(live_create.begin_date.value);
     console.log(live_create.end_date.value);
 
-	if (live_create.live_name.value === null || live_create.live_name.value === '' || live_create.begin_date.value === null || live_create.end_date.value === null || live_create.begin_date.value === "" || live_create.end_date.value === "" || blank) {
+	if (!live_create.live_name.value || !live_create.begin_date.value || !live_create.end_date.value || blank) {
         document.getElementById('blank_alert').textContent = '未入力の項目があります。';
         event.preventDefault();
     } else if (live_create.begin_date.value >= live_create.end_date.value) {
@@ -176,6 +183,6 @@ live_create.onsubmit = function(event) {
 	}  else {
         document.getElementById('blank_alert').textContent = '';
         window.alert('一件のライブ情報を登録しました');
-   }	
-
+   }
+   	
 };

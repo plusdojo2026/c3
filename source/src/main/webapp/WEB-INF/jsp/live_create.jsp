@@ -87,7 +87,7 @@
 							<td>
 							<div class="search_select_container">
 									<input type="hidden" name="band_infos[0]" class="real_submit_value">
-									<input type="text" class="search_input" placeholder="バンド名" >
+									<input type="text" class="search_input" placeholder="バンド名" name="band_input[0]" >
 									<!-- ドロップダウンリスト形式のリストを作成 -->
 									<ul class="options_list">
 										<c:forEach var="band_info" items="${band_infos }">
@@ -109,7 +109,7 @@
 							<td>
 							<div class="search_select_container">
 									<input type="hidden" name="band_infos[1]" class="real_submit_value">
-									<input type="text" class="search_input" placeholder="バンド名" >
+									<input type="text" class="search_input" placeholder="バンド名" name="band_input[1]" >
 									<!-- ドロップダウンリスト形式のリストを作成 -->
 									<ul class="options_list">
 										<c:forEach var="band_info" items="${band_infos }">
@@ -135,7 +135,7 @@
 							<td>
 							<div class="search_select_container">
 									<input type="hidden" name="band_infos[0]" class="real_submit_value">
-									<input type="text" class="search_input" placeholder="バンド名" name="band_name_text">
+									<input type="text" class="search_input" placeholder="バンド名" name="band_name_text band_input[0]">
 									<!-- ドロップダウンリスト形式のリストを作成 -->
 									<ul class="options_list">
 										<li data-value="0">バンド情報がありません</li>
@@ -160,7 +160,7 @@
 							<td>
 							<div class="search_select_container">
 									<input type="hidden" name="band_infos_temp" class="real_submit_value">
-									<input type="text" class="search_input" placeholder="バンド名" >
+									<input type="text" class="search_input" placeholder="バンド名" name="band_input_temp">
 									<!-- ドロップダウンリスト形式のリストを作成 -->
 									<ul class="options_list">
 										<c:forEach var="band_info" items="${band_infos }">
@@ -188,7 +188,7 @@
 							<td>
 							<div class="search_select_container">
 									<input type="hidden" name="band_infos_temp" id="select_box" class="real_submit_value">
-									<input type="text" class="search_input" placeholder="バンド名" >
+									<input type="text" class="search_input" placeholder="バンド名" name="band_input_temp">
 									<!-- ドロップダウンリスト形式のリストを作成 -->
 									<ul class="options_list">
 										<li data-value="0">バンド情報がありません</li>
