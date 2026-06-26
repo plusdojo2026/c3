@@ -180,6 +180,30 @@ public class PreparRegistServlet extends HttpServlet {
 					throw new Exception("曲情報の登録に失敗しました（" + (i + 1) + "曲目）");
 				}
 			}
+			
+			
+			// 準備情報登録後、create_flagをtrueに変更
+			try {
+			    Class.forName("com.mysql.cj.jdbc.Driver");
+
+			    Connection conn = DriverManager.getConnection(
+			        "jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo",
+			        "c3",
+			        "zTfP4Ep4RMwQge3E"
+			    );
+
+			    String sql = "UPDATE live_info SET create_flag = true WHERE id = ?";
+
+			    PreparedStatement ps = conn.prepareStatement(sql);
+			    ps.setInt(1, liveId);
+
+			    ps.executeUpdate();
+
+			    conn.close();
+
+			} catch (Exception e) {
+			    e.printStackTrace();
+			}
 
 			response.sendRedirect("HomeBandServlet");
 
