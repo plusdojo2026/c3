@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,6 +119,14 @@ public class TableCreateServlet extends HttpServlet {
 			result = piDao.update(piList.get(i));
 			System.out.println("登録：" + piList.get(i).getSetlist());
 		}
+		
+		LocalDateTime localDateTime;
+		if (request.getParameter("start_date") != null && !request.getParameter("start_date").isEmpty()) {
+			localDateTime = LocalDateTime.parse(request.getParameter("start_date"));
+			li.setBegin_date(localDateTime);
+			System.out.println("date登録:" + localDateTime);
+		}
+		
 		li.setCreate_flag(result);
 		result = liDao.update(li);
 		

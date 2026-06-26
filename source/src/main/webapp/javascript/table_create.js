@@ -320,7 +320,18 @@ function exportTimetable() {
 	params.append("time", convertTime);
 	// live_info_idをセット
 	params.append("live_info_id", document.getElementById("live_info_id").value);
+
+	// 開始時間の作成
+	const originDate = document.getElementById("originDate").value;
+	const startTime = document.getElementById("startTime").value;
+	const localDateTimeStr = `${originDate}T${startTime}`;
 	
+	console.log("originDate:", originDate);
+	console.log("startTime:", startTime);
+	console.log("localDateTimeStr:", localDateTimeStr);
+	
+	params.append("start_date", localDateTimeStr);
+
 	// 順番でprepar_info_idを得る
 	tableBands.forEach(band => {
 		params.append("prepar_info_id", band.id);

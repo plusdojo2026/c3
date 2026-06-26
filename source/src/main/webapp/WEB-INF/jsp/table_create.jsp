@@ -1,3 +1,4 @@
+<%@ page import="dto.LiveInfo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -139,6 +140,7 @@ if (request.getAttribute("live_info") != null) {
 <div id="tooltip" class="tooltip"></div>
 
 <!-- 自動計算機能 -->
+<input type="hidden" id="originDate" value="<%= request.getAttribute("live_info") != null ? ((java.time.LocalDateTime)((LiveInfo)request.getAttribute("live_info")).getBegin_date()).toLocalDate().toString() : "" %>">
 <div class="convert-setting beginbox">
     <label>開始時刻：</label>
     <input type="time" id="startTime" value="<%= startTimeStr %>">
