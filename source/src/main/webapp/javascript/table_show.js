@@ -6,7 +6,8 @@ function drawSchedule() {
 	schedule.innerHTML = "";
 
 	// ★毎回リセット（ここ重要）
-	let time = { hour: 13, minute: 0 };
+	
+	let time = {hour: 13, minute: 0};
 
 	bands.forEach((band, index) => {
 

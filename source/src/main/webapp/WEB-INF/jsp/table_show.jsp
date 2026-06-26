@@ -74,6 +74,8 @@
 	</div>
 	<script>
 
+
+
 const bands = [
 
 <%List<BandInfo> biList = (List<BandInfo>) request.getAttribute("band_infos");
