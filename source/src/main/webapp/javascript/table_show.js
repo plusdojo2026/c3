@@ -6,8 +6,19 @@ function drawSchedule() {
 	schedule.innerHTML = "";
 
 	// ★毎回リセット（ここ重要）
+	const timeschedule_hour = document.getElementById("begin_date_hour");
+	const timeschedule_min = document.getElementById("begin_date_min");
 	
-	let time = {hour: 13, minute: 0};
+	let time = {};
+	
+	if (timeschedule_hour != null && timeschedule_min != null) {
+		console.log("テスト");
+		time= {
+			hour: timeschedule_hour.value,
+			minute: timeschedule_min.value
+		};
+	}
+	
 
 	bands.forEach((band, index) => {
 
@@ -46,8 +57,12 @@ function drawSchedule() {
 }
 
 function addMinute(time, min) {
+	
+	time.hour = Number(time.hour);
+	time.minute = Number(time.minute);
+	const addMin = Number(min);
 
-	time.minute += min;
+	time.minute += addMin;
 
 	while (time.minute >= 60) {
 		time.hour++;

@@ -6,6 +6,7 @@
 <%@ page import="dto.PreparInfo"%>
 <%@ page import="dto.EachMusic"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="dto.LiveInfo"%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -56,6 +57,34 @@
 			<img src="image/c3-logo.png" alt="ロゴ">
 		</div>
 	</header>
+	
+	<%
+// 開始日時をHH:mmの形に整える
+String startTimeStr = "";
+String endTimeStr = "";
+String startHour = "";
+String startMin = "";
+if (request.getAttribute("live_info") != null) {
+	Object li = request.getAttribute("live_info");
+	
+	try {
+		java.time.LocalDateTime beginDate = (java.time.LocalDateTime) li.getClass().getMethod("getBegin_date").invoke(li);
+		java.time.LocalDateTime endDate = (java.time.LocalDateTime) li.getClass().getMethod("getEnd_date").invoke(li);		
+		if (beginDate != null) {
+			java.time.format.DateTimeFormatter hourformatter = java.time.format.DateTimeFormatter.ofPattern("HH");
+			java.time.format.DateTimeFormatter minformatter = java.time.format.DateTimeFormatter.ofPattern("mm");
+			startHour = beginDate.format(hourformatter);
+			startMin = beginDate.format(minformatter);
+		}
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+%>
+<input type="hidden" id="begin_date" value=<%=startTimeStr%>> 
+<input type="hidden" id="begin_date_hour" value=<%=startHour%>> 
+<input type="hidden" id="begin_date_min" value=<%=startMin%>> 
+	
 	<div class="box">
 		<button type="button" class="delete-schedule-btn" onclick="deleteTable()" >✖</button>
 		<h2 class="schedule-title">タイムスケジュール</h2>
@@ -73,6 +102,8 @@
 		</div>
 	</div>
 	<script>
+
+                  
 
 
 
