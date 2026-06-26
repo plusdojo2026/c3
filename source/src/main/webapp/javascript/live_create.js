@@ -141,6 +141,7 @@ live_create.onsubmit = function(event) {
     let setBandName;
     let setBandTime;
     let setBandInput;
+    band_member.querySelector('input[name="band_num"]').value = rowIndex;
     for (let i = 0; i < rowIndex; i++) {
         setBandName = `band_infos[${i}]`;
         setBandTime = `time[${i}]`;

@@ -2,6 +2,7 @@
 
 let band_member = document.getElementById('band_member');
 let rowIndex = document.querySelectorAll("tr.band_info_row").length;
+
 console.log("rowIndex:" + rowIndex);
 
 if (rowIndex === 0 || rowIndex === null) {
@@ -28,7 +29,7 @@ function addRow() {
     table.appendChild(clone);
     
     console.log("rowIndex:" + rowIndex);
-    const bandNum = band_member.querySelector('input[name="band_num"]');
+    const bandNum = band_member.querySelector('input[name="member_num"]');
     if (bandNum != null) {
         bandNum.value = rowIndex;
         rowIndex++;
@@ -47,7 +48,7 @@ band_member.onsubmit = function(event) {
     let blank = false;
     let setMemberName;
     let setMemberParts;
-
+	band_member.querySelector('input[name="member_num"]').value = rowIndex;
 
     for (let i = 0; i < rowIndex; i++) {
         setMemberName = `member_name[${i}]`;

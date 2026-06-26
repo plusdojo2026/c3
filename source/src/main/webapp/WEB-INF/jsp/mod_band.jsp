@@ -64,8 +64,9 @@
             </div>
             <!-- バンドメンバーの名前 & 役目 -->
             <div class="band_info">
+            <input type="hidden" name="member_num" value="0">
                 <table id="members_info_row">
-                    <tr><th><input type="hidden" name="member_num" value="0">メンバー名<span class="required"></span></th><th>担当<span class="required"></span></th>
+                    <tr><th>メンバー名<span class="required"></span></th><th>担当<span class="required"></span></th>
                     <td><button type="button" onclick="addRow()"><img src="image/plus.svg" alt=""></button></td></tr>
                     
                     <!-- 既に登録されたデータがある場合 -->

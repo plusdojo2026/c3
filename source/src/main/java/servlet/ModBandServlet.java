@@ -95,6 +95,7 @@ public class ModBandServlet extends HttpServlet {
 		int bandId = Integer.parseInt(request.getParameter("band_id"));
 		// メンバーの最大値を取る
 		int memberNum = Integer.parseInt(request.getParameter("member_num"));
+		System.out.println("memberNum:" + memberNum);
 		
 		if (bandId == 0) {	// 未登録のバンドである場合
 			// 登録する
@@ -123,19 +124,17 @@ public class ModBandServlet extends HttpServlet {
 				if (!memberName.equals("") && partId != 0) {
 					if (user != null) {
 						System.out.println(i + "登録します");
-						if (!memberName.equals("") && partId != 0)
-							result = bmDao.addMember(new BandMember(0, memberName, partId, bi.getId()));
+						result = bmDao.addMember(new BandMember(0, memberName, partId, bi.getId()));
+					} else {
+						System.out.println(i + "：データがありません");
 					}
-				} else {
-					System.out.println(i + "：データがありません");
-				}
 				
-				if (!result) {
-					System.out.println(i + "抜けます");
-					break;
+					if (!result) {
+						System.out.println(i + "抜けます");
+						break;
+					}
 				}
 			}
-			
 		} else if (bandId > 0) {	// 既に登録されているバンドである場合
 			// 編集する
 			// バンド情報テーブル
