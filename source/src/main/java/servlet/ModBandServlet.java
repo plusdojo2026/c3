@@ -121,17 +121,19 @@ public class ModBandServlet extends HttpServlet {
 					partId = Integer.parseInt(request.getParameter("parts[" + i + "]"));
 
 				if (!memberName.equals("") && partId != 0) {
-					System.out.println(i + "登録します");
 					if (user != null) {
-						result = bmDao.addMember(new BandMember(0, memberName, partId, bi.getId()));
+						System.out.println(i + "登録します");
+						if (!memberName.equals("") && partId != 0)
+							result = bmDao.addMember(new BandMember(0, memberName, partId, bi.getId()));
 					}
-					
 				} else {
 					System.out.println(i + "：データがありません");
 				}
 				
-				if (!result)
+				if (!result) {
+					System.out.println(i + "抜けます");
 					break;
+				}
 			}
 			
 		} else if (bandId > 0) {	// 既に登録されているバンドである場合

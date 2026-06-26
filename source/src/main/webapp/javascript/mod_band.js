@@ -2,7 +2,8 @@
 
 let band_member = document.getElementById('band_member');
 let rowIndex = document.querySelectorAll("tr.band_info_row").length;
-    
+console.log("rowIndex:" + rowIndex);
+
 if (rowIndex === 0 || rowIndex === null) {
 	rowIndex = 1;
 }
@@ -26,12 +27,13 @@ function addRow() {
     
     table.appendChild(clone);
     
-    console.log(rowIndex);
-    const memberNum = table.querySelector('input[name="member_num"]');
-    if (memberNum) {
-        memberNum.value = rowIndex;
+    console.log("rowIndex:" + rowIndex);
+    const bandNum = band_member.querySelector('input[name="band_num"]');
+    if (bandNum != null) {
+        bandNum.value = rowIndex;
+        rowIndex++;
     }
-    rowIndex++;
+    console.log("bandNum.value:" + bandNum.value);
 }
 
 // 入力欄を消す
