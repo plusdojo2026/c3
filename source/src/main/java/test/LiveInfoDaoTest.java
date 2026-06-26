@@ -43,18 +43,17 @@ public class LiveInfoDaoTest {
 		}
 		
 		// update()のテスト
-				System.out.println("---------- update()のテスト ----------");
-				List<LiveInfo> livelistUp = dao.select(new LiveInfo(0, "オータム・ハーモニー・ナイト", null, null, 0, false));
-				LiveInfo upRec = livelistUp.get(0);
-				upRec.setEnd_date(java.time.LocalDateTime.of(2026, 6, 11, 19, 30, 0));
-			
-				if (dao.update(upRec)) {
-					System.out.println("更新成功！");
-					livelistUp = dao.select(new LiveInfo(0, "", null, null, 0, false));
-					LiveInfoDaoTest.showAllData(livelistUp);
-				} else {
-					System.out.println("更新失敗！");
-				}
+		/*
+		 * System.out.println("---------- update()のテスト ----------"); List<LiveInfo>
+		 * livelistUp = dao.select(new LiveInfo(0, "オータム・ハーモニー・ナイト", null, null, 0,
+		 * false)); LiveInfo upRec = livelistUp.get(0);
+		 * upRec.setEnd_date(java.time.LocalDateTime.of(2026, 6, 11, 19, 30, 0));
+		 * 
+		 * if (dao.update(upRec)) { System.out.println("更新成功！"); livelistUp =
+		 * dao.select(new LiveInfo(0, "", null, null, 0, false));
+		 * LiveInfoDaoTest.showAllData(livelistUp); } else {
+		 * System.out.println("更新失敗！"); }
+		 */
 				// delete()のテスト
 				System.out.println("---------- delete()のテスト ----------");
 				List<LiveInfo> livelistDel = dao.select(new LiveInfo(0, "ニューイヤー・ホープ・カウントダウン 2026-2027", null, null, 0,true));

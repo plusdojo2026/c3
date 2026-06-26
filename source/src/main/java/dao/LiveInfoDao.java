@@ -274,7 +274,7 @@ public class LiveInfoDao {
 					"jdbc:mysql://localhost:3306/c3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000&rewriteBatchedStatements=true",
 					"c3", "zTfP4Ep4RMwQge3E");
 
-			String sql = "SELECT * FROM live_info WHERE user_id = ?";
+			String sql = "SELECT * FROM live_info WHERE user_id = ? ORDER BY begin_date";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userId);
 
