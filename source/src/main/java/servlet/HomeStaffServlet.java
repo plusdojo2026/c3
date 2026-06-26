@@ -66,6 +66,10 @@ public class HomeStaffServlet extends HttpServlet {
             if (live.getEnd_date().isBefore(now)) {
                 continue;
             }
+            
+            if (!live.isCreate_flag()) {
+                continue;
+            }
 
             if (nearestLive == null) {
             	
@@ -77,6 +81,10 @@ public class HomeStaffServlet extends HttpServlet {
         }
         
         if (nearestLive != null) {
+        	if (nearestLive != null) {
+        	    System.out.println("対象ライブID=" + nearestLive.getId());
+        	    System.out.println("create_flag=" + nearestLive.isCreate_flag());
+        	}
             System.out.println("対象ライブID=" + nearestLive.getId());
             System.out.println("対象ライブ名=" + nearestLive.getName());
             System.out.println("開始=" + nearestLive.getBegin_date());

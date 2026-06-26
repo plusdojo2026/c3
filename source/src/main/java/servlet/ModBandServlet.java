@@ -125,7 +125,7 @@ public class ModBandServlet extends HttpServlet {
 					if (user != null) {
 						result = bmDao.addMember(new BandMember(0, memberName, partId, bi.getId()));
 					}
-					result = bmDao.addMember(new BandMember(0, memberName, partId, 5));
+					
 				} else {
 					System.out.println(i + "：データがありません");
 				}

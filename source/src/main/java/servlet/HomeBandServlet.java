@@ -125,26 +125,24 @@ public class HomeBandServlet extends HttpServlet {
 
                 for (PreparInfo pi : myPreparList) {
 
-                    LiveInfo live =
-                            liDao.select(pi.getLiveInfoId());
+                    LiveInfo live = liDao.select(pi.getLiveInfoId());
 
                     if (live == null) {
                         continue;
                     }
 
-                    // 終了済み除外
+                    // 終了済み
                     if (live.getEnd_date().isBefore(now)) {
                         continue;
                     }
 
-                    if (myNearestLive == null) {
+                    // ★追加
+                    if (!live.isCreate_flag()) {
+                        continue;
+                    }
 
-                        myNearestLive = live;
-
-                    } else if (
-                        live.getBegin_date()
-                            .isBefore(myNearestLive.getBegin_date())
-                    ) {
+                    if (myNearestLive == null ||
+                        live.getBegin_date().isBefore(myNearestLive.getBegin_date())) {
 
                         myNearestLive = live;
                     }
@@ -156,6 +154,18 @@ public class HomeBandServlet extends HttpServlet {
             if (myNearestLive != null) {
                 myLiveId = myNearestLive.getId();
                 nearestLive = myNearestLive;
+            }
+            if (myNearestLive == null) {
+
+                request.setAttribute("noLive", true);
+                request.setAttribute("band_infos", new ArrayList<>());
+                request.setAttribute("prepar_infos", new ArrayList<>());
+                request.setAttribute("live_info", null);
+
+                RequestDispatcher dispatcher =
+                    request.getRequestDispatcher("/WEB-INF/jsp/home_band.jsp");
+                dispatcher.forward(request, response);
+                return;
             }
 
             // 同じライブに出演する全バンド取得
