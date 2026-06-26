@@ -76,6 +76,11 @@
 			</div>
          </c:forEach>
     </div>
+    
+    <c:if test="${noLive}">
+    	<h3>ライブの予定はありません</h3>
+	</c:if>
+    
     <div id="modal" class="modal">
     <div class="modal-content">
 

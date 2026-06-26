@@ -83,6 +83,21 @@ public class HomeBandServlet extends HttpServlet {
             System.out.println("開始=" + nearestLive.getBegin_date());
             System.out.println("終了=" + nearestLive.getEnd_date());
         }
+        
+     // タイムテーブル未作成ならライブなし扱い
+        if (nearestLive == null || !nearestLive.isCreate_flag()) {
+
+            request.setAttribute("noLive", true);
+
+            request.setAttribute("band_infos", new ArrayList<BandInfo>());
+            request.setAttribute("prepar_infos", new ArrayList<PreparInfo>());
+            request.setAttribute("live_info", null);
+
+            RequestDispatcher dispatcher =
+                    request.getRequestDispatcher("/WEB-INF/jsp/home_band.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
 
      // ★ 管理者（-1）とスタッフ（1以上）は全バンドを取得
         if (type == -1 || type >= 1) {
