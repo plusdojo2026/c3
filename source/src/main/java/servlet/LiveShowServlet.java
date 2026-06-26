@@ -91,8 +91,17 @@ public class LiveShowServlet extends HttpServlet {
 				 List<BandInfo>bandlist = bandDao.showBand(userId);
 				 
 				 //prepar_infoデータの取得
+				 Integer bandId = null;
+				 
+				 if (bandlist != null && !bandlist.isEmpty()) {
+					 bandId = bandlist.get(0).getId();
+				 }
+				 List<PreparInfo> preparlist = new ArrayList<>();
+				 
+				 if(bandId != null) {
 				 PreparInfoDao preparDao = new PreparInfoDao();
-				 List<PreparInfo>preparlist = preparDao.selectByBandId(bandlist.get(0).getId());
+				 preparlist = preparDao.selectByBandId(bandId);
+				 }
 				 
 			String noTimeTable = request.getParameter("noTimeTable");
 
