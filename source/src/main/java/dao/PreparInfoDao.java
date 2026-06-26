@@ -296,6 +296,50 @@ public class PreparInfoDao {
 		return list;
 	}
 
+	public List<PreparInfo> selectByLiveInfoIdByDate(int liveInfoId) {
+
+		Connection conn = null;
+		List<PreparInfo> list = new ArrayList<>();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/c3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Tokyo&connectTimeout=30000",
+					"c3", "zTfP4Ep4RMwQge3E");
+
+			String sql = "SELECT prepar_info.id, prepar_info.time, prepar_info.prepar_time, prepar_info.prepar_items, prepar_info.setlist, prepar_info.entrance_music, prepar_info.band_info_id, prepar_info.live_info_id FROM prepar_info\r\n"
+					+ "LEFT JOIN live_info ON live_info.id = prepar_info.live_info_id\r\n"
+					+ "WHERE live_info_id = ? ORDER BY live_info.begin_date ASC;";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, liveInfoId);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+				PreparInfo prepar = new PreparInfo(rs.getInt("prepar_info.id"), (Integer) rs.getObject("prepar_info.time", Integer.class),
+						(Integer) rs.getObject("prepar_info.prepar_time", Integer.class), rs.getString("prepar_info.prepar_items"),
+						(Integer) rs.getObject("prepar_info.setlist", Integer.class), rs.getString("prepar_info.entrance_music"),
+						(Integer) rs.getObject("prepar_info.band_info_id", Integer.class),
+						(Integer) rs.getObject("prepar_info.live_info_id", Integer.class));
+				list.add(prepar);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+	}
+	
 	public List<PreparInfo> selectByBandId(int bandId) {
 
 		Connection conn = null;
