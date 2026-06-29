@@ -49,9 +49,10 @@ public class HomeBandServlet extends HttpServlet {
         LiveInfoDao liDao = new LiveInfoDao();
         EachMusicDao emDao = new EachMusicDao();
 
-        List<BandInfo> biList;
+        List<BandInfo> biList = new ArrayList<BandInfo>();
+        int myLiveId = 0;
+        List<PreparInfo> piList = new ArrayList<PreparInfo>();
         
-     
         
      // 全ライブ取得
         List<LiveInfo> liveList = liDao.select(new LiveInfo());
@@ -138,8 +139,6 @@ public class HomeBandServlet extends HttpServlet {
                 }
             }
 
-            int myLiveId = 0;
-
             if (myNearestLive != null) {
                 myLiveId = myNearestLive.getId();
                 nearestLive = myNearestLive;
@@ -170,27 +169,14 @@ public class HomeBandServlet extends HttpServlet {
             }
 
             // 同じライブに出演する全バンド取得
-            biList = new ArrayList<>();
 
-            List<BandInfo> allBands =
-                    biDao.showAllBands();
-
-            for (BandInfo band : allBands) {
-
-                List<PreparInfo> list =
-                        piDao.selectByBandId(band.getId());
-
-                for (PreparInfo pi : list) {
-
-                    if (pi.getLiveInfoId() == myLiveId) {
-
-                        biList.add(band);
-                        break;
-                    }
-                }
-            }
+            piList = piDao.selectByLiveInfoId(myLiveId);
 
             System.out.println("出演者用ライブID=" + myLiveId);
+                        
+            for (PreparInfo p : piList) {
+            	biList.add(biDao.selectById(p.getBandInfoId()));
+            }
 
             for (BandInfo band : biList) {
                 System.out.println(
@@ -202,27 +188,8 @@ public class HomeBandServlet extends HttpServlet {
             }
         }
         
-        
-        
 
-     // ★ バンドに紐づく準備情報を取得
-        List<PreparInfo> piList = new ArrayList<>();
-
-        System.out.println("=== BandInfo List ===");
-
-        List<BandInfo> filteredBands = new ArrayList<>();
-
-        for (BandInfo band : biList) {
-
-            List<PreparInfo> list =
-                    piDao.selectByBandId(band.getId());
-
-            List<PreparInfo> targetList =
-                    new ArrayList<>();
-
-            System.out.println("piList件数=" + piList.size());
-            
-            for (PreparInfo pi : list) {
+            for (PreparInfo pi : piList) {
 
             	System.out.println(
             	        "LIVE=" + pi.getLiveInfoId() +
@@ -231,27 +198,7 @@ public class HomeBandServlet extends HttpServlet {
             	        " TIME=" + pi.getTime()
                 );
 
-                if (nearestLive != null &&
-                    pi.getLiveInfoId() == nearestLive.getId()) {
-
-                    targetList.add(pi);
-                }
             }
-
-            // このライブに出演するバンドだけ残す
-            if (!targetList.isEmpty()) {
-
-                filteredBands.add(band);
-
-                request.setAttribute(
-                        "prepar_info_" + band.getId(),
-                        targetList);
-
-                piList.addAll(targetList);
-            }
-        }
-
-        biList = filteredBands;
 
         // ★ ライブ情報（存在するものを探す）
         LiveInfo liveInfo = nearestLive;
