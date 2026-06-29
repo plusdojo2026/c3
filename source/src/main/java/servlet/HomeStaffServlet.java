@@ -49,7 +49,8 @@ public class HomeStaffServlet extends HttpServlet {
         LiveInfoDao liDao = new LiveInfoDao();
         EachMusicDao emDao = new EachMusicDao();
 
-        List<BandInfo> biList;
+        List<BandInfo> biList = new ArrayList<BandInfo>();
+        List<PreparInfo> piList = new ArrayList<PreparInfo>();
         
      // 全ライブ取得
         List<LiveInfo> liveList = liDao.selectByUserId(type);
@@ -106,18 +107,17 @@ public class HomeStaffServlet extends HttpServlet {
         }
 
         // ★ 管理者（-1）とスタッフ（1）は全バンドを取得
-        if (type == -1 || type >= 1 ) {
-            biList = biDao.showAllBands();
-        } else {
-            // ★ 出演者は自分のバンドだけ
-            biList = biDao.showBand(userId);
+        piList = piDao.selectByLiveInfoId(nearestLive.getId());
+        biList.clear();
+
+        for (PreparInfo p : piList) {
+            biList.add(biDao.selectById(p.getBandInfoId()));
         }
         
-        
+        piList = piDao.selectByLiveInfoId(0);
         
 
      // ★ バンドに紐づく準備情報を取得
-        List<PreparInfo> piList = new ArrayList<>();
 
         System.out.println("=== BandInfo List ===");
 
