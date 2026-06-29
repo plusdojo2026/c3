@@ -117,10 +117,9 @@ function showBandDetail(bandId){
     data.forEach((p,i)=>{
         html += `
             <div class="song">
-                <h3>${i+1}件目</h3>
+                <h3>${p.setlist}番目</h3>
                 <p>持ち時間：${p.time}分</p>
                 <p>準備時間：${p.preparTime}分</p>
-                <p>準備項目：${p.preparItems}</p>
                 <p>入場曲：${p.entranceMusic}</p>
             </div>
         `;

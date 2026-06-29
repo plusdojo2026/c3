@@ -120,6 +120,7 @@ const bandPreparInfos = {
 		                PreparInfo pi = list.get(j);
 		    %>
 		        {
+		        	setlist: <%= pi.getSetlist() %>,
 		            time: <%= pi.getTime() %>,
 		            preparTime: <%= pi.getPreparTime() %>,
 		            preparItems: "<%= pi.getPreparItems() %>",
